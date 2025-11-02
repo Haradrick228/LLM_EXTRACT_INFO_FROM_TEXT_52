@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>EDA-дашборд корпуса документов</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f6fb; color: #1f2329; }
+        header { background: #23395d; color: #fff; padding: 24px 32px; }
+        header h1 { margin: 0; font-size: 28px; }
+        header p { margin: 8px 0 0; opacity: 0.8; }
+        main { padding: 24px 32px 48px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+        .card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(35, 57, 93, 0.08); }
+        .card .value { font-size: 26px; font-weight: 600; margin-bottom: 8px; }
+        .card .label { font-size: 14px; color: #555; }
+        section { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08); margin-bottom: 28px; }
+        section h2 { margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #e6e9f2; vertical-align: top; }
+        th { text-align: left; background: #f1f3f9; font-weight: 600; }
+        .center { text-align: center; }
+        .metric-name { width: 30%; }
+        .metric-value { font-weight: 600; width: 15%; }
+        .metric-desc { color: #555; }
+        .summary-list { padding-left: 22px; margin: 12px 0 0; }
+        .summary-list li { margin-bottom: 6px; line-height: 1.5; }
+        .bar { background: #dde4f6; border-radius: 6px; height: 10px; overflow: hidden; }
+        .bar span { display: block; height: 10px; background: #3c7adf; }
+        details summary { cursor: pointer; color: #3c7adf; margin-top: 12px; }
+        .term-list { columns: 2; margin: 12px 0 0; padding-left: 20px; }
+        footer { text-align: center; padding: 16px; font-size: 12px; color: #666; }
+        @media (max-width: 720px) {
+            main { padding: 16px; }
+            section { padding: 18px; }
+            .term-list { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Exploratory Data Analysis корпуса документов</h1>
+        <p>Отчёт сгенерирован: 2025-11-02T20:36:06Z</p>
+    </header>
+    <main>
+        <section>
+            <h2>Ключевые цифры</h2>
+            <div class="cards">
+                
+            <div class="card">
+                <div class="value">973</div>
+                <div class="label">Всего кандидатов</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">1</div>
+                <div class="label">Обработано документов</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">1</div>
+                <div class="label">Уникальные тексты</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">0</div>
+                <div class="label">Дубликаты</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">1</div>
+                <div class="label">Сохранены тексты</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">0</div>
+                <div class="label">Связаны с БД</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">1</div>
+                <div class="label">Остались без связи</div>
+            </div>
+            
+            <div class="card">
+                <div class="value">0</div>
+                <div class="label">Ошибки обработки</div>
+            </div>
+            
+            </div>
+        </section>
+        <section>
+            <h2>Показатели качества загрузки</h2>
+            <p>Метрики характеризуют поток обработки, покрытие базы и актуальность связей с данными.</p>
+            <table>
+                <thead>
+                    <tr><th>Показатель</th><th>Значение</th><th>Комментарий</th></tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td class="metric-name">Доля дубликатов</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Отношение числа дубликатов к числу обработанных документов.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Ошибки обработки</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Часть документов, завершившихся ошибкой извлечения или очистки.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Связанные тексты</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Доля уникальных документов, для которых получен и сохранён очищенный текст.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Связаны с БД</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Доля сохранённых текстов, у которых обновлены привязки в file_metadata или scanned_pages.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Без связи в БД</td>
+                <td class="metric-value">100.00%</td>
+                <td class="metric-desc">Доля сохранённых текстов, для которых не найдено соответствующей записи в базе.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Короткие документы (≤ 200 токенов)</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Часть корпуса, потенциально требующая агрегации или исключения из индекса.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Длинные документы (≥ 4000 токенов)</td>
+                <td class="metric-value">0.00%</td>
+                <td class="metric-desc">Часть корпуса, требующая сегментации или особого режима обработки.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Средняя длина (токены)</td>
+                <td class="metric-value">1 076</td>
+                <td class="metric-desc">Среднее число токенов на документ.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Средняя длина (символы)</td>
+                <td class="metric-value">9 244</td>
+                <td class="metric-desc">Среднее число символов на документ после очистки.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Среднее число чанков</td>
+                <td class="metric-value">20</td>
+                <td class="metric-desc">Сколько фрагментов в среднем формируется из одного документа.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Средняя длина чанка</td>
+                <td class="metric-value">53.8</td>
+                <td class="metric-desc">Среднее число токенов в чанке.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Лексическое разнообразие</td>
+                <td class="metric-value">63.20%</td>
+                <td class="metric-desc">Отношение количества уникальных токенов к общему числу токенов.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Доминирующий язык (ru)</td>
+                <td class="metric-value">100.0%</td>
+                <td class="metric-desc">Доля документов на самом распространённом языке.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Количество уникальных токенов</td>
+                <td class="metric-value">680</td>
+                <td class="metric-desc">Общее число уникальных токенов в корпусе.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Крупнейшая группа дубликатов</td>
+                <td class="metric-value">0</td>
+                <td class="metric-desc">Размер самой большой группы взаимных дубликатов.</td>
+            </tr>
+            
+            <tr>
+                <td class="metric-name">Содержат не-ASCII символы</td>
+                <td class="metric-value">100.00%</td>
+                <td class="metric-desc">Доля документов с символами вне ASCII (может указывать на мусор или HTML).</td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Языки корпуса</h2>
+            <p>Распределение по языкам помогает определить объём многоязычных материалов.</p>
+            <table>
+                <thead>
+                    <tr><th>Язык</th><th class="center">Документов</th><th class="center">Доля</th><th>Вклад</th></tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td>ru</td>
+                <td class="center">1</td>
+                <td class="center">100.0%</td>
+                <td>
+                    <div class="bar"><span style="width: 100.0%"></span></div>
+                </td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Лексический состав</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Частотный словарь</h3>
+                    <table>
+                        <thead><tr><th>Термин</th><th class="center">Встречается</th></tr></thead>
+                        <tbody><tr><td>как</td><td class="center">22</td></tr><tr><td>для</td><td class="center">17</td></tr><tr><td>лет</td><td class="center">14</td></tr><tr><td>на</td><td class="center">12</td></tr><tr><td>хрестоматия</td><td class="center">10</td></tr><tr><td>их</td><td class="center">8</td></tr><tr><td>вопросы</td><td class="center">8</td></tr><tr><td>это</td><td class="center">7</td></tr><tr><td>хрестоматии</td><td class="center">7</td></tr><tr><td>развития</td><td class="center">6</td></tr><tr><td>они</td><td class="center">6</td></tr><tr><td>произведения</td><td class="center">6</td></tr><tr><td>по</td><td class="center">5</td></tr><tr><td>развитию</td><td class="center">5</td></tr><tr><td>что</td><td class="center">5</td></tr><tr><td>мире</td><td class="center">5</td></tr><tr><td>жизни</td><td class="center">5</td></tr><tr><td>человека</td><td class="center">5</td></tr><tr><td>свои</td><td class="center">5</td></tr><tr><td>18</td><td class="center">5</td></tr><tr><td>чтение</td><td class="center">5</td></tr><tr><td>вы</td><td class="center">5</td></tr><tr><td>из</td><td class="center">5</td></tr><tr><td>при</td><td class="center">5</td></tr><tr><td>отрывка</td><td class="center">5</td></tr><tr><td>личностного</td><td class="center">4</td></tr><tr><td>потенциала</td><td class="center">4</td></tr><tr><td>читателям</td><td class="center">4</td></tr><tr><td>от</td><td class="center">4</td></tr><tr><td>которые</td><td class="center">4</td></tr><tr><td>навыков</td><td class="center">4</td></tr><tr><td>детей</td><td class="center">4</td></tr><tr><td>найдете</td><td class="center">4</td></tr><tr><td>произведений</td><td class="center">4</td></tr><tr><td>них</td><td class="center">4</td></tr><tr><td>обсуждения</td><td class="center">4</td></tr><tr><td>работы</td><td class="center">4</td></tr><tr><td>других</td><td class="center">4</td></tr><tr><td>читаем</td><td class="center">4</td></tr><tr><td>дальше</td><td class="center">4</td></tr><tr><td>10</td><td class="center">4</td></tr><tr><td>11</td><td class="center">4</td></tr><tr><td>помогут</td><td class="center">4</td></tr><tr><td>понять</td><td class="center">4</td></tr><tr><td>эмоции</td><td class="center">4</td></tr><tr><td>себя</td><td class="center">4</td></tr><tr><td>сделать</td><td class="center">4</td></tr><tr><td>фонд</td><td class="center">4</td></tr><tr><td>хрестоматией</td><td class="center">3</td></tr><tr><td>литературы</td><td class="center">3</td></tr></tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TF-IDF</h3>
+                    <table>
+                        <thead><tr><th>Термин</th><th class="center">Средний TF-IDF</th></tr></thead>
+                        <tbody><tr><td colspan="2">TF-IDF признаки не рассчитаны.</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Целевые термины</h2>
+            <p>Целевые термины не заданы.</p>
+        </section>
+        
+            <section>
+                <h2>Сводка классификаций</h2>
+                <p>Связанные классификационные данные недоступны без подключения к БД.</p>
+            </section>
+            
+        <section>
+            <h2>Группы дубликатов</h2>
+            <p>Отражает потенциальные повторы документов и позволяет очистить корпус.</p>
+            <table>
+                <thead><tr><th>Каноничный документ</th><th class="center">Дубликаты</th><th>Примеры</th></tr></thead>
+                <tbody><tr><td colspan='3' class='center'>Дубликаты не обнаружены.</td></tr></tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Ошибки обработки (Top-10)</h2>
+            <table>
+                <thead><tr><th>Путь</th><th>Сообщение</th></tr></thead>
+                <tbody><tr><td colspan='2'>Ошибок обработки не зафиксировано.</td></tr></tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Итоги</h2>
+            <ul class="summary-list">
+                <li>Обработано 1 документов, уникальных текстов — 1.</li><li>База данных недоступна: связывание текстов с file_metadata и scanned_pages не выполнялось.</li><li>Доля дубликатов — 0.00%.</li><li>Ссылки на очищенные тексты есть у 0.00% документов; 0.00% из них связаны с БД.</li><li>Не удалось связать 100.00% сохранённых текстов с БД.</li><li>Ошибками завершилось 0.00% обработок.</li><li>Доминирующий язык — ru, доля 100.0%.</li>
+            </ul>
+        </section>
+    </main>
+    <footer>Файл создан автоматически анализатором analysis/eda.</footer>
+</body>
+</html>

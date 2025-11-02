@@ -1,0 +1,1071 @@
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import logging
+import re
+import statistics
+import sys
+import unicodedata
+from collections import Counter, defaultdict
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from html import escape
+from pathlib import Path
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+
+try:
+    import numpy as np
+except ImportError:  # pragma: no cover - необязательная зависимость
+    np = None  # type: ignore
+
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+except ImportError:  # pragma: no cover - необязательная зависимость
+    TfidfVectorizer = None  # type: ignore
+
+from tqdm import tqdm
+from sqlalchemy import text
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from core.db_service import DBService
+from core.db.session import get_engine
+from common.util import extract_text_from_file
+
+try:
+    from langdetect import DetectorFactory, LangDetectException, detect_langs
+except ImportError:  # pragma: no cover - необязательная зависимость
+    DetectorFactory = None  # type: ignore
+    detect_langs = None  # type: ignore
+
+    class LangDetectException(Exception):
+        """Заглушка для отсутствующей библиотеки langdetect."""
+
+if DetectorFactory is not None:
+    DetectorFactory.seed = 0
+
+
+LOGGER = logging.getLogger("analysis.eda_pipeline")
+
+# Константы
+SUPPORTED_EXTENSIONS = (".pdf", ".docx", ".pptx")
+DEFAULT_REPORT_DIR = Path("analysis") / "reports"
+DEFAULT_OUTPUT_DIR = Path("processed_eda_data")
+DEFAULT_TOP_TERMS = 50
+TFIDF_MAX_FEATURES = 2000
+CHUNK_SIZE = 600
+CHUNK_OVERLAP = 120
+SHORT_DOC_TOKENS = 200
+LONG_DOC_TOKENS = 4000
+
+db_service = DBService()
+
+
+def ensure_clean_columns() -> None:
+    """Гарантирует наличие колонок для хранения данных об очистке."""
+
+    engine = get_engine()
+    statements = (
+        "ALTER TABLE public.file_metadata ADD COLUMN IF NOT EXISTS clean_text_path text",
+        "ALTER TABLE public.file_metadata ADD COLUMN IF NOT EXISTS clean_text_hash varchar(128)",
+        "ALTER TABLE public.file_metadata ADD COLUMN IF NOT EXISTS cleaned_at timestamptz",
+        "ALTER TABLE public.scanned_pages ADD COLUMN IF NOT EXISTS clean_text_path text",
+        "ALTER TABLE public.scanned_pages ADD COLUMN IF NOT EXISTS clean_text_hash varchar(128)",
+        "ALTER TABLE public.scanned_pages ADD COLUMN IF NOT EXISTS cleaned_at timestamptz",
+    )
+    with engine.begin() as connection:
+        for stmt in statements:
+            connection.execute(text(stmt))
+
+
+@dataclass(frozen=True)
+class DocumentRecord:
+    """Метаинформация о нормализованном документе."""
+
+    source_path: Path
+    output_path: Optional[Path]
+    content_hash: str
+    characters: int
+    tokens: int
+    chunks: int
+    language: str
+    has_non_ascii: bool
+
+
+def collect_default_input_dirs(root: Path) -> List[Path]:
+    """Возвращает стандартные каталоги с выгруженными материалами."""
+
+    dirs: List[Path] = []
+    for candidate in ("scraped_site", "gigachat_materials"):
+        path = root / candidate
+        if path.is_dir():
+            dirs.append(path)
+    dirs.extend(p for p in root.iterdir() if p.is_dir() and p.name.startswith("gigachat_"))
+    return dirs
+
+
+def iter_documents(directories: Sequence[Path], extensions: Sequence[str]) -> Iterable[Tuple[Path, Path]]:
+    #Итерирует документы во всех заданных каталогах.
+
+    for base_dir in directories:
+        if not base_dir.is_dir():
+            continue
+        for path in base_dir.rglob("*"):
+            if path.is_file() and path.suffix.lower() in extensions:
+                yield base_dir, path
+
+
+def clean_text(text: str) -> str:
+    #Стандартизует текст: Unicode-NFKC, удаление управляющих символов, схлопывание пробелов.
+
+    if not text:
+        return ""
+    normalized = unicodedata.normalize("NFKC", text)
+    normalized = normalized.replace("\ufeff", " ")
+    normalized = re.sub(r"[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]", " ", normalized)
+    normalized = re.sub(r"[^\S\n]+", " ", normalized)
+    normalized = re.sub(r"\s+\n", "\n", normalized)
+    normalized = re.sub(r"\n{3,}", "\n\n", normalized)
+    normalized = re.sub(r"[ \t]+$", "", normalized, flags=re.MULTILINE)
+    return normalized.strip()
+
+
+def tokenize(text: str) -> List[str]:
+    #Простая токенизация по словам с учётом дефисов.
+
+    return re.findall(r"(?u)\b\w[\w\-]{1,}\b", text.lower())
+
+
+def detect_language(text: str) -> str:
+    #Определяет язык текста, возвращая пометку «unknown», если библиотека недоступна или точность низкая.
+
+    if detect_langs is None:
+        return "unknown"
+    snippet = text[:4000]
+    try:
+        languages = detect_langs(snippet)
+    except LangDetectException:
+        return "unknown"
+    if not languages:
+        return "unknown"
+    best = max(languages, key=lambda item: item.prob)
+    if best.prob < 0.6:
+        return f"{best.lang}?{best.prob:.2f}"
+    return best.lang
+
+
+def describe(values: Sequence[float]) -> Dict[str, float]:
+    #Формирует базовые статистики распределения для списка чисел.
+
+    if not values:
+        return {}
+    data = list(values)
+    stats_result: Dict[str, float] = {
+        "count": float(len(data)),
+        "min": float(min(data)),
+        "max": float(max(data)),
+        "mean": float(statistics.mean(data)),
+        "median": float(statistics.median(data)),
+    }
+    percentiles = [10, 25, 50, 75, 90, 95]
+    if np is not None:
+        arr = np.array(data, dtype=float)
+        for percentile in percentiles:
+            stats_result[f"p{percentile}"] = float(np.percentile(arr, percentile))
+        return stats_result
+
+    ordered = sorted(data)
+    size = len(ordered)
+
+    def naive_percentile(seq: Sequence[float], perc: float) -> float:
+        if not seq:
+            return 0.0
+        if size == 1:
+            return float(seq[0])
+        rank = (size - 1) * perc
+        low = int(rank)
+        high = min(low + 1, size - 1)
+        weight = rank - low
+        return float(seq[low] * (1.0 - weight) + seq[high] * weight)
+
+    for percentile in percentiles:
+        stats_result[f"p{percentile}"] = naive_percentile(ordered, percentile / 100.0)
+    return stats_result
+
+
+def ensure_write(path: Optional[Path], text: str, overwrite: bool) -> None:
+    #Сохраняет нормализованный текст, если каталоги разрешены и нет запрета на перезапись.
+
+    if path is None:
+        return
+    if path.exists() and not overwrite:
+        LOGGER.debug("Файл %s пропущен (существует и overwrite=False).", path)
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+
+
+def build_tfidf_report(documents: Dict[str, str], top_n: int) -> List[Tuple[str, float]]:
+    #Строит рейтинг токенов по среднему TF-IDF, если доступен scikit-learn.
+
+    if not documents or TfidfVectorizer is None or np is None:
+        return []
+    try:
+        vectorizer = TfidfVectorizer(
+            max_features=TFIDF_MAX_FEATURES,
+            token_pattern=r"(?u)\b\w[\w\-]{2,}\b",
+            min_df=2,
+        )
+        matrix = vectorizer.fit_transform(documents.values())
+    except ValueError:
+        return []
+    if matrix.shape[1] == 0:
+        return []
+    mean_scores = matrix.mean(axis=0).A1
+    indices = np.argsort(mean_scores)[::-1][:top_n]
+    features = vectorizer.get_feature_names_out()
+    return [(features[idx], float(mean_scores[idx])) for idx in indices]
+
+
+def compute_term_coverage(target_terms: Sequence[str], vocabulary: Counter) -> Dict[str, object]:
+    #Оценивает покрытие заранее заданных терминов по токенизированному корпусу."""
+
+    if not target_terms:
+        return {}
+    normalized_terms = [term.lower().strip() for term in target_terms if term.strip()]
+    vocab_set = set(vocabulary.keys())
+    present = sorted(term for term in normalized_terms if term in vocab_set)
+    missing = sorted(set(normalized_terms) - set(present))
+    coverage = len(present) / len(normalized_terms) if normalized_terms else 0.0
+    per_term = {term: term in vocab_set for term in normalized_terms}
+    return {
+        "coverage": coverage,
+        "present": present,
+        "missing": missing,
+        "per_term": per_term,
+    }
+
+
+def load_terms(path: Optional[Path]) -> List[str]:
+    #Загружает доменные термины из текстового файла.
+
+    if not path:
+        return []
+    if not path.exists():
+        raise FileNotFoundError(f"Не найден файл с терминами: {path}")
+    terms = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        term = line.strip()
+        if term:
+            terms.append(term)
+    return terms
+
+
+def split_into_chunks(text: str) -> List[str]:
+    #Разбивает текст на перекрывающиеся чанки фиксированной длины.
+
+    if not text:
+        return []
+    chunks: List[str] = []
+    start = 0
+    end = len(text)
+    while start < end:
+        finish = min(start + CHUNK_SIZE, end)
+        chunks.append(text[start:finish])
+        if finish == end:
+            break
+        start = max(finish - CHUNK_OVERLAP, start + 1)
+    return chunks
+
+
+def process_corpus(
+    input_dirs: Sequence[Path],
+    output_dir: Optional[Path],
+    report_dir: Path,
+    overwrite: bool,
+    max_files: Optional[int],
+    terms: Sequence[str],
+) -> Tuple[Path, Path]:
+    """Главная функция обработки: нормализация, дедупликация, метрики."""
+
+    unique_hashes: Dict[str, DocumentRecord] = {}
+    duplicates: Dict[str, List[str]] = defaultdict(list)
+    vocabulary: Counter = Counter()
+    language_counts: Counter = Counter()
+    doc_char_lengths: List[int] = []
+    doc_token_lengths: List[int] = []
+    chunk_lengths: List[int] = []
+    chunk_counts: List[int] = []
+    unique_texts: Dict[str, str] = {}
+    errors: List[Dict[str, str]] = []
+    metadata_cache: Dict[str, Optional[dict]] = {}
+    scanned_cache: Dict[str, Optional[dict]] = {}
+    short_doc_count = 0
+    long_doc_count = 0
+    cleaned_doc_count = 0
+    linked_clean_docs = 0
+    metadata_missing_count = 0
+    linked_hashes: set[str] = set()
+
+    documents = list(iter_documents(input_dirs, SUPPORTED_EXTENSIONS))
+    total_docs = len(documents)
+    if max_files is not None:
+        documents = documents[: max_files]
+    LOGGER.info("Запущена обработка %s документов (из %s).", len(documents), total_docs)
+
+    for base_dir, path in tqdm(documents, desc="Обработка документов", unit="файл"):
+        try:
+            raw_text = extract_text_from_file(str(path))
+        except Exception as exc:  # pragma: no cover - обработка IO/парсинга
+            errors.append({"path": str(path), "error": f"extract_failed: {exc}"})
+            LOGGER.warning("Не удалось извлечь текст из %s: %s", path, exc)
+            continue
+
+        cleaned = clean_text(raw_text)
+        if not cleaned:
+            errors.append({"path": str(path), "error": "empty_after_clean"})
+            LOGGER.debug("Файл %s пуст после очистки.", path)
+            continue
+
+        content_hash = hashlib.sha256(cleaned.encode("utf-8")).hexdigest()
+        rel_path = path.relative_to(base_dir)
+        output_path = None
+        if output_dir:
+            output_path = (output_dir / rel_path).with_suffix(".txt")
+
+        existing = unique_hashes.get(content_hash)
+        if existing:
+            duplicates[existing.source_path.as_posix()].append(str(path))
+            LOGGER.debug("Найден дубликат: %s -> %s", path, existing.source_path)
+            continue
+
+        tokens = tokenize(cleaned)
+        token_count = len(tokens)
+        language = detect_language(cleaned)
+        has_non_ascii = any(ord(ch) > 127 for ch in cleaned)
+
+        chunk_list = split_into_chunks(cleaned)
+        chunk_lengths.extend(len(chunk) for chunk in chunk_list)
+        chunk_counts.append(len(chunk_list))
+
+        doc_char_lengths.append(len(cleaned))
+        doc_token_lengths.append(token_count)
+        language_counts[language] += 1
+        vocabulary.update(tokens)
+
+        if token_count <= SHORT_DOC_TOKENS:
+            short_doc_count += 1
+        if token_count >= LONG_DOC_TOKENS:
+            long_doc_count += 1
+
+        ensure_write(output_path, cleaned, overwrite)
+
+        record = DocumentRecord(
+            source_path=path,
+            output_path=output_path,
+            content_hash=content_hash,
+            characters=len(cleaned),
+            tokens=token_count,
+            chunks=len(chunk_list),
+            language=language,
+            has_non_ascii=has_non_ascii,
+        )
+        if output_path:
+            cleaned_doc_count += 1
+            file_key = path.name
+            cleaned_ts = datetime.now(timezone.utc)
+            cleaned_path_str = output_path.as_posix()
+            found_target = False
+
+            cached_entry = metadata_cache.get(file_key)
+            if cached_entry is None:
+                cached_entry = db_service.find_file_metadata_by_name(file_key)
+                metadata_cache[file_key] = cached_entry
+            if cached_entry and cached_entry.get("id"):
+                try:
+                    db_service.update_file_clean_metadata(
+                        file_metadata_id=cached_entry["id"],
+                        clean_text_path=cleaned_path_str,
+                        clean_text_hash=content_hash,
+                        cleaned_at=cleaned_ts,
+                    )
+                    linked_clean_docs += 1
+                    linked_hashes.add(content_hash)
+                    found_target = True
+                except Exception as exc:  # pragma: no cover - логируем, но не прерываем
+                    LOGGER.warning(
+                        "Не удалось записать информацию об очистке в file_metadata для %s: %s",
+                        file_key,
+                        exc,
+                    )
+
+            if not found_target:
+                cached_scanned = scanned_cache.get(file_key)
+                if cached_scanned is None:
+                    cached_scanned = db_service.find_scanned_page_by_pdf(file_key)
+                    scanned_cache[file_key] = cached_scanned
+                if cached_scanned and cached_scanned.get("id"):
+                    try:
+                        db_service.update_scanned_page_clean_metadata(
+                            scanned_page_id=cached_scanned["id"],
+                            clean_text_path=cleaned_path_str,
+                            clean_text_hash=content_hash,
+                            cleaned_at=cleaned_ts,
+                        )
+                        linked_clean_docs += 1
+                        linked_hashes.add(content_hash)
+                        found_target = True
+                    except Exception as exc:
+                        LOGGER.warning(
+                            "Не удалось записать информацию об очистке в scanned_pages для %s: %s",
+                            file_key,
+                            exc,
+                        )
+
+            if not found_target:
+                metadata_missing_count += 1
+                LOGGER.debug(
+                    "Метаданные/сканы для файла %s не найдены в базе, путь очищенного текста не сохранён.",
+                    file_key,
+                )
+        unique_hashes[content_hash] = record
+        unique_texts[content_hash] = cleaned
+
+    report_dir.mkdir(parents=True, exist_ok=True)
+    report_path = report_dir / "eda_report.json"
+    dashboard_path = report_dir / "eda_dashboard.html"
+
+    generated_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    top_terms = vocabulary.most_common(DEFAULT_TOP_TERMS)
+    tfidf_top = build_tfidf_report(unique_texts, DEFAULT_TOP_TERMS)
+    coverage = compute_term_coverage(terms, vocabulary)
+
+    document_details = [
+        {
+            "source": record.source_path.as_posix(),
+            "normalized": record.output_path.as_posix() if record.output_path else None,
+            "hash": record.content_hash,
+            "clean_text_path": record.output_path.as_posix() if record.output_path else None,
+            "clean_text_hash": record.content_hash,
+            "characters": record.characters,
+            "tokens": record.tokens,
+            "chunks": record.chunks,
+            "language": record.language,
+            "has_non_ascii": record.has_non_ascii,
+            "linked_in_db": record.content_hash in linked_hashes,
+        }
+        for record in unique_hashes.values()
+    ]
+
+    duplicate_total = sum(len(paths) for paths in duplicates.values())
+    errors_count = len(errors)
+    unique_docs = len(unique_hashes)
+    processed_docs = len(documents)
+    non_ascii_count = sum(1 for record in unique_hashes.values() if record.has_non_ascii)
+    total_tokens = sum(doc_token_lengths)
+    total_chars = sum(doc_char_lengths)
+    total_chunks = sum(chunk_counts)
+    unique_token_count = len(vocabulary)
+
+    duplicate_ratio = duplicate_total / processed_docs if processed_docs else 0.0
+    error_rate = errors_count / processed_docs if processed_docs else 0.0
+    non_ascii_ratio = non_ascii_count / unique_docs if unique_docs else 0.0
+    avg_tokens_per_doc = total_tokens / unique_docs if unique_docs else 0.0
+    avg_chars_per_doc = total_chars / unique_docs if unique_docs else 0.0
+    avg_chunks_per_doc = total_chunks / unique_docs if unique_docs else 0.0
+    avg_tokens_per_chunk = total_tokens / total_chunks if total_chunks else 0.0
+    lexical_diversity = unique_token_count / total_tokens if total_tokens else 0.0
+    median_tokens_per_doc = statistics.median(doc_token_lengths) if doc_token_lengths else 0.0
+    coverage_value = coverage.get("coverage", 0.0)
+    clean_path_coverage = linked_clean_docs / unique_docs if unique_docs else 0.0
+    linked_clean_ratio = linked_clean_docs / cleaned_doc_count if cleaned_doc_count else 0.0
+    metadata_gap_ratio = metadata_missing_count / cleaned_doc_count if cleaned_doc_count else 0.0
+    short_doc_ratio = short_doc_count / unique_docs if unique_docs else 0.0
+    long_doc_ratio = long_doc_count / unique_docs if unique_docs else 0.0
+    dominant_language_label = "не определён"
+    dominant_language_share = 0.0
+    if language_counts and unique_docs:
+        dominant_language_label, dominant_count = max(language_counts.items(), key=lambda item: item[1])
+        dominant_language_share = dominant_count / unique_docs
+    largest_duplicate_group_size = max((len(paths) for paths in duplicates.values()), default=0)
+    largest_duplicate_group_docs = largest_duplicate_group_size + 1 if largest_duplicate_group_size else 0
+
+    quality_metrics = {
+        "duplicate_ratio": {
+            "label": "Доля дублей",
+            "value": duplicate_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Процент файлов, которые дублируют уже встречавшийся контент. Чем меньше, тем чище корпус.",
+        },
+        "error_rate": {
+            "label": "Ошибки обработки",
+            "value": error_rate,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля файлов, которые не удалось разобрать (ошибка чтения или пустой результат).",
+        },
+        "clean_text_coverage": {
+            "label": "Доля очищенных документов",
+            "value": clean_path_coverage,
+            "format": "percent",
+            "digits": 2,
+            "description": "Частка документов, для которых создано и сохранено очищенное текстовое представление.",
+        },
+        "clean_text_linked_ratio": {
+            "label": "Связь очищенных текстов с БД",
+            "value": linked_clean_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля очищенных файлов, для которых путь и хэш успешно записаны в таблицу file_metadata.",
+        },
+        "metadata_gap_ratio": {
+            "label": "Очищенные без записи в БД",
+            "value": metadata_gap_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля обработанных файлов, для которых не нашлось записи в file_metadata (стоит дополнительно сверить выгрузку).",
+        },
+        "avg_tokens_per_document": {
+            "label": "Среднее число токенов в документе",
+            "value": avg_tokens_per_doc,
+            "format": "number",
+            "digits": 1,
+            "description": "Средняя длина документа после очистки. Позволяет оценить объём материалов.",
+        },
+        "median_tokens_per_document": {
+            "label": "Медиана токенов в документе",
+            "value": median_tokens_per_doc,
+            "format": "number",
+            "digits": 0,
+            "description": "Половина документов короче указанного значения. Удобно для борьбы с выбросами.",
+        },
+        "short_doc_ratio": {
+            "label": f"Короткие документы (≤ {SHORT_DOC_TOKENS} токенов)",
+            "value": short_doc_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля очень коротких материалов, которые могут нести мало полезной информации.",
+        },
+        "long_doc_ratio": {
+            "label": f"Очень длинные документы (≥ {LONG_DOC_TOKENS} токенов)",
+            "value": long_doc_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля самых больших документов. Возможно, им потребуется дополнительная нарезка или проверка.",
+        },
+        "avg_chars_per_document": {
+            "label": "Среднее число символов в документе",
+            "value": avg_chars_per_doc,
+            "format": "number",
+            "digits": 0,
+            "description": "Средний размер документа в символах после очистки.",
+        },
+        "avg_chunks_per_document": {
+            "label": "Среднее число чанков",
+            "value": avg_chunks_per_doc,
+            "format": "number",
+            "digits": 2,
+            "description": "Сколько чанков в среднем образуется для одного документа при текущем размере окна.",
+        },
+        "avg_tokens_per_chunk": {
+            "label": "Средняя плотность чанков",
+            "value": avg_tokens_per_chunk,
+            "format": "number",
+            "digits": 1,
+            "description": "Сколько токенов приходится на один чанк. Помогает подобрать размер окна для индекса.",
+        },
+        "lexical_diversity": {
+            "label": "Лексическое разнообразие",
+            "value": lexical_diversity,
+            "format": "percent",
+            "digits": 2,
+            "description": "Отношение числа уникальных токенов к общему количеству токенов. Высокие значения сигнализируют о разнообразии данных.",
+        },
+        "dominant_language_share": {
+            "label": f"Доля ведущего языка ({dominant_language_label})",
+            "value": dominant_language_share,
+            "format": "percent",
+            "digits": 1,
+            "description": "Какая часть корпуса приходится на наиболее распространённый язык. Позволяет оценить однородность выборки.",
+        },
+        "unique_token_count": {
+            "label": "Уникальные токены",
+            "value": unique_token_count,
+            "format": "integer",
+            "digits": 0,
+            "description": "Сколько различных токенов встретилось в корпусе. Условная оценка словаря.",
+        },
+        "largest_duplicate_group": {
+            "label": "Максимальный кластер дублей (документов)",
+            "value": largest_duplicate_group_docs,
+            "format": "integer",
+            "digits": 0,
+            "description": "Размер самой крупной группы документов, имеющих одинаковый текст. Включает исходный файл и его повторения.",
+        },
+        "non_ascii_ratio": {
+            "label": "Доля документов с нестандартной кодировкой",
+            "value": non_ascii_ratio,
+            "format": "percent",
+            "digits": 2,
+            "description": "Часть документов, в которых встречаются символы вне базовой ASCII. Помогает выявить потенциальные проблемы с кодировками.",
+        },
+        "term_coverage": {
+            "label": "Покрытие доменных терминов",
+            "value": coverage_value,
+            "format": "percent",
+            "digits": 2,
+            "description": "Доля терминов из контрольного списка, которые встретились в корпусе.",
+        },
+    }
+
+    legend = {
+        "documents.total_candidates": "Количество файлов, найденных в исходных каталогах.",
+        "documents.processed": "Сколько файлов реально обработано (учитывает фильтр max-files).",
+        "documents.unique": "Количество уникальных документов после дедупликации по тексту.",
+        "documents.duplicates": "Сколько файлов признаны дубликатами другого контента.",
+        "documents.cleaned_with_output": "Сколько документов получили нормализованное текстовое представление.",
+        "documents.linked_clean_documents": "Сколько документов имеют сохранённые путь/хэш очищенного текста в базе (file_metadata или scanned_pages).",
+        "documents.unlinked_clean_documents": "Сколько очищенных документов пока не связаны с записями в базе.",
+        "documents.short_documents": f"Количество слишком коротких документов (≤ {SHORT_DOC_TOKENS} токенов).",
+        "documents.long_documents": f"Количество очень длинных документов (≥ {LONG_DOC_TOKENS} токенов).",
+        "documents.language_distribution": "Распределение документов по языкам (определено эвристически).",
+        "documents.char_stats": "Статистики по длине документов в символах.",
+        "documents.token_stats": "Статистики по длине документов в токенах.",
+        "documents.chunk_count_stats": "Статистики по количеству чанков на документ.",
+        "documents.chunk_size_stats": "Статистики по длине чанков.",
+        "top_terms": "Самые частые токены после базовой очистки.",
+        "tfidf_top_features": "Токены с наибольшим средним TF-IDF (если доступен scikit-learn).",
+        "term_coverage": "Детализация покрытия доменных терминов.",
+        "quality_metrics.clean_text_coverage": "Доля всего корпуса, для которого путь очищенного текста сохранён в БД.",
+        "quality_metrics.clean_text_linked_ratio": "Доля очищенных файлов, успешно записанных в БД (из всех доступных очищенных).",
+        "quality_metrics.metadata_gap_ratio": "Доля очищенных файлов, у которых не нашлось соответствующей записи в БД.",
+        "quality_metrics.short_doc_ratio": f"Доля слишком коротких документов (≤ {SHORT_DOC_TOKENS} токенов).",
+        "quality_metrics.long_doc_ratio": f"Доля очень длинных документов (≥ {LONG_DOC_TOKENS} токенов).",
+        "quality_metrics.dominant_language_share": "Какая часть корпуса приходится на доминирующий язык.",
+        "quality_metrics.largest_duplicate_group": "Максимальный размер группы документов с полностью одинаковым текстом.",
+        "quality_metrics": "Ключевые метрики качества корпуса с пояснениями.",
+    }
+
+    duplicate_groups = sorted(
+        ((source, paths) for source, paths in duplicates.items()),
+        key=lambda item: len(item[1]),
+        reverse=True,
+    )
+    top_duplicate_groups = [
+        {
+            "canonical": source,
+            "duplicates": len(paths),
+            "examples": paths[:5],
+        }
+        for source, paths in duplicate_groups[:10]
+    ]
+
+    error_samples = errors[:10]
+
+    report = {
+        "generated_at_utc": generated_at,
+        "documents": {
+            "total_candidates": total_docs,
+            "processed": processed_docs,
+            "unique": unique_docs,
+            "duplicates": duplicate_total,
+            "duplicate_ratio": duplicate_ratio,
+            "language_distribution": dict(language_counts),
+            "documents_with_non_ascii": non_ascii_count,
+            "cleaned_with_output": cleaned_doc_count,
+            "linked_clean_documents": linked_clean_docs,
+            "unlinked_clean_documents": metadata_missing_count,
+            "short_documents": short_doc_count,
+            "long_documents": long_doc_count,
+            "char_stats": describe(doc_char_lengths),
+            "token_stats": describe(doc_token_lengths),
+            "chunk_count_stats": describe(chunk_counts),
+            "chunk_size_stats": describe(chunk_lengths),
+        },
+        "quality_metrics": quality_metrics,
+        "legend": legend,
+        "top_terms": top_terms,
+        "tfidf_top_features": tfidf_top,
+        "term_coverage": coverage,
+        "top_duplicate_groups": top_duplicate_groups,
+        "duplicates": {key: value for key, value in duplicates.items()},
+        "document_details": document_details,
+        "errors": errors,
+        "error_samples": error_samples,
+        "output_dir": str(output_dir) if output_dir else None,
+        "dashboard_path": dashboard_path.as_posix(),
+    }
+
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    build_dashboard_html(report, dashboard_path)
+    LOGGER.info("Финальный отчёт сохранён в %s", report_path)
+    LOGGER.info("HTML-дашборд сохранён в %s", dashboard_path)
+    return report_path, dashboard_path
+
+
+def format_number(value: object, digits: int = 0) -> str:
+    """Форматирует число с разделителями и нужным количеством знаков после запятой."""
+
+    try:
+        digits = max(0, int(digits))
+    except (TypeError, ValueError):
+        digits = 0
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    if digits == 0 or numeric.is_integer():
+        return format(int(round(numeric)), ",").replace(",", " ")
+    return format(numeric, f",.{digits}f").replace(",", " ")
+
+
+def format_percentage(value: object, digits: int = 1) -> str:
+    """Форматирует долю как процент."""
+
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    digits = max(0, int(digits))
+    return f"{numeric * 100:.{digits}f}%"
+
+
+def format_metric_value(metric: Dict[str, object]) -> str:
+    """Возвращает человекочитаемое значение метрики с учётом типа отображения."""
+
+    fmt = str(metric.get("format", "number"))
+    digits = metric.get("digits", 2)
+    value = metric.get("value", 0)
+    if fmt == "percent":
+        return format_percentage(value, digits)
+    if fmt == "integer":
+        return format_number(value, 0)
+    return format_number(value, digits)
+
+
+def build_dashboard_html(report: Dict[str, object], dashboard_path: Path) -> None:
+    """Создаёт простой HTML-дашборд с основными метриками и пояснениями."""
+
+    docs = report.get("documents", {})
+    metrics: Dict[str, Dict[str, object]] = report.get("quality_metrics", {})
+    languages: Dict[str, int] = docs.get("language_distribution", {})
+    top_terms = report.get("top_terms", [])
+    tfidf_top = report.get("tfidf_top_features", [])
+    top_duplicates = report.get("top_duplicate_groups", [])
+    coverage = report.get("term_coverage", {})
+    error_samples = report.get("error_samples", [])
+    generated_at = report.get("generated_at_utc", "")
+
+    summary_data = [
+        ("Всего файлов", docs.get("total_candidates", 0)),
+        ("Обработано", docs.get("processed", 0)),
+        ("Уникальных документов", docs.get("unique", 0)),
+        ("Выявлено дублей", docs.get("duplicates", 0)),
+        ("Ошибок обработки", len(report.get("errors", []))),
+    ]
+    summary_cards = "".join(
+        f"""
+        <div class="card">
+            <div class="value">{format_number(value, 0)}</div>
+            <div class="label">{escape(label)}</div>
+        </div>
+        """
+        for label, value in summary_data
+    )
+
+    metric_rows = "".join(
+        f"""
+        <tr>
+            <td class="metric-name">{escape(metric.get('label', key))}</td>
+            <td class="metric-value">{escape(format_metric_value(metric))}</td>
+            <td class="metric-desc">{escape(metric.get('description', ''))}</td>
+        </tr>
+        """
+        for key, metric in metrics.items()
+    )
+
+    language_total = sum(languages.values()) or 1
+    language_max = max(languages.values()) if languages else 1
+    language_rows = "".join(
+        f"""
+        <tr>
+            <td>{escape(lang or 'не определён')}</td>
+            <td class="center">{format_number(count, 0)}</td>
+            <td class="center">{format_percentage(count / language_total, 1)}</td>
+            <td>
+                <div class="bar">
+                    <span style="width: {100 * count / language_max if language_max else 0:.1f}%"></span>
+                </div>
+            </td>
+        </tr>
+        """
+        for lang, count in sorted(languages.items(), key=lambda item: item[1], reverse=True)
+    )
+
+    top_term_rows = "".join(
+        f"<tr><td>{escape(term)}</td><td class=\"center\">{format_number(freq, 0)}</td></tr>"
+        for term, freq in top_terms[:15]
+    )
+
+    tfidf_rows = "".join(
+        f"<tr><td>{escape(term)}</td><td class=\"center\">{format_number(score, 3)}</td></tr>"
+        for term, score in tfidf_top[:15]
+    )
+
+    duplicates_rows = "".join(
+        f"""
+        <tr>
+            <td>{escape(group['canonical'])}</td>
+            <td class="center">{format_number(group['duplicates'], 0)}</td>
+            <td>{'<br>'.join(escape(example) for example in group['examples'])}</td>
+        </tr>
+        """
+        for group in top_duplicates
+    ) or "<tr><td colspan='3'>Повторов, превышающих порог, не обнаружено.</td></tr>"
+
+    coverage_present = coverage.get("present", []) or []
+    coverage_missing = coverage.get("missing", []) or []
+    coverage_total = len(coverage_present) + len(coverage_missing)
+    coverage_block = ""
+    if coverage_total:
+        coverage_block = f"""
+        <p>
+            Охвачено терминов: {format_number(len(coverage_present), 0)} из {format_number(coverage_total, 0)}
+            ({format_percentage(coverage.get('coverage', 0.0), 1)}).
+        </p>
+        """
+        if coverage_missing:
+            missing_list = "".join(f"<li>{escape(term)}</li>" for term in coverage_missing)
+            coverage_block += f"""
+            <details>
+                <summary>Отсутствующие термины ({len(coverage_missing)})</summary>
+                <ul class="term-list">{missing_list}</ul>
+            </details>
+            """
+
+    error_rows = "".join(
+        f"<tr><td>{escape(item.get('path', ''))}</td><td>{escape(item.get('error', ''))}</td></tr>"
+        for item in error_samples
+    ) or "<tr><td colspan='2'>Ошибки обработки не зафиксированы.</td></tr>"
+
+    html_content = f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>EDA-дашборд по локальному корпусу</title>
+    <style>
+        body {{ font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f6fb; color: #1f2329; }}
+        header {{ background: #23395d; color: #fff; padding: 24px 32px; }}
+        header h1 {{ margin: 0; font-size: 28px; }}
+        header p {{ margin: 8px 0 0; opacity: 0.8; }}
+        main {{ padding: 24px 32px 48px; }}
+        .cards {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }}
+        .card {{ background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(35, 57, 93, 0.08); }}
+        .card .value {{ font-size: 26px; font-weight: 600; margin-bottom: 8px; }}
+        .card .label {{ font-size: 14px; color: #555; }}
+        section {{ background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08); margin-bottom: 28px; }}
+        section h2 {{ margin-top: 0; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 16px; }}
+        th, td {{ padding: 10px 12px; border-bottom: 1px solid #e6e9f2; vertical-align: top; }}
+        th {{ text-align: left; background: #f1f3f9; font-weight: 600; }}
+        .center {{ text-align: center; }}
+        .metric-name {{ width: 30%; }}
+        .metric-value {{ font-weight: 600; width: 15%; }}
+        .metric-desc {{ color: #555; }}
+        .bar {{ background: #dde4f6; border-radius: 6px; height: 10px; overflow: hidden; }}
+        .bar span {{ display: block; height: 10px; background: #3c7adf; }}
+        details summary {{ cursor: pointer; color: #3c7adf; margin-top: 12px; }}
+        .term-list {{ columns: 2; margin: 12px 0 0; padding-left: 20px; }}
+        footer {{ text-align: center; padding: 16px; font-size: 12px; color: #666; }}
+        @media (max-width: 720px) {{
+            main {{ padding: 16px; }}
+            section {{ padding: 18px; }}
+            .term-list {{ columns: 1; }}
+        }}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Exploratory Data Analysis по локальному корпусу</h1>
+        <p>Отчёт сформирован: {escape(str(generated_at))}</p>
+    </header>
+    <main>
+        <section>
+            <h2>Сводка</h2>
+            <div class="cards">
+                {summary_cards}
+            </div>
+        </section>
+        <section>
+            <h2>Ключевые метрики качества</h2>
+            <p>Метрики помогают оценить полноту, чистоту и разнообразие данных перед индексацией.</p>
+            <table>
+                <thead>
+                    <tr><th>Метрика</th><th>Значение</th><th>Пояснение</th></tr>
+                </thead>
+                <tbody>
+                    {metric_rows}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Распределение языков</h2>
+            <p>Позволяет проверить, соответствует ли корпус ожидаемому языковому составу.</p>
+            <table>
+                <thead>
+                    <tr><th>Язык</th><th class="center">Количество</th><th class="center">Доля</th><th>Визуализация</th></tr>
+                </thead>
+                <tbody>
+                    {language_rows or '<tr><td colspan="4">Язык не определён ни для одного документа.</td></tr>'}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Частотный анализ</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Топ-термины</h3>
+                    <table>
+                        <thead><tr><th>Токен</th><th class="center">Частота</th></tr></thead>
+                        <tbody>{top_term_rows or '<tr><td colspan="2">Недостаточно данных для подсчёта.</td></tr>'}</tbody>
+                    </table>
+                </div>
+                <div class="card">
+                    <h3>TF-IDF лидеры</h3>
+                    <table>
+                        <thead><tr><th>Токен</th><th class="center">Средний TF-IDF</th></tr></thead>
+                        <tbody>{tfidf_rows or '<tr><td colspan="2">TF-IDF недоступен (нет зависимостей или пустой корпус).</td></tr>'}</tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Покрытие доменных терминов</h2>
+            {coverage_block or '<p>Файл с доменными терминами не предоставлен.</p>'}
+        </section>
+        <section>
+            <h2>Выявленные дубликаты</h2>
+            <p>Список исходных файлов, вокруг которых обнаружены контентные повторы.</p>
+            <table>
+                <thead><tr><th>Канонический файл</th><th class="center">Количество дублей</th><th>Примеры</th></tr></thead>
+                <tbody>{duplicates_rows}</tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Ошибки обработки (топ-10)</h2>
+            <table>
+                <thead><tr><th>Файл</th><th>Описание проблемы</th></tr></thead>
+                <tbody>{error_rows}</tbody>
+            </table>
+        </section>
+    </main>
+    <footer>Дашборд сформирован автоматически скриптом analysis/eda_pipeline.py.</footer>
+</body>
+</html>
+"""
+    dashboard_path.write_text(html_content, encoding="utf-8")
+
+
+def parse_args() -> argparse.Namespace:
+    """Парсит аргументы командной строки."""
+
+    parser = argparse.ArgumentParser(
+        description="Нормализация локального корпуса и расчёт текстовых метрик."
+    )
+    parser.add_argument(
+        "--input-dirs",
+        nargs="*",
+        type=Path,
+        default=None,
+        help="Каталоги с исходными файлами (по умолчанию: scraped_site, gigachat_*).",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=DEFAULT_OUTPUT_DIR,
+        help="Каталог для сохранения нормализованных текстов (по умолчанию processed_eda_data).",
+    )
+    parser.add_argument(
+        "--report-dir",
+        type=Path,
+        default=DEFAULT_REPORT_DIR,
+        help="Каталог для сохранения отчётов (по умолчанию analysis/reports).",
+    )
+    parser.add_argument(
+        "--max-files",
+        type=int,
+        default=None,
+        help="Максимальное количество документов для обработки (для отладки).",
+    )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Перезаписывать уже нормализованные файлы.",
+    )
+    parser.add_argument(
+        "--terms-file",
+        type=Path,
+        default=None,
+        help="Путь к файлу со списком доменных терминов (по одному на строку).",
+    )
+    parser.add_argument(
+        "--no-output-text",
+        action="store_true",
+        help="Не сохранять тексты, а только сформировать отчёт.",
+    )
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Уровень логирования (по умолчанию INFO).",
+    )
+    return parser.parse_args()
+
+
+def configure_logging(level: str) -> None:
+    """Настраивает базовый формат логов."""
+
+    logging.basicConfig(
+        level=getattr(logging, level.upper(), logging.INFO),
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
+
+
+def main() -> None:
+    """Точка входа CLI."""
+
+    args = parse_args()
+    configure_logging(args.log_level)
+
+    try:
+        ensure_clean_columns()
+    except Exception as exc:  # pragma: no cover - базу можно отключить
+        LOGGER.warning("Не удалось подготовить структуру file_metadata: %s", exc)
+
+    root = Path.cwd()
+    input_dirs = args.input_dirs or collect_default_input_dirs(root)
+    if not input_dirs:
+        raise ValueError("Не указаны каталоги с данными для анализа.")
+
+    output_dir = None if args.no_output_text else args.output_dir
+    terms = load_terms(args.terms_file)
+
+    report_path, dashboard_path = process_corpus(
+        input_dirs=input_dirs,
+        output_dir=output_dir,
+        report_dir=args.report_dir,
+        overwrite=args.overwrite,
+        max_files=args.max_files,
+        terms=terms,
+    )
+    print(f"JSON-отчёт: {report_path}")
+    print(f"HTML-дашборд: {dashboard_path}")
+
+
+if __name__ == "__main__":
+    main()

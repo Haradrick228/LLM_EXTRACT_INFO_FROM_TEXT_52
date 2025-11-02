@@ -1,0 +1,443 @@
+{
+  "generated_at_utc": "2025-11-02T20:36:06Z",
+  "documents": {
+    "total_candidates": 973,
+    "processed": 1,
+    "unique": 1,
+    "duplicates": 0,
+    "duplicate_ratio": 0.0,
+    "language_distribution": {
+      "ru": 1
+    },
+    "documents_with_non_ascii": 1,
+    "cleaned_with_output": 1,
+    "linked_clean_documents": 0,
+    "unlinked_clean_documents": 1,
+    "short_documents": 0,
+    "long_documents": 0,
+    "char_stats": {
+      "count": 1.0,
+      "min": 9244.0,
+      "max": 9244.0,
+      "mean": 9244.0,
+      "median": 9244.0,
+      "p10": 9244.0,
+      "p25": 9244.0,
+      "p50": 9244.0,
+      "p75": 9244.0,
+      "p90": 9244.0,
+      "p95": 9244.0
+    },
+    "token_stats": {
+      "count": 1.0,
+      "min": 1076.0,
+      "max": 1076.0,
+      "mean": 1076.0,
+      "median": 1076.0,
+      "p10": 1076.0,
+      "p25": 1076.0,
+      "p50": 1076.0,
+      "p75": 1076.0,
+      "p90": 1076.0,
+      "p95": 1076.0
+    },
+    "chunk_count_stats": {
+      "count": 1.0,
+      "min": 20.0,
+      "max": 20.0,
+      "mean": 20.0,
+      "median": 20.0,
+      "p10": 20.0,
+      "p25": 20.0,
+      "p50": 20.0,
+      "p75": 20.0,
+      "p90": 20.0,
+      "p95": 20.0
+    },
+    "chunk_size_stats": {
+      "count": 20.0,
+      "min": 124.0,
+      "max": 600.0,
+      "mean": 576.2,
+      "median": 600.0,
+      "p10": 600.0,
+      "p25": 600.0,
+      "p50": 600.0,
+      "p75": 600.0,
+      "p90": 600.0,
+      "p95": 600.0
+    }
+  },
+  "quality_metrics": {
+    "duplicate_ratio": {
+      "label": "Доля дубликатов",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Отношение числа дубликатов к числу обработанных документов."
+    },
+    "error_rate": {
+      "label": "Ошибки обработки",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Часть документов, завершившихся ошибкой извлечения или очистки."
+    },
+    "clean_text_coverage": {
+      "label": "Связанные тексты",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Доля уникальных документов, для которых получен и сохранён очищенный текст."
+    },
+    "clean_text_linked_ratio": {
+      "label": "Связаны с БД",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Доля сохранённых текстов, у которых обновлены привязки в file_metadata или scanned_pages."
+    },
+    "metadata_gap_ratio": {
+      "label": "Без связи в БД",
+      "value": 1.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Доля сохранённых текстов, для которых не найдено соответствующей записи в базе."
+    },
+    "short_doc_ratio": {
+      "label": "Короткие документы (≤ 200 токенов)",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Часть корпуса, потенциально требующая агрегации или исключения из индекса."
+    },
+    "long_doc_ratio": {
+      "label": "Длинные документы (≥ 4000 токенов)",
+      "value": 0.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Часть корпуса, требующая сегментации или особого режима обработки."
+    },
+    "avg_tokens_per_document": {
+      "label": "Средняя длина (токены)",
+      "value": 1076.0,
+      "format": "number",
+      "digits": 0,
+      "description": "Среднее число токенов на документ."
+    },
+    "avg_chars_per_document": {
+      "label": "Средняя длина (символы)",
+      "value": 9244.0,
+      "format": "number",
+      "digits": 0,
+      "description": "Среднее число символов на документ после очистки."
+    },
+    "avg_chunks_per_document": {
+      "label": "Среднее число чанков",
+      "value": 20.0,
+      "format": "number",
+      "digits": 2,
+      "description": "Сколько фрагментов в среднем формируется из одного документа."
+    },
+    "avg_tokens_per_chunk": {
+      "label": "Средняя длина чанка",
+      "value": 53.8,
+      "format": "number",
+      "digits": 1,
+      "description": "Среднее число токенов в чанке."
+    },
+    "lexical_diversity": {
+      "label": "Лексическое разнообразие",
+      "value": 0.6319702602230484,
+      "format": "percent",
+      "digits": 2,
+      "description": "Отношение количества уникальных токенов к общему числу токенов."
+    },
+    "dominant_language_share": {
+      "label": "Доминирующий язык (ru)",
+      "value": 1.0,
+      "format": "percent",
+      "digits": 1,
+      "description": "Доля документов на самом распространённом языке."
+    },
+    "unique_token_count": {
+      "label": "Количество уникальных токенов",
+      "value": 680,
+      "format": "integer",
+      "digits": 0,
+      "description": "Общее число уникальных токенов в корпусе."
+    },
+    "largest_duplicate_group": {
+      "label": "Крупнейшая группа дубликатов",
+      "value": 0,
+      "format": "integer",
+      "digits": 0,
+      "description": "Размер самой большой группы взаимных дубликатов."
+    },
+    "non_ascii_ratio": {
+      "label": "Содержат не-ASCII символы",
+      "value": 1.0,
+      "format": "percent",
+      "digits": 2,
+      "description": "Доля документов с символами вне ASCII (может указывать на мусор или HTML)."
+    }
+  },
+  "legend": {
+    "documents.total_candidates": "Документы, найденные в указанных директориях.",
+    "documents.processed": "Файлы, рассмотренные после применения лимита max-files (если задан).",
+    "documents.unique": "Уникальные по содержимому документы.",
+    "documents.duplicates": "Количество дубликатов, отфильтрованных по хешу.",
+    "documents.cleaned_with_output": "Документы, для которых сохранён очищенный текст.",
+    "documents.linked_clean_documents": "Документы, привязанные к file_metadata или scanned_pages.",
+    "documents.unlinked_clean_documents": "Сохранённые тексты без найденной записи в базе.",
+    "documents.short_documents": "Документы с длиной ≤ заданного минимума.",
+    "documents.long_documents": "Документы с длиной ≥ заданного максимума.",
+    "documents.language_distribution": "Распределение документов по языкам.",
+    "documents.char_stats": "Статистика по числу символов.",
+    "documents.token_stats": "Статистика по числу токенов.",
+    "documents.chunk_count_stats": "Статистика по числу чанков.",
+    "documents.chunk_size_stats": "Статистика по размеру чанков.",
+    "top_terms": "Самые частые термины в корпусе.",
+    "tfidf_top_features": "Термины с максимальным средним TF-IDF.",
+    "term_coverage": "Покрытие пользовательского словаря в корпусе.",
+    "quality_metrics.clean_text_coverage": "Доля уникальных документов с сохранённым текстом.",
+    "quality_metrics.clean_text_linked_ratio": "Доля сохранённых текстов с привязкой к БД.",
+    "quality_metrics.metadata_gap_ratio": "Сохранённые тексты без записи в БД.",
+    "quality_metrics.short_doc_ratio": "Доля коротких документов.",
+    "quality_metrics.long_doc_ratio": "Доля длинных документов.",
+    "quality_metrics.dominant_language_share": "Доля доминирующего языка.",
+    "quality_metrics.largest_duplicate_group": "Размер крупнейшей группы дубликатов.",
+    "classification_summary.content_type": "Распределение документов по типу контента.",
+    "classification_summary.education_level": "Распределение по уровню образования.",
+    "classification_summary.audience": "Распределение по целевой аудитории.",
+    "classification_summary.purpose": "Распределение по назначению документа.",
+    "quality_metrics": "Ключевые метрики качества загрузки корпуса."
+  },
+  "top_terms": [
+    [
+      "как",
+      22
+    ],
+    [
+      "для",
+      17
+    ],
+    [
+      "лет",
+      14
+    ],
+    [
+      "на",
+      12
+    ],
+    [
+      "хрестоматия",
+      10
+    ],
+    [
+      "их",
+      8
+    ],
+    [
+      "вопросы",
+      8
+    ],
+    [
+      "это",
+      7
+    ],
+    [
+      "хрестоматии",
+      7
+    ],
+    [
+      "развития",
+      6
+    ],
+    [
+      "они",
+      6
+    ],
+    [
+      "произведения",
+      6
+    ],
+    [
+      "по",
+      5
+    ],
+    [
+      "развитию",
+      5
+    ],
+    [
+      "что",
+      5
+    ],
+    [
+      "мире",
+      5
+    ],
+    [
+      "жизни",
+      5
+    ],
+    [
+      "человека",
+      5
+    ],
+    [
+      "свои",
+      5
+    ],
+    [
+      "18",
+      5
+    ],
+    [
+      "чтение",
+      5
+    ],
+    [
+      "вы",
+      5
+    ],
+    [
+      "из",
+      5
+    ],
+    [
+      "при",
+      5
+    ],
+    [
+      "отрывка",
+      5
+    ],
+    [
+      "личностного",
+      4
+    ],
+    [
+      "потенциала",
+      4
+    ],
+    [
+      "читателям",
+      4
+    ],
+    [
+      "от",
+      4
+    ],
+    [
+      "которые",
+      4
+    ],
+    [
+      "навыков",
+      4
+    ],
+    [
+      "детей",
+      4
+    ],
+    [
+      "найдете",
+      4
+    ],
+    [
+      "произведений",
+      4
+    ],
+    [
+      "них",
+      4
+    ],
+    [
+      "обсуждения",
+      4
+    ],
+    [
+      "работы",
+      4
+    ],
+    [
+      "других",
+      4
+    ],
+    [
+      "читаем",
+      4
+    ],
+    [
+      "дальше",
+      4
+    ],
+    [
+      "10",
+      4
+    ],
+    [
+      "11",
+      4
+    ],
+    [
+      "помогут",
+      4
+    ],
+    [
+      "понять",
+      4
+    ],
+    [
+      "эмоции",
+      4
+    ],
+    [
+      "себя",
+      4
+    ],
+    [
+      "сделать",
+      4
+    ],
+    [
+      "фонд",
+      4
+    ],
+    [
+      "хрестоматией",
+      3
+    ],
+    [
+      "литературы",
+      3
+    ]
+  ],
+  "tfidf_top_features": [],
+  "term_coverage": {},
+  "top_duplicate_groups": [],
+  "duplicates": {},
+  "document_details": [
+    {
+      "source": "D:/GITLAB/ai-chatbot/scraped_site/books_vbudushee_ru/pages/books_vbudushee_ru__books.pdf",
+      "normalized": "processed_eda_data/books_vbudushee_ru/pages/books_vbudushee_ru__books.txt",
+      "hash": "96c975953c163cf45eb17cadb59ecd30ec74f6eb56218126d7ebd18c589019b5",
+      "clean_text_path": "processed_eda_data/books_vbudushee_ru/pages/books_vbudushee_ru__books.txt",
+      "clean_text_hash": "96c975953c163cf45eb17cadb59ecd30ec74f6eb56218126d7ebd18c589019b5",
+      "characters": 9244,
+      "tokens": 1076,
+      "chunks": 20,
+      "language": "ru",
+      "has_non_ascii": true,
+      "linked_in_db": false
+    }
+  ],
+  "errors": [],
+  "error_samples": [],
+  "output_dir": "processed_eda_data",
+  "dashboard_path": "analysis/reports/eda_dashboard.html",
+  "db_available": false,
+  "classification_summary": {}
+}
