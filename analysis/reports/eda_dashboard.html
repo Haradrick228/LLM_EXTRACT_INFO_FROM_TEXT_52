@@ -39,7 +39,7 @@
 <body>
     <header>
         <h1>Exploratory Data Analysis корпуса документов</h1>
-        <p>Отчёт сгенерирован: 2025-11-02T20:36:06Z</p>
+        <p>Отчёт сгенерирован: 2025-11-02T20:59:32Z</p>
     </header>
     <main>
         <section>
@@ -52,37 +52,37 @@
             </div>
             
             <div class="card">
-                <div class="value">1</div>
+                <div class="value">973</div>
                 <div class="label">Обработано документов</div>
             </div>
             
             <div class="card">
-                <div class="value">1</div>
+                <div class="value">907</div>
                 <div class="label">Уникальные тексты</div>
             </div>
             
             <div class="card">
-                <div class="value">0</div>
+                <div class="value">13</div>
                 <div class="label">Дубликаты</div>
             </div>
             
             <div class="card">
-                <div class="value">1</div>
+                <div class="value">907</div>
                 <div class="label">Сохранены тексты</div>
             </div>
             
             <div class="card">
-                <div class="value">0</div>
+                <div class="value">907</div>
                 <div class="label">Связаны с БД</div>
             </div>
             
             <div class="card">
-                <div class="value">1</div>
+                <div class="value">0</div>
                 <div class="label">Остались без связи</div>
             </div>
             
             <div class="card">
-                <div class="value">0</div>
+                <div class="value">53</div>
                 <div class="label">Ошибки обработки</div>
             </div>
             
@@ -99,97 +99,97 @@
                     
             <tr>
                 <td class="metric-name">Доля дубликатов</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">1.34%</td>
                 <td class="metric-desc">Отношение числа дубликатов к числу обработанных документов.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Ошибки обработки</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">5.45%</td>
                 <td class="metric-desc">Часть документов, завершившихся ошибкой извлечения или очистки.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Связанные тексты</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">100.00%</td>
                 <td class="metric-desc">Доля уникальных документов, для которых получен и сохранён очищенный текст.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Связаны с БД</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">100.00%</td>
                 <td class="metric-desc">Доля сохранённых текстов, у которых обновлены привязки в file_metadata или scanned_pages.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Без связи в БД</td>
-                <td class="metric-value">100.00%</td>
+                <td class="metric-value">0.00%</td>
                 <td class="metric-desc">Доля сохранённых текстов, для которых не найдено соответствующей записи в базе.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Короткие документы (≤ 200 токенов)</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">14.00%</td>
                 <td class="metric-desc">Часть корпуса, потенциально требующая агрегации или исключения из индекса.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Длинные документы (≥ 4000 токенов)</td>
-                <td class="metric-value">0.00%</td>
+                <td class="metric-value">10.58%</td>
                 <td class="metric-desc">Часть корпуса, требующая сегментации или особого режима обработки.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Средняя длина (токены)</td>
-                <td class="metric-value">1 076</td>
+                <td class="metric-value">3 034</td>
                 <td class="metric-desc">Среднее число токенов на документ.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Средняя длина (символы)</td>
-                <td class="metric-value">9 244</td>
+                <td class="metric-value">26 146</td>
                 <td class="metric-desc">Среднее число символов на документ после очистки.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Среднее число чанков</td>
-                <td class="metric-value">20</td>
+                <td class="metric-value">54.76</td>
                 <td class="metric-desc">Сколько фрагментов в среднем формируется из одного документа.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Средняя длина чанка</td>
-                <td class="metric-value">53.8</td>
+                <td class="metric-value">55.4</td>
                 <td class="metric-desc">Среднее число токенов в чанке.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Лексическое разнообразие</td>
-                <td class="metric-value">63.20%</td>
+                <td class="metric-value">5.80%</td>
                 <td class="metric-desc">Отношение количества уникальных токенов к общему числу токенов.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Доминирующий язык (ru)</td>
-                <td class="metric-value">100.0%</td>
+                <td class="metric-value">90.3%</td>
                 <td class="metric-desc">Доля документов на самом распространённом языке.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Количество уникальных токенов</td>
-                <td class="metric-value">680</td>
+                <td class="metric-value">159 638</td>
                 <td class="metric-desc">Общее число уникальных токенов в корпусе.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Крупнейшая группа дубликатов</td>
-                <td class="metric-value">0</td>
+                <td class="metric-value">2</td>
                 <td class="metric-desc">Размер самой большой группы взаимных дубликатов.</td>
             </tr>
             
             <tr>
                 <td class="metric-name">Содержат не-ASCII символы</td>
-                <td class="metric-value">100.00%</td>
+                <td class="metric-value">99.45%</td>
                 <td class="metric-desc">Доля документов с символами вне ASCII (может указывать на мусор или HTML).</td>
             </tr>
             
@@ -207,10 +207,127 @@
                     
             <tr>
                 <td>ru</td>
-                <td class="center">1</td>
-                <td class="center">100.0%</td>
+                <td class="center">819</td>
+                <td class="center">90.3%</td>
                 <td>
-                    <div class="bar"><span style="width: 100.0%"></span></div>
+                    <div class="bar"><span style="width: 90.3%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>en</td>
+                <td class="center">5</td>
+                <td class="center">0.6%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.6%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>ro</td>
+                <td class="center">1</td>
+                <td class="center">0.1%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.1%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>de</td>
+                <td class="center">1</td>
+                <td class="center">0.1%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.1%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>unknown</td>
+                <td class="center">35</td>
+                <td class="center">3.9%</td>
+                <td>
+                    <div class="bar"><span style="width: 3.9%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>id</td>
+                <td class="center">3</td>
+                <td class="center">0.3%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.3%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>sv</td>
+                <td class="center">1</td>
+                <td class="center">0.1%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.1%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>hr</td>
+                <td class="center">17</td>
+                <td class="center">1.9%</td>
+                <td>
+                    <div class="bar"><span style="width: 1.9%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>sk</td>
+                <td class="center">3</td>
+                <td class="center">0.3%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.3%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>sl</td>
+                <td class="center">10</td>
+                <td class="center">1.1%</td>
+                <td>
+                    <div class="bar"><span style="width: 1.1%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>nl</td>
+                <td class="center">3</td>
+                <td class="center">0.3%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.3%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>pl</td>
+                <td class="center">6</td>
+                <td class="center">0.7%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.7%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>vi</td>
+                <td class="center">2</td>
+                <td class="center">0.2%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.2%"></span></div>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>bg</td>
+                <td class="center">1</td>
+                <td class="center">0.1%</td>
+                <td>
+                    <div class="bar"><span style="width: 0.1%"></span></div>
                 </td>
             </tr>
             
@@ -224,14 +341,14 @@
                     <h3>Частотный словарь</h3>
                     <table>
                         <thead><tr><th>Термин</th><th class="center">Встречается</th></tr></thead>
-                        <tbody><tr><td>как</td><td class="center">22</td></tr><tr><td>для</td><td class="center">17</td></tr><tr><td>лет</td><td class="center">14</td></tr><tr><td>на</td><td class="center">12</td></tr><tr><td>хрестоматия</td><td class="center">10</td></tr><tr><td>их</td><td class="center">8</td></tr><tr><td>вопросы</td><td class="center">8</td></tr><tr><td>это</td><td class="center">7</td></tr><tr><td>хрестоматии</td><td class="center">7</td></tr><tr><td>развития</td><td class="center">6</td></tr><tr><td>они</td><td class="center">6</td></tr><tr><td>произведения</td><td class="center">6</td></tr><tr><td>по</td><td class="center">5</td></tr><tr><td>развитию</td><td class="center">5</td></tr><tr><td>что</td><td class="center">5</td></tr><tr><td>мире</td><td class="center">5</td></tr><tr><td>жизни</td><td class="center">5</td></tr><tr><td>человека</td><td class="center">5</td></tr><tr><td>свои</td><td class="center">5</td></tr><tr><td>18</td><td class="center">5</td></tr><tr><td>чтение</td><td class="center">5</td></tr><tr><td>вы</td><td class="center">5</td></tr><tr><td>из</td><td class="center">5</td></tr><tr><td>при</td><td class="center">5</td></tr><tr><td>отрывка</td><td class="center">5</td></tr><tr><td>личностного</td><td class="center">4</td></tr><tr><td>потенциала</td><td class="center">4</td></tr><tr><td>читателям</td><td class="center">4</td></tr><tr><td>от</td><td class="center">4</td></tr><tr><td>которые</td><td class="center">4</td></tr><tr><td>навыков</td><td class="center">4</td></tr><tr><td>детей</td><td class="center">4</td></tr><tr><td>найдете</td><td class="center">4</td></tr><tr><td>произведений</td><td class="center">4</td></tr><tr><td>них</td><td class="center">4</td></tr><tr><td>обсуждения</td><td class="center">4</td></tr><tr><td>работы</td><td class="center">4</td></tr><tr><td>других</td><td class="center">4</td></tr><tr><td>читаем</td><td class="center">4</td></tr><tr><td>дальше</td><td class="center">4</td></tr><tr><td>10</td><td class="center">4</td></tr><tr><td>11</td><td class="center">4</td></tr><tr><td>помогут</td><td class="center">4</td></tr><tr><td>понять</td><td class="center">4</td></tr><tr><td>эмоции</td><td class="center">4</td></tr><tr><td>себя</td><td class="center">4</td></tr><tr><td>сделать</td><td class="center">4</td></tr><tr><td>фонд</td><td class="center">4</td></tr><tr><td>хрестоматией</td><td class="center">3</td></tr><tr><td>литературы</td><td class="center">3</td></tr></tbody>
+                        <tbody><tr><td>на</td><td class="center">37 962</td></tr><tr><td>для</td><td class="center">27 444</td></tr><tr><td>по</td><td class="center">21 795</td></tr><tr><td>не</td><td class="center">21 348</td></tr><tr><td>что</td><td class="center">20 676</td></tr><tr><td>как</td><td class="center">18 485</td></tr><tr><td>это</td><td class="center">11 411</td></tr><tr><td>или</td><td class="center">11 038</td></tr><tr><td>uni043e</td><td class="center">8 742</td></tr><tr><td>развития</td><td class="center">8 444</td></tr><tr><td>из</td><td class="center">8 439</td></tr><tr><td>от</td><td class="center">8 384</td></tr><tr><td>вы</td><td class="center">7 645</td></tr><tr><td>их</td><td class="center">7 584</td></tr><tr><td>за</td><td class="center">6 956</td></tr><tr><td>мы</td><td class="center">6 907</td></tr><tr><td>uni0435</td><td class="center">6 820</td></tr><tr><td>но</td><td class="center">6 771</td></tr><tr><td>личностного</td><td class="center">6 748</td></tr><tr><td>потенциала</td><td class="center">6 701</td></tr><tr><td>детей</td><td class="center">6 671</td></tr><tr><td>uni0438</td><td class="center">6 451</td></tr><tr><td>его</td><td class="center">6 383</td></tr><tr><td>uni0430</td><td class="center">6 188</td></tr><tr><td>программы</td><td class="center">5 980</td></tr><tr><td>если</td><td class="center">5 726</td></tr><tr><td>можно</td><td class="center">5 715</td></tr><tr><td>при</td><td class="center">5 639</td></tr><tr><td>образования</td><td class="center">5 553</td></tr><tr><td>может</td><td class="center">5 497</td></tr><tr><td>чтобы</td><td class="center">5 176</td></tr><tr><td>uni0442</td><td class="center">5 143</td></tr><tr><td>которые</td><td class="center">5 077</td></tr><tr><td>то</td><td class="center">4 994</td></tr><tr><td>uni043d</td><td class="center">4 828</td></tr><tr><td>он</td><td class="center">4 803</td></tr><tr><td>развитие</td><td class="center">4 795</td></tr><tr><td>no</td><td class="center">4 787</td></tr><tr><td>все</td><td class="center">4 751</td></tr><tr><td>uni0440</td><td class="center">4 537</td></tr><tr><td>быть</td><td class="center">4 503</td></tr><tr><td>школы</td><td class="center">4 500</td></tr><tr><td>педагог</td><td class="center">4 493</td></tr><tr><td>они</td><td class="center">4 470</td></tr><tr><td>uni0441</td><td class="center">4 397</td></tr><tr><td>так</td><td class="center">4 358</td></tr><tr><td>когда</td><td class="center">4 269</td></tr><tr><td>со</td><td class="center">3 968</td></tr><tr><td>программа</td><td class="center">3 952</td></tr><tr><td>развитию</td><td class="center">3 907</td></tr></tbody>
                     </table>
                 </div>
                 <div class="card">
                     <h3>TF-IDF</h3>
                     <table>
                         <thead><tr><th>Термин</th><th class="center">Средний TF-IDF</th></tr></thead>
-                        <tbody><tr><td colspan="2">TF-IDF признаки не рассчитаны.</td></tr></tbody>
+                        <tbody><tr><td>для</td><td class="center">0.1252</td></tr><tr><td>как</td><td class="center">0.0748</td></tr><tr><td>vbudushee</td><td class="center">0.0709</td></tr><tr><td>что</td><td class="center">0.0667</td></tr><tr><td>потенциала</td><td class="center">0.0577</td></tr><tr><td>личностного</td><td class="center">0.0570</td></tr><tr><td>https</td><td class="center">0.0551</td></tr><tr><td>развития</td><td class="center">0.0530</td></tr><tr><td>2022</td><td class="center">0.0444</td></tr><tr><td>программа</td><td class="center">0.0422</td></tr><tr><td>программы</td><td class="center">0.0403</td></tr><tr><td>детей</td><td class="center">0.0390</td></tr><tr><td>2023</td><td class="center">0.0382</td></tr><tr><td>это</td><td class="center">0.0370</td></tr><tr><td>персональных</td><td class="center">0.0368</td></tr><tr><td>приложение</td><td class="center">0.0368</td></tr><tr><td>конкурс</td><td class="center">0.0357</td></tr><tr><td>данных</td><td class="center">0.0347</td></tr><tr><td>или</td><td class="center">0.0344</td></tr><tr><td>образования</td><td class="center">0.0341</td></tr><tr><td>развитие</td><td class="center">0.0327</td></tr><tr><td>лет</td><td class="center">0.0314</td></tr><tr><td>2025</td><td class="center">0.0305</td></tr><tr><td>обработки</td><td class="center">0.0292</td></tr><tr><td>сайта</td><td class="center">0.0283</td></tr><tr><td>грамотность</td><td class="center">0.0279</td></tr><tr><td>среда</td><td class="center">0.0275</td></tr><tr><td>исследования</td><td class="center">0.0267</td></tr><tr><td>его</td><td class="center">0.0262</td></tr><tr><td>фонд</td><td class="center">0.0262</td></tr><tr><td>развитию</td><td class="center">0.0249</td></tr><tr><td>родителей</td><td class="center">0.0249</td></tr><tr><td>можно</td><td class="center">0.0248</td></tr><tr><td>выбор</td><td class="center">0.0241</td></tr><tr><td>материалы</td><td class="center">0.0233</td></tr><tr><td>если</td><td class="center">0.0231</td></tr><tr><td>при</td><td class="center">0.0224</td></tr><tr><td>финансовая</td><td class="center">0.0224</td></tr><tr><td>может</td><td class="center">0.0219</td></tr><tr><td>кто</td><td class="center">0.0218</td></tr><tr><td>школы</td><td class="center">0.0216</td></tr><tr><td>проект</td><td class="center">0.0215</td></tr><tr><td>мбоу</td><td class="center">0.0215</td></tr><tr><td>работы</td><td class="center">0.0214</td></tr><tr><td>рлп</td><td class="center">0.0213</td></tr><tr><td>которые</td><td class="center">0.0213</td></tr><tr><td>образовательной</td><td class="center">0.0210</td></tr><tr><td>практики</td><td class="center">0.0207</td></tr><tr><td>деятельности</td><td class="center">0.0207</td></tr><tr><td>материалов</td><td class="center">0.0207</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -243,7 +360,39 @@
         
             <section>
                 <h2>Сводка классификаций</h2>
-                <p>Связанные классификационные данные недоступны без подключения к БД.</p>
+                <div class="cards">
+                <div class="card">
+                    <h3>content_type</h3>
+                    <table>
+                        <thead><tr><th>Категория</th><th class="center">Документов</th></tr></thead>
+                        <tbody><tr><td>методическое пособие</td><td class="center">168</td></tr><tr><td>отчет</td><td class="center">79</td></tr><tr><td>магистерская диссертация</td><td class="center">60</td></tr><tr><td>презентация</td><td class="center">16</td></tr><tr><td>статья</td><td class="center">13</td></tr><tr><td>согласие на обработку персональных данных</td><td class="center">9</td></tr><tr><td>годовой отчет</td><td class="center">5</td></tr><tr><td>доклад</td><td class="center">4</td></tr><tr><td>рабочая тетрадь</td><td class="center">3</td></tr><tr><td>инструкция</td><td class="center">3</td></tr><tr><td>анкета</td><td class="center">2</td></tr><tr><td>форма заявки</td><td class="center">2</td></tr><tr><td>сборник интервью</td><td class="center">2</td></tr><tr><td>протокол заседания</td><td class="center">2</td></tr><tr><td>политика обработки персональных данных</td><td class="center">2</td></tr></tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>education_level</h3>
+                    <table>
+                        <thead><tr><th>Категория</th><th class="center">Документов</th></tr></thead>
+                        <tbody><tr><td>преподаватели</td><td class="center">178</td></tr><tr><td>другое</td><td class="center">41</td></tr><tr><td>5–9 класс</td><td class="center">33</td></tr><tr><td>дошкольники</td><td class="center">26</td></tr><tr><td>1–4 класс</td><td class="center">25</td></tr><tr><td>1–11 класс</td><td class="center">24</td></tr><tr><td>10–11 класс</td><td class="center">23</td></tr><tr><td>студенты</td><td class="center">14</td></tr><tr><td>8–11 класс</td><td class="center">13</td></tr><tr><td>5–11 класс</td><td class="center">6</td></tr><tr><td>1–9 класс</td><td class="center">5</td></tr><tr><td>7–11 класс</td><td class="center">2</td></tr><tr><td>дошкольники / 1–11 класс</td><td class="center">1</td></tr><tr><td>5–7 класс</td><td class="center">1</td></tr><tr><td>5–10 класс</td><td class="center">1</td></tr></tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>audience</h3>
+                    <table>
+                        <thead><tr><th>Категория</th><th class="center">Документов</th></tr></thead>
+                        <tbody><tr><td>преподаватели</td><td class="center">308</td></tr><tr><td>школьники</td><td class="center">31</td></tr><tr><td>родители</td><td class="center">26</td></tr><tr><td>руководители в сфере образования</td><td class="center">19</td></tr><tr><td>волонтёры</td><td class="center">5</td></tr><tr><td>эксперты (НКО, образование, благотворительность)</td><td class="center">3</td></tr><tr><td>студенты</td><td class="center">2</td></tr><tr><td>некоммерческие организации</td><td class="center">1</td></tr><tr><td>другое</td><td class="center">1</td></tr></tbody>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>purpose</h3>
+                    <table>
+                        <thead><tr><th>Категория</th><th class="center">Документов</th></tr></thead>
+                        <tbody><tr><td>отчет о реализации программы по развитию личностного потенциала в образовательных организациях</td><td class="center">7</td></tr><tr><td>подведение итогов реализации программы по развитию личностного потенциала в образовательных организациях</td><td class="center">4</td></tr><tr><td>помощь родителям в развитии социально-эмоциональных навыков у детей</td><td class="center">3</td></tr><tr><td>описание результатов реализации программы по развитию личностного потенциала в образовательных организациях</td><td class="center">3</td></tr><tr><td>развитие социально-эмоциональных навыков у детей дошкольного возраста</td><td class="center">3</td></tr><tr><td>руководство для педагогов по проведению занятий по социально-эмоциональному развитию детей</td><td class="center">3</td></tr><tr><td>участие в отборе центров развития личностного потенциала</td><td class="center">3</td></tr><tr><td>повышение эффективности обучения через мотивацию учащихся</td><td class="center">2</td></tr><tr><td>подготовка мотивационного эссе для продления статуса центра РЛП</td><td class="center">2</td></tr><tr><td>поддержка внедрения и реализации программы дополнительного образования</td><td class="center">2</td></tr><tr><td>содействие социализации и социальной адаптации обучающихся, развитие социальных и эмоциональных навыков</td><td class="center">2</td></tr><tr><td>отбор образовательных организаций для участия в программе развития личностного потенциала</td><td class="center">2</td></tr><tr><td>подведение итогов реализации программы по развитию личностного потенциала в Воронежской области</td><td class="center">2</td></tr><tr><td>подведение итогов реализации программы по развитию личностного потенциала в Нижегородской области</td><td class="center">2</td></tr><tr><td>участие в программе по развитию личностного потенциала</td><td class="center">2</td></tr></tbody>
+                    </table>
+                </div>
+                </div>
             </section>
             
         <section>
@@ -251,20 +400,120 @@
             <p>Отражает потенциальные повторы документов и позволяет очистить корпус.</p>
             <table>
                 <thead><tr><th>Каноничный документ</th><th class="center">Дубликаты</th><th>Примеры</th></tr></thead>
-                <tbody><tr><td colspan='3' class='center'>Дубликаты не обнаружены.</td></tr></tbody>
+                <tbody>
+            <tr>
+                <td>scraped_site/city-eigame_vbudushee_ru/pages/city-eigame_vbudushee_ru__index.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\eigame_vbudushee_ru\pages\eigame_vbudushee_ru__index.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/lp-otchet_vbudushee_ru/materials/03_VVB_Voronezh_formirovanie-i-razvitie-kultury-1.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\lp-otchet_vbudushee_ru\materials\03_VVB_Voronezh_formirovanie-i-razvitie-kultury.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/lp-otchet_vbudushee_ru/materials/04_VVB_Voronezh_lichnostnoe-i-professionalnoe-razvitie-pedagogov-1.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\lp-otchet_vbudushee_ru\materials\04_VVB_Voronezh_lichnostnoe-i-professionalnoe-razvitie-pedagogov.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/lp-otchet_vbudushee_ru/materials/05_VVB_Voronezh_izmeneniya-v-soderzhanii-i-organizacii-obrazovatelnoi-deyatelnosti-1.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\lp-otchet_vbudushee_ru\materials\05_VVB_Voronezh_izmeneniya-v-soderzhanii-i-organizacii-obrazovatelnoi-deyatelnosti.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/lp-otchet_vbudushee_ru/materials/06_VVB_Voronezh_preobrazovanie-prostranstvenno-predmetnoi-sredy-1.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\lp-otchet_vbudushee_ru\materials\06_VVB_Voronezh_preobrazovanie-prostranstvenno-predmetnoi-sredy.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/catalog_vbudushee_ru/materials/RLP_posobie_motiv_shkolnik.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\rost_vbudushee_ru\materials\Гордеева_Т_О_Мотивация_школьников.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/catalog_vbudushee_ru/materials/Posobie_Konceptualie_ocnovi_programi-RLP.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\vbudushee_ru\materials\Posobie_Konceptualie_ocnovi_programi-RLP.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/vbudushee_ru/materials/b04i4fwud2lh44k92glox482o9v8yr2l.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\vbudushee_ru\materials\PUBLIC_CONTRACT_OFFER.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/vbudushee_ru/materials/Sbornik-praktik-2022.pdf</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\vbudushee_ru\materials\Sbornik-praktik_2022_final_2023.pdf</li>
+                    </ul>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>scraped_site/vbudushee_ru/materials/Soprpvpd-pismo-otbor.docx</td>
+                <td class="center">1</td>
+                <td>
+                    <ul class="summary-list">
+                        <li>scraped_site\vbudushee_ru\materials\Soprpvpd-pismo-vpervie.docx</li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
             </table>
         </section>
         <section>
             <h2>Ошибки обработки (Top-10)</h2>
             <table>
                 <thead><tr><th>Путь</th><th>Сообщение</th></tr></thead>
-                <tbody><tr><td colspan='2'>Ошибок обработки не зафиксировано.</td></tr></tbody>
+                <tbody><tr><td>scraped_site\catalog_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\digitaltest_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\edutainment_vbudushee_ru\materials\1pS0D0eum1yHCsTSJ0veA1qnWvydq7vvY.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\eigame_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\consent.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\politics.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\parents_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\ready_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\rost_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr></tbody>
             </table>
         </section>
         <section>
             <h2>Итоги</h2>
             <ul class="summary-list">
-                <li>Обработано 1 документов, уникальных текстов — 1.</li><li>База данных недоступна: связывание текстов с file_metadata и scanned_pages не выполнялось.</li><li>Доля дубликатов — 0.00%.</li><li>Ссылки на очищенные тексты есть у 0.00% документов; 0.00% из них связаны с БД.</li><li>Не удалось связать 100.00% сохранённых текстов с БД.</li><li>Ошибками завершилось 0.00% обработок.</li><li>Доминирующий язык — ru, доля 100.0%.</li>
+                <li>Обработано 973 документов, уникальных текстов — 907.</li><li>Доля дубликатов — 1.34%; крупнейшая группа насчитывает 2 файлов..</li><li>Ссылки на очищенные тексты есть у 100.00% документов; 100.00% из них связаны с БД.</li><li>Ошибками завершилось 5.45% обработок.</li><li>Доминирующий язык — ru, доля 90.3%.</li>
             </ul>
         </section>
     </main>
