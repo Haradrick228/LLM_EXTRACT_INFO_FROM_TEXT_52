@@ -29,6 +29,11 @@
         details summary { cursor: pointer; color: #3c7adf; margin-top: 12px; }
         .term-list { columns: 2; margin: 12px 0 0; padding-left: 20px; }
         footer { text-align: center; padding: 16px; font-size: 12px; color: #666; }
+        .tabs { display: flex; gap: 12px; margin: 16px 0 20px; flex-wrap: wrap; }
+        .tab-btn { border: 1px solid #d5d9e5; background: #f7f8fc; color: #23395d; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: #23395d; color: #fff; border-color: #23395d; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
         @media (max-width: 720px) {
             main { padding: 16px; }
             section { padding: 18px; }
@@ -42,7 +47,13 @@
         <p>Отчёт сгенерирован: 2025-11-02T20:59:32Z</p>
     </header>
     <main>
-        <section>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="eda">EDA</button>
+            <button class="tab-btn" data-tab="rag">RAG</button>
+        </div>
+        <div class="tab-panel active" id="tab-eda">
+<section>
             <h2>Ключевые цифры</h2>
             <div class="cards">
                 
@@ -88,7 +99,7 @@
             
             </div>
         </section>
-        <section>
+<section>
             <h2>Показатели качества загрузки</h2>
             <p>Метрики характеризуют поток обработки, покрытие базы и актуальность связей с данными.</p>
             <table>
@@ -196,7 +207,7 @@
                 </tbody>
             </table>
         </section>
-        <section>
+<section>
             <h2>Языки корпуса</h2>
             <p>Распределение по языкам помогает определить объём многоязычных материалов.</p>
             <table>
@@ -334,7 +345,7 @@
                 </tbody>
             </table>
         </section>
-        <section>
+<section>
             <h2>Лексический состав</h2>
             <div class="cards">
                 <div class="card">
@@ -353,12 +364,11 @@
                 </div>
             </div>
         </section>
-        <section>
+<section>
             <h2>Целевые термины</h2>
             <p>Целевые термины не заданы.</p>
         </section>
-        
-            <section>
+<section>
                 <h2>Сводка классификаций</h2>
                 <div class="cards">
                 <div class="card">
@@ -394,8 +404,7 @@
                 </div>
                 </div>
             </section>
-            
-        <section>
+<section>
             <h2>Группы дубликатов</h2>
             <p>Отражает потенциальные повторы документов и позволяет очистить корпус.</p>
             <table>
@@ -503,20 +512,138 @@
             </tbody>
             </table>
         </section>
-        <section>
+<section>
             <h2>Ошибки обработки (Top-10)</h2>
             <table>
                 <thead><tr><th>Путь</th><th>Сообщение</th></tr></thead>
                 <tbody><tr><td>scraped_site\catalog_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\digitaltest_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\edutainment_vbudushee_ru\materials\1pS0D0eum1yHCsTSJ0veA1qnWvydq7vvY.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\eigame_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\consent.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\politics.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\mychoice_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\parents_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\ready_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr><tr><td>scraped_site\rost_vbudushee_ru\materials\terms.pdf</td><td>empty_after_clean</td></tr></tbody>
             </table>
         </section>
-        <section>
+<section>
             <h2>Итоги</h2>
             <ul class="summary-list">
                 <li>Обработано 973 документов, уникальных текстов — 907.</li><li>Доля дубликатов — 1.34%; крупнейшая группа насчитывает 2 файлов..</li><li>Ссылки на очищенные тексты есть у 100.00% документов; 100.00% из них связаны с БД.</li><li>Ошибками завершилось 5.45% обработок.</li><li>Доминирующий язык — ru, доля 90.3%.</li>
             </ul>
         </section>
-    </main>
+        </div>
+        <div class="tab-panel" id="tab-rag">
+        <section>
+            <h2>RAG: метрики этапа 2</h2>
+            <p>Сравнение конфигураций векторного RAG (Chroma) и реранкеров; все значения на одном и том же eval (101 вопросов, если не указано иное).</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Конфигурация</th>
+                        <th>recall@5</th>
+                        <th>recall@10</th>
+                        <th>MRR</th>
+                        <th>nDCG@3</th>
+                        <th>fetch_k / top_k</th>
+                        <th>Источник</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>`default_clean`, bi-rerank `all-MiniLM-L6-v2`</td>
+                        <td>0.0198</td>
+                        <td>0.0198</td>
+                        <td>0.0198</td>
+                        <td>0.0237</td>
+                        <td>40 / 8</td>
+                        <td>`eval/rerank_results.md`</td>
+                    </tr>
+                    <tr>
+                        <td>`default_clean`, базовый embed rerank (paraphrase-multilingual)</td>
+                        <td>0.0099</td>
+                        <td>0.0198</td>
+                        <td>0.0142</td>
+                        <td>0.0088</td>
+                        <td>50 / 5-10</td>
+                        <td>`eval/rerank_results.md`</td>
+                    </tr>
+                    <tr>
+                        <td>`default_clean`, cross-encoder `ms-marco-MiniLM-L-6-v2`</td>
+                        <td>0.0050</td>
+                        <td>0.0050</td>
+                        <td>0.0106</td>
+                        <td>0.0099</td>
+                        <td>40 / 8</td>
+                        <td>`eval/rerank_results.md`</td>
+                    </tr>
+                    <tr>
+                        <td>`default_clean`, cross-encoder `ms-marco-electra-base`</td>
+                        <td>0.0000</td>
+                        <td>0.0050</td>
+                        <td>0.0022</td>
+                        <td>0.0000</td>
+                        <td>20 / 8</td>
+                        <td>`eval/rerank_results.md`</td>
+                    </tr>
+                    <tr>
+                        <td>`default_allminilm`, bi-rerank `all-MiniLM-L6-v2`</td>
+                        <td>0.0050</td>
+                        <td>0.0050</td>
+                        <td>0.0099</td>
+                        <td>0.0121</td>
+                        <td>50 / 5-10</td>
+                        <td>`eval/rerank_results.md`</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ответы (LLM)</th>
+                        <th>avg_refs_sim</th>
+                        <th>avg_ref_sim</th>
+                        <th>Запросов</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DeepSeek API (контекст: `default_clean` + `all-MiniLM-L6-v2`)</td>
+                        <td>0.5998</td>
+                        <td>0.0886</td>
+                        <td class="center">101</td>
+                        <td>Основной прогон.</td>
+                    </tr>
+                    <tr>
+                        <td>Ollama `qwen2.5:7b-instruct` (20 вопросов из eval)</td>
+                        <td>0.5454</td>
+                        <td>0.0982</td>
+                        <td class="center">20</td>
+                        <td>Локальный прогон; медленнее, качество не выше.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul class="summary-list">
+                <li>Все варианты — векторный RAG на Chroma; лучшие метрики у `default_clean` + би-реранкер `all-MiniLM-L6-v2`.</li>
+                <li>Коллекция `default_allminilm` показала меньший recall — не используем.</li>
+                <li>Для дальнейших тестов — попробуйте другие би-реранкеры/эмбеддеры на том же eval, без переиндексации контента.</li>
+            </ul>
+        </section>
+<section>
+            <h2>RAG артефакты</h2>
+            <ul class="summary-list">
+                <li>Датасеты: `eval/eval_set_with_answer_ref.jsonl` (101), `eval/eval_set_with_answer_ref_sample20.jsonl` (20), `eval/answer_eval_results*.jsonl` (DeepSeek/Оllama).</li>
+                <li>Сравнения реранкеров и поиск: `eval/rerank_results.md`.</li>
+                <li>Сводка ответов и метрик: `eval/ANSWER_EVAL_SUMMARY.md`.</li>
+            </ul>
+        </section>
+        </div>
+</main>
     <footer>Файл создан автоматически анализатором analysis/eda.</footer>
+    <script>
+        const tabs = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.tab;
+                tabs.forEach(b => b.classList.toggle('active', b === btn));
+                panels.forEach(p => p.classList.toggle('active', p.id === `tab-${target}`));
+            });
+        });
+    </script>
 </body>
 </html>

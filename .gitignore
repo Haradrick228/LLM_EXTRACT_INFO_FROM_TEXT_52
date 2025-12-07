@@ -1,0 +1,19 @@
+# Local environment and IDE
+.env
+.env.*
+origin.env
+.idea/
+__pycache__/
+*.pyc
+
+# Virtual envs
+venv/
+
+# Large/raw data (не коммитим исходные материалы и выгрузки)
+processed_eda_data/
+scraped_site/
+dumped/
+exports/
+
+# Misc
+*.log
