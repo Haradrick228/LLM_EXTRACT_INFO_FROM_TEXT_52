@@ -40,18 +40,22 @@ processed_urls        = set()
 _downloaded_materials = []
 
 def is_internal(base_url: str, target_url: str) -> bool:
+    """Проверяет, принадлежит ли ссылка тому же домену."""
     return urlparse(target_url).netloc.endswith(urlparse(base_url).netloc)
 
 
 def normalize_url(base: str, link: str) -> str:
+    """Нормализует относительную ссылку в абсолютную без якоря."""
     return urljoin(base, link.split('#')[0])
 
 
 def sanitize_filename(text: str) -> str:
+    """Очищает строку для безопасного имени файла."""
     return re.sub(r"[^\w\-.]", "_", text, flags=re.UNICODE)[:150]
 
 
 def extract_drive_id(url: str) -> str | None:
+    """Извлекает ID файла Google Drive из URL."""
     p  = urlparse(url)
     qs = parse_qs(p.query)
     if "id" in qs and qs["id"]:
@@ -61,11 +65,13 @@ def extract_drive_id(url: str) -> str | None:
 
 
 def _get_drive_confirm_token(html: str) -> str | None:
+    """Достаёт confirm-токен из HTML Google Drive."""
     m = re.search(r"confirm=([0-9A-Za-z_]+)&", html)
     return m.group(1) if m else None
 
 
 def process_page(resource_id: int, page_url: str, file_path: str, page_title: str, headings: List[str]):
+    """Сохраняет текст страницы и возвращает id записи скана."""
     db = DBService()
     full_text = extract_text_from_file(file_path)
 
@@ -80,6 +86,7 @@ def process_page(resource_id: int, page_url: str, file_path: str, page_title: st
     return scanned_page_id
 
 def download_file(resource_id: int, url: str, output_folder: str, origin_url: str):
+    """Скачивает файл, сохраняет метаданные и избегает дублей."""
     parsed = urlparse(url)
     dom    = parsed.netloc.lower()
     if "drive.google.com" in dom:
@@ -163,6 +170,7 @@ async def collect_all_pages(
         output_folder: str,
         max_pages: int = 100
 ) -> list[tuple[str, str, str]]:
+    """Обходит сайт, собирает HTML страниц и запускает загрузку материалов."""
     visited = set()
     queue = [base_url]
     pages = []
@@ -253,6 +261,7 @@ async def collect_all_pages(
 
 
 async def save_site_as_pdf(base_url: str, output_root: str = "scraped_site") -> list[str]:
+    """Сохраняет страницы домена в PDF и индексирует новые файлы."""
     resource_id  = db.get_or_create_resource(base_url)
     domain       = urlparse(base_url).netloc.replace(".", "_")
     root         = os.path.join(output_root, domain)

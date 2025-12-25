@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  chroma-init:
+    image: busybox
+    restart: "no"
+    volumes:
+      - chroma_data:/data
+      - ../dumped/chroma_backup:/backup:ro
+    command: >
+      sh -c "
+        if [ -f /backup/chroma_data.tgz ]; then
+          echo '👉 Распаковываю Chroma backup…';
+          tar xzf /backup/chroma_data.tgz -C /data;
+          echo '👉 Устанавливаю владельца и права…';
+          chown -R 1000:1000 /data;
+          chmod -R a+rwX /data;
+          echo '✅ Данные распакованы и права исправлены';
+        else
+          echo '⚠️ /backup/chroma_data.tgz не найден, пропускаю';
+        fi
+      "
+    networks:
+      - backend
+
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       fond_materials_db
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: 291003
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../dumped/dump.sql:/docker-entrypoint-initdb.d/dump.sql:ro
+    networks:
+      - backend
+
+  chroma:
+    image: ghcr.io/chroma-core/chroma:1.0.4
+    restart: unless-stopped
+    environment:
+      CHROMA_DB_IMPL:           duckdb+parquet
+      CHROMA_PERSIST_DIRECTORY: /data
+      CHROMA_API:               "2"
+    ports:
+      - "18000:8000"
+    volumes:
+      - chroma_data:/data
+    depends_on:
+      - chroma-init
+    networks:
+      - backend
+
+  app:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile
+    env_file:
+      - ../.env
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: 5433
+      CHROMA_HOST:   localhost
+      CHROMA_PORT:   8000
+      API_HOST: 0.0.0.0
+      API_PORT: 8001
+    network_mode: host
+    dns:
+      - 192.168.65.7
+      - 8.8.8.8
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgres
+      - chroma
+    command: python -m bots.telegram.app
+    volumes:
+      - ../chroma_persist:/app/chroma_persist
+
+volumes:
+  postgres_data:
+  chroma_data:
+
+networks:
+  backend:
+    driver: bridge
+
+
+

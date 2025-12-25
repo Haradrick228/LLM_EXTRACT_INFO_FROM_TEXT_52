@@ -9,15 +9,18 @@ from scraper.website_scraper import save_site_as_pdf
 settings = Settings()
 
 def normalize_site_url(url: str) -> str:
+    """Нормализует URL сайта до единого вида без завершающего слэша."""
     parsed = urlparse(url.strip().lower())
     normalized = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
     return normalized.rstrip("/")
 
 def get_file_hash(path):
+    """Возвращает SHA-256 хеш файла."""
     with open(path, "rb") as f:
         return hashlib.sha256(f.read()).hexdigest()
 
 def find_all_documents(base_dirs, extensions):
+    """Собирает пути ко всем документам с указанными расширениями."""
     result = []
     for base in base_dirs:
         for root, _, files in os.walk(base):
@@ -27,6 +30,7 @@ def find_all_documents(base_dirs, extensions):
     return result
 
 async def main():
+    """Запускает скрапинг сайтов и индексацию документов в RAG."""
     rag = None
     try:
         rag = RagService(
