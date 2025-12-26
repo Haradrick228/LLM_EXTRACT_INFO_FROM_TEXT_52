@@ -29,6 +29,9 @@ log = logging.getLogger("RAG")
 
 _load_env_once()
 
+# По умолчанию отключаем кэш ответов, чтобы не ловить устаревшие заглушки.
+os.environ.setdefault("LLM_CACHE_ENABLED", "0")
+
 from chromadb import HttpClient
 from chromadb.config import Settings
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
@@ -761,7 +764,25 @@ class RagService:
             return docs[:top_k]
 
     def answer_question(self, question: str, model_override: Optional[str] = None) -> str:
-        return self.answer(question, model_override)
+        def _contains_cjk(text: str) -> bool:
+            return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+        retries = 3
+        last = ""
+        q = question
+        while retries > 0:
+            try:
+                last = self.answer(q, model_override)
+                if not _contains_cjk(last):
+                    return last
+                retries -= 1
+                log.info("Повтор генерации из-за CJK в ответе, осталось попыток: %s", retries)
+                q = f"{question} Ответь на русском языке, без китайских символов."
+            except Exception as e:
+                retries -= 1
+                log.warning("Повтор генерации из-за ошибки LLM (%s), осталось попыток: %s", e, retries)
+                last = "?? Внутренняя ошибка при генерации ответа. Попробуйте ещё раз."
+        return last
 
 
 if __name__ == "__main__":

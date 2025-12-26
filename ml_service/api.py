@@ -1,18 +1,42 @@
-import base64
+﻿import base64
 import io
 import os
 import time
-import re
 from typing import Any, Dict, Optional
 
 import jwt
-from fastapi import Depends, FastAPI, File, Header, HTTPException, UploadFile, status, Request
+from fastapi import FastAPI, File, Header, HTTPException, UploadFile, status, Request
 from PIL import Image
-from pydantic import BaseModel
 
-from core.db.session import session_scope
-from core.db.repositories.request_log import RequestLogRepository
+try:
+    from core.db.session import session_scope
+    from core.db.repositories.request_log import RequestLogRepository
+except Exception:
+    from contextlib import contextmanager
+
+    @contextmanager
+    def session_scope():
+        yield None
+
+    class RequestLogRepository:  
+        def __init__(self, session=None):
+            pass
+
+        def add(self, **kwargs):
+            return None
+
+        def list(self, limit: int = 200):
+            return []
+
+        def clear_all(self):
+            return 0
+
+        def stats(self):
+            return {}
+
 from core.rag.rag_service import RagService
+from core.db import models
+from core.db.session import engine
 
 JWT_SECRET = os.getenv("JWT_SECRET", "devsecret")
 JWT_ALGO = os.getenv("JWT_ALGO", "HS256")
@@ -21,6 +45,10 @@ ADMIN_ROLE = "admin"
 
 def create_app() -> FastAPI:
     app = FastAPI(title="ML Service", version="1.0.0")
+    try:
+        models.Base.metadata.create_all(bind=engine)
+    except Exception:
+        pass
     rag = RagService()
 
     def verify_admin(authorization: Optional[str] = Header(default=None)) -> None:
@@ -42,17 +70,14 @@ def create_app() -> FastAPI:
     ):
         start = time.perf_counter()
         input_type = "text"
-        model_used = None
+        model_used: Optional[str] = None
         status_tag = "ok"
-        error = None
-        text_len = None
-        token_count = None
-        image_w = None
-        image_h = None
+        error: Optional[str] = None
+        text_len: Optional[int] = None
+        token_count: Optional[int] = None
+        image_w: Optional[int] = None
+        image_h: Optional[int] = None
         resp_preview: Optional[str] = None
-
-        def contains_cjk(s: str) -> bool:
-            return bool(re.search(r"[\u4e00-\u9fff]", s))
 
         def log_and_raise(code: int, message: str):
             nonlocal status_tag, error
@@ -86,7 +111,6 @@ def create_app() -> FastAPI:
                     image_w, image_h = pil_img.size
                 except Exception:
                     log_and_raise(status.HTTP_403_FORBIDDEN, "модель не смогла обработать данные")
-                # возвращаем то же изображение в base64
                 buffer = io.BytesIO()
                 pil_img.save(buffer, format="PNG")
                 b64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
@@ -105,7 +129,6 @@ def create_app() -> FastAPI:
                 )
                 return {"image_base64": b64}
 
-            # текстовый запрос (поддержка JSON и form-data без файла)
             data: Dict[str, Any] = {}
             try:
                 content_type = request.headers.get("content-type", "")
@@ -124,12 +147,7 @@ def create_app() -> FastAPI:
             token_count = len(text.split())
             model_used = data.get("model") or os.getenv("DEFAULT_MODEL", "deepseek")
             try:
-                answer = rag.answer(text)
-                # если ответ содержит CJK, пробуем еще пару раз
-                retries = 2
-                while retries > 0 and contains_cjk(answer):
-                    answer = rag.answer(text)
-                    retries -= 1
+                answer = rag.answer_question(text, model_used)
             except Exception:
                 log_and_raise(status.HTTP_403_FORBIDDEN, "модель не смогла обработать данные")
             resp_preview = answer[:200]
