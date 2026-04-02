@@ -1,0 +1,21 @@
+В powershell dump
+
+
+docker exec postgres_fond_materials_db sh -c "\
+  export PGCLIENTENCODING=UTF8 && \
+  pg_dump -U postgres fond_materials_db \
+    --no-owner --no-acl --encoding=UTF8 \
+  > /tmp/dump.sql\
+"
+
+или
+
+docker exec infra-postgres-1 sh -c "export PGCLIENTENCODING=UTF8 && `
+  pg_dump -U postgres fond_materials_db > /tmp/dump.sql"
+
+
+
+docker cp infra-postgres-1:/tmp/dump.sql "D:\GITLAB\ai-chatbot\dumped\dump.sql"
+
+
+

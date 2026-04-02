@@ -19,10 +19,14 @@ RUN apt-get update && \
 COPY requirements.txt .
 RUN sed -E 's/ --hash=[^ ]+//g' requirements.txt > requirements_nohash.txt && \
     pip install --no-cache-dir -r requirements_nohash.txt && \
+    pip install --no-cache-dir einops && \
+    pip uninstall -y torch torchvision && \
+    pip install --no-cache-dir torch==2.7.0 torchvision --index-url https://download.pytorch.org/whl/cu128 && \
     rm requirements_nohash.txt
 
-RUN pip install --no-cache-dir playwright && \
-    playwright install --with-deps
+# Install Playwright (без браузеров — только если нужно для скрапинга)
+# RUN pip install --no-cache-dir playwright && \
+#     playwright install --with-deps
 
 
 COPY . .

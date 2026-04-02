@@ -50,7 +50,8 @@
 
         <div class="tabs">
             <button class="tab-btn active" data-tab="eda">EDA</button>
-            <button class="tab-btn" data-tab="rag">RAG</button>
+            <button class="tab-btn" data-tab="rag">RAG (старые метрики)</button>
+            <button class="tab-btn" data-tab="rag-opt">🚀 RAG Оптимизация</button>
         </div>
         <div class="tab-panel active" id="tab-eda">
 <section>
@@ -650,6 +651,210 @@
                 <li>Метрики поиска: `eval/rerank_results.md`.</li>
                 <li>Метрики ответов/выводы: `eval/ANSWER_EVAL_SUMMARY.md`.</li>
             </ul>
+        </section>
+
+        </div>
+
+        <!-- Новая вкладка: RAG Оптимизация (Этап 2) -->
+        <div class="tab-panel" id="tab-rag-opt">
+        <section>
+            <h2>Оптимизация метрик RAG (Этап 2, 2026-04-02)</h2>
+
+            <div style="background: #e7f3ff; border-left: 4px solid #2196F3; padding: 16px; margin: 16px 0; border-radius: 0 8px 8px 0;">
+                <strong>📋 Контекст:</strong><br>
+                Исходные метрики RAG-системы были крайне низкими (recall@10 ≈ 0.02).
+                Проведена комплексная оптимизация: тестирование 3 эмбеддеров и стратегий чанкования.
+            </div>
+
+            <h3>История оптимизации</h3>
+            <table style="margin-bottom: 20px;">
+                <thead>
+                    <tr>
+                        <th>Этап</th>
+                        <th>Что меняли</th>
+                        <th>Результат</th>
+                        <th>Вывод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Baseline</strong></td>
+                        <td>mpnet + чанки 650/250</td>
+                        <td>recall@10 = 0.02</td>
+                        <td>Исходная точка</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Замена эмбеддера</strong></td>
+                        <td>FRIDA + чанки 650/250</td>
+                        <td>recall@10 = 0.06 (+200%)</td>
+                        <td>Лучше, но недостаточно</td>
+                    </tr>
+                    <tr style="background: #e8f4e8;">
+                        <td><strong>3. Замена эмбеддера</strong></td>
+                        <td>bge-m3 + чанки 650/250</td>
+                        <td>recall@10 = 0.64 (+3150%)</td>
+                        <td>Лучший эмбеддер</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Доп. чанкование</strong></td>
+                        <td>1000/200</td>
+                        <td>recall@10 = 0.44 (−32%)</td>
+                        <td>Ухудшает метрики</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Доп. чанкование</strong></td>
+                        <td>400/100</td>
+                        <td>recall@10 = 0.38 (−41%)</td>
+                        <td>Ухудшает метрики</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. Доп. чанкование</strong></td>
+                        <td>800/150</td>
+                        <td>recall@10 = 0.40 (−38%)</td>
+                        <td>Ухудшает метрики</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Сравнение эмбеддеров (на чанках 650/250)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Эмбеддер</th>
+                        <th>recall@5</th>
+                        <th>recall@10</th>
+                        <th>precision@5</th>
+                        <th>MRR</th>
+                        <th>NDCG@3</th>
+                        <th>Улучшение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #e8f4e8;">
+                        <td><strong>BAAI/bge-m3</strong></td>
+                        <td><strong>0.5941</strong></td>
+                        <td><strong>0.6436</strong></td>
+                        <td><strong>0.1802</strong></td>
+                        <td><strong>0.4734</strong></td>
+                        <td><strong>0.5507</strong></td>
+                        <td style="color: #27ae60; font-weight: bold;">+3150%</td>
+                    </tr>
+                    <tr>
+                        <td>ai-forever/FRIDA</td>
+                        <td>0.0644</td>
+                        <td>0.0644</td>
+                        <td>0.0277</td>
+                        <td>0.0436</td>
+                        <td>0.0401</td>
+                        <td style="color: #27ae60;">+225%</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                        <td>baseline (mpnet)</td>
+                        <td>0.0099</td>
+                        <td>0.0198</td>
+                        <td>0.0059</td>
+                        <td>0.0142</td>
+                        <td>0.0091</td>
+                        <td style="color: #7f8c8d;">—</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Сравнение дополнительного чанкования (bge-m3)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Конфигурация</th>
+                        <th>recall@5</th>
+                        <th>recall@10</th>
+                        <th>precision@5</th>
+                        <th>MRR</th>
+                        <th>NDCG@3</th>
+                        <th>Δ vs базовые</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #e8f4e8;">
+                        <td><strong>Без доп. чанкования (650/250)</strong></td>
+                        <td><strong>0.5941</strong></td>
+                        <td><strong>0.6436</strong></td>
+                        <td><strong>0.1802</strong></td>
+                        <td><strong>0.4734</strong></td>
+                        <td><strong>0.5507</strong></td>
+                        <td style="color: #7f8c8d;">—</td>
+                    </tr>
+                    <tr>
+                        <td>Доп. 1000/200</td>
+                        <td>0.3515</td>
+                        <td>0.4356</td>
+                        <td>0.1525</td>
+                        <td>0.2940</td>
+                        <td>0.4000</td>
+                        <td style="color: #e74c3c;">−32%</td>
+                    </tr>
+                    <tr>
+                        <td>Доп. 800/150</td>
+                        <td>0.3218</td>
+                        <td>0.3960</td>
+                        <td>0.1366</td>
+                        <td>0.0581</td>
+                        <td>0.0487</td>
+                        <td style="color: #e74c3c;">−38%</td>
+                    </tr>
+                    <tr>
+                        <td>Доп. 400/100</td>
+                        <td>0.2970</td>
+                        <td>0.3812</td>
+                        <td>0.1267</td>
+                        <td>0.0506</td>
+                        <td>0.0476</td>
+                        <td style="color: #e74c3c;">−41%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 24px;">Ключевые выводы</h3>
+            <ul class="summary-list">
+                <li style="font-size: 15px;">
+                    <strong>bge-m3 — лучший эмбеддер:</strong> recall@10 = 0.64 (+899% vs FRIDA, +3150% vs baseline).
+                    Модель мультиязычная (100+ языков), поддерживает контекст 8192 токена, работает на GPU (RTX 5080).
+                </li>
+                <li style="font-size: 15px; margin-top: 10px;">
+                    <strong>Базовое чанкование 650/250 уже оптимально:</strong> Все конфигурации <em>дополнительного</em> чанкования
+                    показали результат хуже (−32% recall@10 для лучшего доп. чанкования 1000/200).
+                    <br><em>Вывод:</em> не нужно менять стратегию чанкования — достаточно заменить эмбеддер.
+                </li>
+                <li style="font-size: 15px; margin-top: 10px;">
+                    <strong>FRIDA на доп. чанках не тестировалась:</strong> Требуется полная переиндексация (~40 мин на конфигурацию × 3 = ~2 часа).
+                    Учитывая что bge-m3 уже значительно превосходит FRIDA на чанках 650/250 (+899%), это вряд ли изменит финальную рекомендацию.
+                </li>
+            </ul>
+
+            <h3 style="margin-top: 24px; color: #23395d;">Итоги. Победитель</h3>
+            <div style="background: #e8f4e8; border-left: 4px solid #27ae60; padding: 16px; margin-top: 12px; border-radius: 0 8px 8px 0;">
+                <table style="margin: 0;">
+                    <tr>
+                        <td style="font-weight: 600; width: 180px;">Эмбеддер:</td>
+                        <td><code>BAAI/bge-m3</code></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">Чанкование:</td>
+                        <td><code>RecursiveCharacterTextSplitter(chunk_size=650, chunk_overlap=250)</code><br><small>Без изменений (уже оптимально!)</small></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">Коллекция:</td>
+                        <td><code>test_bge_m3</code> (61,543 чанков)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">Ожидаемый recall@10:</td>
+                        <td><strong>0.64</strong> (+3150% vs baseline)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">Ожидаемый MRR:</td>
+                        <td><strong>0.47</strong> (+3232% vs baseline)</td>
+                    </tr>
+                </table>
+            </div>
         </section>
         </div>
 </main>

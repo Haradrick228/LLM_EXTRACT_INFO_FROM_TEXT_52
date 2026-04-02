@@ -30,12 +30,22 @@ def load_dataset(path: Path) -> List[Dict]:
 
 
 def connect_chroma(embed_model: str):
-    host = os.getenv("CHROMA_HOST", "127.0.0.1")
-    port = int(os.getenv("CHROMA_PORT", "18000"))
-    tenant = os.getenv("CHROMA_TENANT", "default_tenant")
-    database = os.getenv("CHROMA_DATABASE", "default_database")
-    col_name = os.getenv("CHROMA_COLLECTION", "default_clean")
+    # Clear env vars that conflict with HttpClient
+    for key in list(os.environ.keys()):
+        if key.startswith("CHROMA_") and key not in ("CHROMA_COLLECTION", "CHROMA_EMBED_MODEL", "ANSWER_REF_EMBED_MODEL"):
+            del os.environ[key]
+
+    host = "127.0.0.1"
+    port = 18000
+    tenant = "default_tenant"
+    database = "default_database"
+    col_name = os.getenv("CHROMA_COLLECTION", "test_frida")
     embed_fn = SentenceTransformerEmbeddingFunction(model_name=embed_model)
+
+    # Override .env settings
+    os.environ["CHROMA_SERVER_HOST"] = host
+    os.environ["CHROMA_SERVER_HTTP_PORT"] = str(port)
+
     client = HttpClient(
         host=host,
         port=port,
@@ -62,6 +72,17 @@ def main():
     fetch_k = int(os.getenv("ANSWER_EVAL_FETCH_K", os.getenv("RETRIEVER_FETCH_K", "40")))
     embed_model = os.getenv("CHROMA_EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
     ref_embed_model = os.getenv("ANSWER_REF_EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+
+    # Override .env settings for RagService and chromadb
+    for key in list(os.environ.keys()):
+        if key.startswith("CHROMA_"):
+            del os.environ[key]
+    os.environ["CHROMA_HOST"] = "127.0.0.1"
+    os.environ["CHROMA_PORT"] = "18000"
+    os.environ["CHROMA_COLLECTION"] = os.getenv("CHROMA_COLLECTION", "default")
+    os.environ["CHROMA_EMBED_MODEL"] = embed_model
+    os.environ["CHROMA_SERVER_HOST"] = "127.0.0.1"
+    os.environ["CHROMA_SERVER_HTTP_PORT"] = "18000"
 
     data = load_dataset(dataset_path)
     rag = RagService()

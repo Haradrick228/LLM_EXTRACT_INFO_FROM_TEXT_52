@@ -1,0 +1,62 @@
+{
+  "baseline": {
+    "collection": "default",
+    "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "chunking": {"chunk_size": 650, "chunk_overlap": 250},
+    "retrieval": {
+      "recall@5": 0.0099,
+      "recall@10": 0.0198,
+      "precision@5": 0.0059,
+      "precision@10": 0.0040,
+      "mrr": 0.0142,
+      "ndcg@3": 0.0091
+    },
+    "answer": {
+      "avg_ref_sim": 0.5897,
+      "avg_refs_sim": 0.5958
+    },
+    "notes": "Original production config"
+  },
+  "FRIDA": {
+    "collection": "test_frida",
+    "retrieval": {
+      "recall@5": 0.0644,
+      "recall@10": 0.0644,
+      "precision@5": 0.0277,
+      "precision@10": 0.0228,
+      "mrr": 0.0436,
+      "ndcg@3": 0.0401
+    },
+    "answer": {
+      "avg_ref_sim": 0.6194,
+      "avg_refs_sim": 0.6247
+    },
+    "notes": "T5 encoder, works on GPU"
+  },
+  "bge-m3": {
+    "collection": "test_bge_m3",
+    "retrieval": {
+      "recall@5": 0.5941,
+      "recall@10": 0.6436,
+      "precision@5": 0.1802,
+      "precision@10": 0.1050,
+      "mrr": 0.4734,
+      "ndcg@3": 0.5507
+    },
+    "answer": {
+      "avg_ref_sim": 0.6221,
+      "avg_refs_sim": 0.6271
+    },
+    "notes": "Multi-lingual, 8192 tokens, works on GPU (RTX 5080)"
+  },
+  "Giga-Embeddings-instruct": {
+    "status": "skipped",
+    "reason": "Requires CPU - model incompatible with GPU sm_120 (Blackwell)",
+    "notes": "Can be tested later with PyTorch build from source with sm_120 support"
+  },
+  "summary": {
+    "best_retrieval": "bge-m3",
+    "best_answer": "bge-m3 (slightly better)",
+    "recommendation": "Use bge-m3 as primary embedder"
+  }
+}

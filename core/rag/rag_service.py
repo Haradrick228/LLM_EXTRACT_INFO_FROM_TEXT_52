@@ -14,7 +14,15 @@ def _load_env_once() -> None:
         from dotenv import load_dotenv, find_dotenv
         path = find_dotenv(usecwd=True)
         if path:
-            load_dotenv(path, override=False)
+            # Override .env settings with localhost for local GPU eval
+            if os.getenv("CHROMA_HOST_OVERRIDE") == "1":
+                load_dotenv(path, override=True)
+                os.environ["CHROMA_HOST"] = "127.0.0.1"
+                os.environ["CHROMA_PORT"] = "18000"
+                os.environ["CHROMA_SERVER_HOST"] = "127.0.0.1"
+                os.environ["CHROMA_SERVER_HTTP_PORT"] = "18000"
+            else:
+                load_dotenv(path, override=False)
             logging.getLogger("RAG").info(f"[env] loaded .env from {path}")
     except Exception:
         pass
@@ -179,6 +187,13 @@ class _VectorFallback:
 
     def _connect(self):
         if self.cfg.mode.lower() == "rest":
+            # Clear and override env vars to prevent chromadb Settings from reading wrong values
+            for key in list(os.environ.keys()):
+                if key.startswith("CHROMA_"):
+                    del os.environ[key]
+            os.environ["CHROMA_SERVER_HOST"] = self.cfg.host
+            os.environ["CHROMA_SERVER_HTTP_PORT"] = str(self.cfg.port)
+
             return HttpClient(
                 host=self.cfg.host,
                 port=self.cfg.port,

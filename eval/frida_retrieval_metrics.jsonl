@@ -1,0 +1,6 @@
+recall@5: 0.0644
+recall@10: 0.0644
+precision@5: 0.0277
+precision@10: 0.0228
+mrr: 0.0436
+ndcg@3: 0.0401

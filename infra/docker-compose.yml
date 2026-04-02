@@ -31,7 +31,7 @@ services:
       POSTGRES_USER:     postgres
       POSTGRES_PASSWORD: 291003
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ../dumped/dump.sql:/docker-entrypoint-initdb.d/dump.sql:ro
@@ -61,16 +61,13 @@ services:
     env_file:
       - ../.env
     environment:
-      POSTGRES_HOST: localhost
-      POSTGRES_PORT: 5433
-      CHROMA_HOST:   localhost
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      CHROMA_HOST:   chroma
       CHROMA_PORT:   8000
       API_HOST: 0.0.0.0
       API_PORT: 8001
-    network_mode: host
-    dns:
-      - 192.168.65.7
-      - 8.8.8.8
+      PYTHONPATH: /app
     ports:
       - "8001:8001"
     depends_on:
@@ -79,6 +76,17 @@ services:
     command: python -m bots.telegram.app
     volumes:
       - ../chroma_persist:/app/chroma_persist
+      - D:/GITLAB/ai-chatbot/scraped_site:/app/scraped_site:ro
+      - chroma_data:/data
+    networks:
+      - backend
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
 volumes:
   postgres_data:

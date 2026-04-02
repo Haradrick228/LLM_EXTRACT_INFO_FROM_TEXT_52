@@ -17,12 +17,22 @@ except Exception:
 
 
 def connect_client(embed_model: str):
-    host = os.getenv("CHROMA_HOST", "127.0.0.1")
-    port = int(os.getenv("CHROMA_PORT", "18000"))
-    tenant = os.getenv("CHROMA_TENANT", "default_tenant")
-    database = os.getenv("CHROMA_DATABASE", "default_database")
+    # Clear env vars that conflict with HttpClient
+    for key in list(os.environ.keys()):
+        if key.startswith("CHROMA_") and key not in ("CHROMA_COLLECTION", "CHROMA_EMBED_MODEL"):
+            del os.environ[key]
+
+    host = "127.0.0.1"
+    port = 18000
+    tenant = "default_tenant"
+    database = "default_database"
     embed_fn = SentenceTransformerEmbeddingFunction(model_name=embed_model)
     col_name = os.getenv("CHROMA_COLLECTION", "default")
+
+    # Override .env settings
+    os.environ["CHROMA_SERVER_HOST"] = host
+    os.environ["CHROMA_SERVER_HTTP_PORT"] = str(port)
+
     client = HttpClient(
         host=host,
         port=port,

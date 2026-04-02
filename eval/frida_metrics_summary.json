@@ -1,0 +1,1 @@
+{"embed_model": "ai-forever/FRIDA", "collection": "test_frida", "retrieval": {"recall@5": 0.0644, "recall@10": 0.0644, "precision@5": 0.0277, "precision@10": 0.0228, "mrr": 0.0436, "ndcg@3": 0.0401}, "answer": {"avg_ref_sim": 0.6194, "avg_refs_sim": 0.6247}}

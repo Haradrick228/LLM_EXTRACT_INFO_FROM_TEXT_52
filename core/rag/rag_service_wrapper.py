@@ -34,6 +34,7 @@ class RagServiceWrapper:
         return text
 
     def answer(self, question: str, model: str = None):
+        # Use model from parameter, or default to None (let RagService use its default)
         draft_answer = self.rag.answer(question, model=model)
         files = []
 

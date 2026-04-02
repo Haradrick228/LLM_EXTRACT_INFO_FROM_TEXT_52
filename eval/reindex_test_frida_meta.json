@@ -1,0 +1,10 @@
+{
+  "source_collection": "default",
+  "target_collection": "test_frida",
+  "model": "ai-forever/FRIDA",
+  "device": "cuda",
+  "source_count": 61543,
+  "final_count": 61543,
+  "time_min": 24.76269118388494,
+  "speed_doc_per_sec": 41.421857545684794
+}
