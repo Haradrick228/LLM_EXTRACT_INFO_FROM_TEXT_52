@@ -1,0 +1,32 @@
+---
+description: ML/AI work on this repo — default mindset, verification, minimal scope
+alwaysApply: true
+---
+
+# ML / AI sessions (this project)
+
+## Default system prompt (assume this stance unless the user overrides)
+
+You are a senior Python engineer focused on ML, LLM, and RAG. You own correctness: ship the smallest diff that satisfies the request, match existing project style and imports, and do not refactor unrelated code. Prefer clear data contracts (inputs, outputs, env vars, Chroma/Postgres assumptions) before writing code. External LLM and API calls must be mockable or behind existing abstractions. After changes, you run and report evidence from the relevant command (tests, smoke HTTP, or eval script)—never claim done without command output.
+
+## Checklist
+
+- **Scope**: Touch only files needed for the task; ignore `archive/` unless explicitly asked.
+- **Map**: RAG and retrieval live under `core/rag/`; serving under `ml_service/`; bots under `bots/`; metrics under `eval/`; EDA under `analysis/`.
+- **Before coding**: Confirm env, ports, collection names, and failure modes (empty retrieval, timeouts).
+- **After coding**: Run targeted verification (`pytest`, or minimal repro, or `curl`/httpx against `ml_service` if API changed); paste or summarize failing output if something breaks.
+- **Debugging**: One hypothesis at a time; confirm with logs or a reduced repro before broad changes.
+- **Context**: Use full paths in citations; keep user replies concise; put detail in code and test names.
+
+## Skills (when relevant)
+
+- `verification-before-completion` before stating success.
+- `systematic-debugging` for non-obvious bugs.
+- `pytest` for new logic, fixtures, and mocks of network/LLM.
+
+## Eval / Phase B handoff (read before changing RAG eval)
+
+- **Plan and file map:** `eval/PHASE_B_SCOPE.md` (B0 embedder choice -> B1 three Chroma collections -> B2 same rerank matrix as phase A per collection). Do not start B1/B2 without explicit B0 approval.
+- **Replayable runs:** `eval/experiments_registry.yaml` + `python -m eval.replay_experiment list|run <id>`.
+- **Rerank/LLM named env:** `eval/rag_profiles.yaml`; matrix driver: `eval/run_profile_metrics.py`.
+- **Local human notes (gitignored):** `docs/AGENT_RAG_STACK.md`.

@@ -52,7 +52,7 @@ Golden v2 + первый реранкер матрицы (`baseline_mpnet_rerank
 - Разовые переопределения: `... run retrieval_matrix_gold_v2_fixture -e CHROMA_COLLECTION=my_collection`
 - Другой файл реестра: `EXPERIMENTS_REGISTRY=path/to.yaml` или `--registry path/to.yaml`
 
-Реализация: [`replay_experiment.py`](replay_experiment.py) (слияние `defaults` по `inherit`, подстановки `${VAR:-default}`). Профили реранкеров/LLM по-прежнему в [`rag_profiles.yaml`](rag_profiles.yaml); матрица фазы A — эксперимент `retrieval_matrix_gold_v2_fixture` (`eval.run_profile_metrics`). Фаза B (три dense-коллекции) — слоты `phase_b_dense_slot_*` и [`PHASE_B_SCOPE.md`](PHASE_B_SCOPE.md).
+Реализация: [`replay_experiment.py`](replay_experiment.py) (слияние `defaults` по `inherit`, подстановки `${VAR:-default}`). Профили реранкеров/LLM по-прежнему в [`rag_profiles.yaml`](rag_profiles.yaml); матрица фазы A — эксперимент `retrieval_matrix_gold_v2_fixture` (`eval.run_profile_metrics`). Фаза B (три dense-коллекции) — слоты `phase_b_dense_slot_*` и **[`PHASE_B_SCOPE.md`](PHASE_B_SCOPE.md)** (там же **карта файлов** и **что дальше** по шагам; не запускать B без апрува B0).
 
 ## Профили RAG / реранкер (фаза A)
 - Файл [`rag_profiles.yaml`](rag_profiles.yaml) — именованные наборы переменных окружения (`RERANK_MODEL`, `RERANK_MODE`, опционально `LLM_PROVIDER=ollama` и т.д.).
