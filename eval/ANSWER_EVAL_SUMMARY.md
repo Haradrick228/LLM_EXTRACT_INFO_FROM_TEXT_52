@@ -5,7 +5,7 @@
 ## DeepSeek API — основной сет (101 вопрос)
 - avg_refs_sim: 0.5998
 - avg_ref_sim: 0.0886
-- Файлы: `eval/answer_eval_results.jsonl`, `eval/answer_eval_predictions.jsonl`.
+- Файлы: `eval/answer_eval_results.jsonl`; снимок предсказаний — `archive/eval_research/snapshots/answer_eval_predictions.jsonl`.
 
 ## Ollama `qwen2.5:7b-instruct` (20 вопросов)
 - avg_refs_sim: 0.5454

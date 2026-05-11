@@ -9,6 +9,13 @@ __all__ = ["create_app"]
 
 
 def create_app() -> FastAPI:
+    try:
+        from common.rag_profile_env import apply_profile_by_rag_profile_env
+
+        apply_profile_by_rag_profile_env()
+    except Exception:
+        pass
+
     app = FastAPI(title="ML Service", version="1.0.0")
     try:
         models.Base.metadata.create_all(bind=engine)

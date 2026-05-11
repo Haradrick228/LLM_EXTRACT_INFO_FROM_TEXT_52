@@ -1,0 +1,46 @@
+# RAG experiment profiles (env overrides). Use with: python -m eval.run_with_profile --profile NAME -- ...
+# Non-env keys: description, matrix (include in default rerank matrix runs).
+version: 1
+
+profiles:
+  baseline_mpnet_rerank:
+    description: "Cross-encoder rerank similar to historical baseline (all-MiniLM-L6-v2)."
+    matrix: true
+    RERANK_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
+    RERANK_MODE: "cross"
+
+  rerank_jina_v3:
+    description: "jina-reranker-v3 (local CrossEncoder if supported)."
+    matrix: true
+    RERANK_MODEL: "jinaai/jina-reranker-v3"
+    RERANK_MODE: "cross"
+
+  rerank_bge_v2_m3:
+    description: "BAAI bge-reranker-v2-m3."
+    matrix: true
+    RERANK_MODEL: "BAAI/bge-reranker-v2-m3"
+    RERANK_MODE: "cross"
+
+  rerank_qwen3_0_6b:
+    description: "Qwen3-Reranker-0.6B (smallest)."
+    matrix: false
+    RERANK_MODEL: "Qwen/Qwen3-Reranker-0.6B"
+    RERANK_MODE: "cross"
+
+  rerank_qwen3_4b:
+    description: "Qwen3-Reranker-4B; needs GPU headroom."
+    matrix: false
+    RERANK_MODEL: "Qwen/Qwen3-Reranker-4B"
+    RERANK_MODE: "cross"
+
+  rerank_qwen3_8b:
+    description: "Qwen3-Reranker-8B (largest)."
+    matrix: false
+    RERANK_MODEL: "Qwen/Qwen3-Reranker-8B"
+    RERANK_MODE: "cross"
+
+  ollama_answer_eval:
+    description: "Use local Ollama for generative answers (qwen2.5:7b-instruct)."
+    LLM_PROVIDER: "ollama"
+    LLM_PROVIDER_MODEL: "qwen2.5:7b-instruct"
+    OLLAMA_MODEL: "qwen2.5:7b-instruct"

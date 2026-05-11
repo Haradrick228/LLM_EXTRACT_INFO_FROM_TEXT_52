@@ -5,9 +5,8 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 import numpy as np
-from chromadb import HttpClient
-from chromadb.config import Settings
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+
+from eval.chroma_utils import chroma_http_client, get_collection
 
 try:
     from sentence_transformers import SentenceTransformer
@@ -29,31 +28,12 @@ def load_dataset(path: Path) -> List[Dict]:
     return rows
 
 
-def connect_chroma(embed_model: str):
-    # Clear env vars that conflict with HttpClient
-    for key in list(os.environ.keys()):
-        if key.startswith("CHROMA_") and key not in ("CHROMA_COLLECTION", "CHROMA_EMBED_MODEL", "ANSWER_REF_EMBED_MODEL"):
-            del os.environ[key]
-
-    host = "127.0.0.1"
-    port = 18000
-    tenant = "default_tenant"
-    database = "default_database"
-    col_name = os.getenv("CHROMA_COLLECTION", "test_frida")
-    embed_fn = SentenceTransformerEmbeddingFunction(model_name=embed_model)
-
-    # Override .env settings
-    os.environ["CHROMA_SERVER_HOST"] = host
-    os.environ["CHROMA_SERVER_HTTP_PORT"] = str(port)
-
-    client = HttpClient(
-        host=host,
-        port=port,
-        settings=Settings(allow_reset=False, anonymized_telemetry=False),
-        tenant=tenant,
-        database=database,
-    )
-    return client.get_collection(col_name, embedding_function=embed_fn)
+def connect_chroma(embed_model: str) -> object:
+    host = os.getenv("RAG_EVAL_CHROMA_HOST", os.getenv("CHROMA_HOST", "127.0.0.1"))
+    port = int(os.getenv("RAG_EVAL_CHROMA_PORT", os.getenv("CHROMA_PORT", "18000")))
+    col_name = os.getenv("CHROMA_COLLECTION", "default")
+    client = chroma_http_client(host=host, port=port)
+    return get_collection(client, col_name, embed_model)
 
 
 def cosine(a: np.ndarray, b: np.ndarray) -> float:
@@ -73,18 +53,24 @@ def main():
     embed_model = os.getenv("CHROMA_EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-mpnet-base-v2")
     ref_embed_model = os.getenv("ANSWER_REF_EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 
-    # Override .env settings for RagService and chromadb
+    host = os.getenv("RAG_EVAL_CHROMA_HOST", os.getenv("CHROMA_HOST", "127.0.0.1"))
+    port = os.getenv("RAG_EVAL_CHROMA_PORT", os.getenv("CHROMA_PORT", "18000"))
+    collection = os.getenv("CHROMA_COLLECTION", "default")
     for key in list(os.environ.keys()):
         if key.startswith("CHROMA_"):
             del os.environ[key]
-    os.environ["CHROMA_HOST"] = "127.0.0.1"
-    os.environ["CHROMA_PORT"] = "18000"
-    os.environ["CHROMA_COLLECTION"] = os.getenv("CHROMA_COLLECTION", "default")
+    os.environ["CHROMA_HOST"] = host
+    os.environ["CHROMA_PORT"] = str(port)
+    os.environ["CHROMA_COLLECTION"] = collection
     os.environ["CHROMA_EMBED_MODEL"] = embed_model
-    os.environ["CHROMA_SERVER_HOST"] = "127.0.0.1"
-    os.environ["CHROMA_SERVER_HTTP_PORT"] = "18000"
+    os.environ["CHROMA_SERVER_HOST"] = host
+    os.environ["CHROMA_SERVER_HTTP_PORT"] = str(port)
 
     data = load_dataset(dataset_path)
+    max_rows = int(os.getenv("ANSWER_EVAL_MAX_ROWS", "0") or 0)
+    if max_rows > 0:
+        data = data[:max_rows]
+
     rag = RagService()
     chroma_col = connect_chroma(embed_model)
     ref_embedder: Optional[SentenceTransformer] = None

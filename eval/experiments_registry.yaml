@@ -1,0 +1,127 @@
+# Реестр воспроизводимых исследовательских прогонов.
+# Запуск: python -m eval.replay_experiment list
+#         python -m eval.replay_experiment run <id> [--dry-run]
+#
+# Подстановки в env и в аргументах command: ${VAR:-default}
+# inherit: имена блоков из defaults — сливаются по порядку, затем env эксперимента.
+
+version: 1
+
+defaults:
+  chroma_local_eval:
+    CHROMA_HOST_OVERRIDE: "1"
+    RAG_EVAL_CHROMA_HOST: "127.0.0.1"
+    RAG_EVAL_CHROMA_PORT: "18000"
+  gpu_rerank:
+    RERANK_DEVICE: "cuda"
+
+experiments:
+  verify_local_stack:
+    status: done
+    summary: "Проверка Chroma v2 heartbeat, списка коллекций, Ollama /api/tags, PyTorch CUDA."
+    inherit: []
+    command: [python, scripts/verify_local_stack.py]
+
+  gold_v2_validate:
+    status: done
+    summary: "Проверка согласованности eval_set_gold_v2.jsonl <-> fixtures/chunks_sample.jsonl."
+    inherit: []
+    command: [python, -m, eval.validate_gold_v2]
+
+  sync_gold_v2_fixture:
+    status: done
+    summary: "Пересоздать коллекцию Chroma gold_v2_fixture из eval/fixtures/chunks_sample.jsonl."
+    inherit: [chroma_local_eval]
+    env:
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, scripts/sync_gold_v2_fixture_collection.py]
+
+  retrieval_matrix_gold_v2_fixture:
+    status: done
+    summary: "Матрица профилей rag_profiles.yaml (matrix:true) -> eval.run_retrieval_eval по каждому; gold_v2 + mpnet + коллекция из CHROMA_COLLECTION."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, -m, eval.run_profile_metrics]
+
+  retrieval_baseline_sample20:
+    status: done
+    summary: "Одиночный retrieval на sample20; RERANK_MODEL/RERANK_MODE из env или дефолт MiniLM cross."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command:
+      - python
+      - -m
+      - eval.run_retrieval_eval
+      - --eval-file
+      - eval/eval_set_with_answer_ref_sample20.jsonl
+      - --embed-model
+      - "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --fetch-k
+      - "40"
+      - --k
+      - "5,10"
+      - --rerank-model
+      - "${RERANK_MODEL:-sentence-transformers/all-MiniLM-L6-v2}"
+      - --rerank-mode
+      - "${RERANK_MODE:-cross}"
+      - --chroma-host
+      - "127.0.0.1"
+      - --chroma-port
+      - "18000"
+      - --out-json
+      - "${RETRIEVAL_OUT_JSON:-eval/runs/manual_retrieval_sample20.json}"
+
+  answer_eval_smoke5:
+    status: done
+    summary: "Полный RAG через run_answer_eval (5 вопросов). LLM: см. .env (при CHROMA_HOST_OVERRIDE=1 перезаписывается из .env - см. docs/AGENT_RAG_STACK.md)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      ANSWER_EVAL_FILE: "eval/eval_set_with_answer_ref_sample20.jsonl"
+      ANSWER_EVAL_MAX_ROWS: "5"
+      ANSWER_EVAL_OUT: "${ANSWER_EVAL_OUT:-eval/runs/manual_answer_smoke5.jsonl}"
+      RERANK_MODEL: "${RERANK_MODEL:-sentence-transformers/all-MiniLM-L6-v2}"
+      RERANK_MODE: "${RERANK_MODE:-cross}"
+    command: [python, -m, eval.run_answer_eval]
+
+  phase_b_matrix_same_as_fixture_but_swap_collection:
+    status: planned
+    summary: "Фаза B2: после B0/B1 выполнить experiment retrieval_matrix_gold_v2_fixture трижды с разными CHROMA_COLLECTION + CHROMA_EMBED_MODEL (три коллекции). См. eval/PHASE_B_SCOPE.md."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-REPLACE_WITH_PHASE_B_COLLECTION}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-REPLACE_WITH_PHASE_B_EMBEDDER}"
+    command: [python, -m, eval.run_profile_metrics]
+
+  # Три именованных слота под три коллекции (B1): один раз пропиши collection+embedder в YAML или всегда жми replay с -e.
+  phase_b_dense_slot_1_rerank_matrix:
+    status: planned
+    summary: "B2 коллекция 1/3: матрица реранкеров как фаза A. Переопредели CHROMA_COLLECTION_B1 и CHROMA_EMBED_MODEL_B1 (или -e CHROMA_COLLECTION=... -e CHROMA_EMBED_MODEL=...)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B1:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B1:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, -m, eval.run_profile_metrics]
+
+  phase_b_dense_slot_2_rerank_matrix:
+    status: planned
+    summary: "B2 коллекция 2/3: то же, слот 2. CHROMA_COLLECTION_B2, CHROMA_EMBED_MODEL_B2."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B2:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B2:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, -m, eval.run_profile_metrics]
+
+  phase_b_dense_slot_3_rerank_matrix:
+    status: planned
+    summary: "B2 коллекция 3/3: то же, слот 3. CHROMA_COLLECTION_B3, CHROMA_EMBED_MODEL_B3."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B3:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B3:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, -m, eval.run_profile_metrics]

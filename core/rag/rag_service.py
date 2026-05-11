@@ -44,15 +44,9 @@ from chromadb import HttpClient
 from chromadb.config import Settings
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 try:
-    from sentence_transformers import SentenceTransformer, CrossEncoder
+    from core.graphrag.llm_provider import build_llm_client as _build_llm_client
 except Exception:
-    SentenceTransformer = None
-    CrossEncoder = None
-
-try:
-    from core.graphrag.llm_provider import LLMClient as _LLMClient
-except Exception:
-    _LLMClient = None
+    _build_llm_client = None
 
 GraphRetriever = None
 _graph_retriever_import_error: Optional[str] = None
@@ -143,13 +137,10 @@ class LLMConfig:
 
 class _SafeLLM:
     def __init__(self, cfg: LLMConfig):
-        if _LLMClient is None:
-            raise RuntimeError("LLMClient provider is not available (core.graphrag.llm_provider).")
+        if _build_llm_client is None:
+            raise RuntimeError("LLM factory is not available (core.graphrag.llm_provider).")
         self.cfg = cfg
-        try:
-            self.client = _LLMClient(model=cfg.model)
-        except TypeError:
-            self.client = _LLMClient()
+        self.client = _build_llm_client(cfg.model)
 
     def generate(self, prompt: str) -> str:
         t0 = time.time()
@@ -498,20 +489,19 @@ class RagService:
         self._vec = _VectorFallback(self.chroma_cfg)
         self._rerank_model: Optional[Any] = None
         self._rerank_type: str = "none"
-        if SentenceTransformer is not None:
-            try:
-                wants_cross = "cross-encoder" in self.rerank_model_name or self.rerank_mode == "cross"
-                if wants_cross and CrossEncoder is not None:
-                    self._rerank_model = CrossEncoder(self.rerank_model_name)
-                    self._rerank_type = "cross"
-                else:
-                    self._rerank_model = SentenceTransformer(self.rerank_model_name)
-                    self._rerank_type = "bi"
+        try:
+            from core.rag.rerank_registry import load_reranker
+
+            self._rerank_model, self._rerank_type = load_reranker(
+                self.rerank_model_name,
+                self.rerank_mode,
+            )
+            if self._rerank_model is not None:
                 log.info("Rerank model: %s (%s)", self.rerank_model_name, self._rerank_type)
-            except Exception as e:
-                self._rerank_model = None
-                self._rerank_type = "none"
-                log.warning("Не удалось инициализировать модель ранжирования %s: %s", self.rerank_model_name, e)
+        except Exception as e:
+            self._rerank_model = None
+            self._rerank_type = "none"
+            log.warning("Не удалось инициализировать модель ранжирования %s: %s", self.rerank_model_name, e)
 
         try:
             default_threshold = float(os.getenv("LLM_CACHE_SIMILARITY", "0.92"))

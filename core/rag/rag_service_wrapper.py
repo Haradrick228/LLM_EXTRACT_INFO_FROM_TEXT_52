@@ -1,4 +1,8 @@
-﻿import os
+﻿"""RAG wrapper for bots and scraper (logging + list normalization).
+
+Post-answer LLM validation (editor): see archive/core_rag/rag_service_wrapper_with_validation.py.
+"""
+import os
 import re
 import logging
 

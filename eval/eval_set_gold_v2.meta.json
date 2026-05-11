@@ -1,0 +1,11 @@
+{
+  "schema": "gold_v2",
+  "version": 4,
+  "line_count": 101,
+  "corpus_type": "corpus_migrated",
+  "corpus_type_note": "Строки перенесены из eval/eval_set_with_answer_ref.jsonl (реальные вопросы и цитаты корпуса). LLM не использовался. Чанк = объединение answer_ref и references для substring-метрик. Gold-строка без chunk_id/source; соответствие fixture — по порядку строк (индекс = row_index в metadata чанка).",
+  "source_eval_file": "eval/eval_set_with_answer_ref.jsonl",
+  "materializer": "eval/materialize_gold_v2_from_answer_ref.py",
+  "built_unix": 1778511143,
+  "fixture_chunks": "eval/fixtures/chunks_sample.jsonl"
+}

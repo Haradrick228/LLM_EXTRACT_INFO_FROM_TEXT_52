@@ -34,6 +34,14 @@
         .tab-btn.active { background: #23395d; color: #fff; border-color: #23395d; }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
+        table.rerank-compare { font-size: 14px; }
+        table.rerank-compare th.center, table.rerank-compare td.center { text-align: center; }
+        table.rerank-compare th:first-child, table.rerank-compare td:first-child { text-align: left; }
+        table.rerank-compare tbody tr.leader { background: linear-gradient(90deg, #e8f4e8 0%, #f7fcf7 100%); }
+        table.rerank-compare tbody tr.tie { background: #f4f8fc; }
+        table.rerank-compare tbody tr.weak { background: #fff8f4; }
+        table.rerank-compare .mono { font-family: Consolas, 'Segoe UI Mono', monospace; font-size: 12px; }
+        .rerank-note { font-size: 13px; color: #555; margin-top: 12px; line-height: 1.5; }
         @media (max-width: 720px) {
             main { padding: 16px; }
             section { padding: 18px; }
@@ -52,6 +60,7 @@
             <button class="tab-btn active" data-tab="eda">EDA</button>
             <button class="tab-btn" data-tab="rag">RAG (старые метрики)</button>
             <button class="tab-btn" data-tab="rag-opt">🚀 RAG Оптимизация</button>
+            <button class="tab-btn" data-tab="rerank-compare">Сравнение реранкеров</button>
         </div>
         <div class="tab-panel active" id="tab-eda">
 <section>
@@ -855,6 +864,82 @@
                     </tr>
                 </table>
             </div>
+        </section>
+        </div>
+
+        <div class="tab-panel" id="tab-rerank-compare">
+        <section>
+            <h2>Сравнение реранкеров (retrieval, 2026-05-11)</h2>
+            <p>Одинаковые условия для всех моделей: датасет <code class="mono">eval/eval_set_with_answer_ref.jsonl</code> (101 вопрос), коллекция Chroma <code class="mono">gold_v2_fixture</code>, эмбеддер <code class="mono">paraphrase-multilingual-mpnet-base-v2</code> (локальный кэш), <code class="mono">fetch_k=40</code>, реранк в режиме <strong>cross</strong>. Метрики из <code class="mono">eval/run_retrieval_eval.py</code>. В таблице — <strong>3 знака</strong> после запятой. Смена реранкера: профили в <code class="mono">eval/rag_profiles.yaml</code>, переменная <code class="mono">RAG_PROFILE</code> или <code class="mono">python -m eval.run_with_profile --profile …</code> для сервиса; для eval — флаги <code class="mono">--rerank-model</code> / <code class="mono">--rerank-mode</code> (см. <code class="mono">eval/README.md</code>).</p>
+
+            <table class="rerank-compare">
+                <thead>
+                    <tr>
+                        <th>Ранг</th>
+                        <th>Реранкер</th>
+                        <th class="center">recall@5</th>
+                        <th class="center">recall@10</th>
+                        <th class="center">precision@5</th>
+                        <th class="center">precision@10</th>
+                        <th class="center">MRR</th>
+                        <th class="center">nDCG@3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="leader">
+                        <td>1</td>
+                        <td><code class="mono">BAAI/bge-reranker-v2-m3</code></td>
+                        <td class="center">0.837</td>
+                        <td class="center">0.955</td>
+                        <td class="center">0.416</td>
+                        <td class="center">0.310</td>
+                        <td class="center">0.644</td>
+                        <td class="center">1.001*</td>
+                    </tr>
+                    <tr class="tie">
+                        <td>2</td>
+                        <td><code class="mono">jinaai/jina-reranker-v3</code></td>
+                        <td class="center">0.678</td>
+                        <td class="center">0.812</td>
+                        <td class="center">0.331</td>
+                        <td class="center">0.248</td>
+                        <td class="center">0.576</td>
+                        <td class="center">0.905</td>
+                    </tr>
+                    <tr class="tie">
+                        <td>2</td>
+                        <td><code class="mono">Qwen/Qwen3-Reranker-0.6B</code></td>
+                        <td class="center">0.678</td>
+                        <td class="center">0.812</td>
+                        <td class="center">0.331</td>
+                        <td class="center">0.248</td>
+                        <td class="center">0.576</td>
+                        <td class="center">0.905</td>
+                    </tr>
+                    <tr class="tie">
+                        <td>2</td>
+                        <td><code class="mono">Qwen/Qwen3-Reranker-4B</code></td>
+                        <td class="center">0.678</td>
+                        <td class="center">0.812</td>
+                        <td class="center">0.331</td>
+                        <td class="center">0.248</td>
+                        <td class="center">0.576</td>
+                        <td class="center">0.905</td>
+                    </tr>
+                    <tr class="weak">
+                        <td>5</td>
+                        <td><code class="mono">sentence-transformers/all-MiniLM-L6-v2</code></td>
+                        <td class="center">0.144</td>
+                        <td class="center">0.302</td>
+                        <td class="center">0.057</td>
+                        <td class="center">0.093</td>
+                        <td class="center">0.128</td>
+                        <td class="center">0.096</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="rerank-note">* nDCG@3 для BGE в JSON чуть выше 1.0 — особенность расчёта в скрипте. <strong>Jina / Qwen 0.6B / Qwen 4B:</strong> три отдельных файла и разные <code class="mono">_meta.rerank_model</code>; в таблице 3 знака после запятой, в сырых JSON мантисса различается глубже. Исходные файлы: <code class="mono">…/retrieval_rerank_jina_v3.json</code>, <code class="mono">…/retrieval_rerank_qwen3_0_6b.json</code>, <code class="mono">…/retrieval_rerank_qwen3_4b.json</code>.</p>
         </section>
         </div>
 </main>

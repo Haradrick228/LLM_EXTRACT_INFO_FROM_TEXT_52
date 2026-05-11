@@ -1,47 +1,35 @@
 import argparse
 import json
+import math
 import os
 import random
-import math
+import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, IO, List, Optional, Tuple
 
-from chromadb import HttpClient
-from chromadb.config import Settings
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
+
+from eval.chroma_utils import chroma_http_client, get_collection
+
+from core.rag.rerank_registry import load_reranker
+
 try:
-    from sentence_transformers import SentenceTransformer, CrossEncoder
+    from sentence_transformers import SentenceTransformer
 except Exception:
     SentenceTransformer = None
-    CrossEncoder = None
+
+try:  # optional dependency for progress bar
+    from tqdm import tqdm  # type: ignore
+except Exception:  # pragma: no cover
+    tqdm = None  # type: ignore
 
 
-def connect_client(embed_model: str):
-    # Clear env vars that conflict with HttpClient
-    for key in list(os.environ.keys()):
-        if key.startswith("CHROMA_") and key not in ("CHROMA_COLLECTION", "CHROMA_EMBED_MODEL"):
-            del os.environ[key]
-
-    host = "127.0.0.1"
-    port = 18000
-    tenant = "default_tenant"
-    database = "default_database"
-    embed_fn = SentenceTransformerEmbeddingFunction(model_name=embed_model)
+def connect_client(embed_model: str, *, host: str, port: int):
+    client = chroma_http_client(host=host, port=port)
     col_name = os.getenv("CHROMA_COLLECTION", "default")
-
-    # Override .env settings
-    os.environ["CHROMA_SERVER_HOST"] = host
-    os.environ["CHROMA_SERVER_HTTP_PORT"] = str(port)
-
-    client = HttpClient(
-        host=host,
-        port=port,
-        settings=Settings(allow_reset=False, anonymized_telemetry=False),
-        tenant=tenant,
-        database=database,
-    )
-    col = client.get_collection(col_name, embedding_function=embed_fn)
-    return col
+    return get_collection(client, col_name, embed_model)
 
 
 def load_eval(path: Path) -> List[Dict]:
@@ -108,23 +96,6 @@ def ndcg(found: List[str], refs: List[str], k: int) -> float:
     return dcg / idcg if idcg else 0.0
 
 
-def build_reranker(model_name: str, mode: str):
-    if not model_name:
-        return None, "none"
-    wants_cross = "cross-encoder" in model_name or mode == "cross"
-    if wants_cross and CrossEncoder is not None:
-        try:
-            return CrossEncoder(model_name), "cross"
-        except Exception:
-            pass
-    if SentenceTransformer is None:
-        return None, "none"
-    try:
-        return SentenceTransformer(model_name), "bi"
-    except Exception:
-        return None, "none"
-
-
 def rerank(question: str, docs: List[str], model, mode: str) -> List[Tuple[str, float]]:
     if not model:
         return [(d, 0.0) for d in docs]
@@ -142,20 +113,87 @@ def rerank(question: str, docs: List[str], model, mode: str) -> List[Tuple[str, 
         return [(d, 0.0) for d in docs]
 
 
-def evaluate(col, dataset: List[Dict], k_values: List[int], fetch_k: int, rerank_model=None, rerank_mode: str = "none") -> Dict[str, float]:
+def _maybe_torch_cuda_stats() -> str:
+    """
+    Best-effort CUDA memory stats for debugging OOM / stalls.
+    Never raises.
+    """
+    try:
+        import torch  # type: ignore
+
+        if not torch.cuda.is_available():
+            return ""
+        dev = torch.cuda.current_device()
+        name = torch.cuda.get_device_name(dev)
+        alloc = int(torch.cuda.memory_allocated(dev))
+        reserved = int(torch.cuda.memory_reserved(dev))
+        max_alloc = int(torch.cuda.max_memory_allocated(dev))
+        max_reserved = int(torch.cuda.max_memory_reserved(dev))
+        return (
+            f"cuda_device={dev} name={name!r} "
+            f"alloc_mb={alloc/1024/1024:.0f} reserved_mb={reserved/1024/1024:.0f} "
+            f"max_alloc_mb={max_alloc/1024/1024:.0f} max_reserved_mb={max_reserved/1024/1024:.0f}"
+        )
+    except Exception:
+        return ""
+
+
+def _emit_progress(msg: str, sink: Optional[IO[str]]) -> None:
+    print(msg, flush=True)
+    if sink is not None:
+        sink.write(msg + "\n")
+        sink.flush()
+
+
+def evaluate(
+    col,
+    dataset: List[Dict],
+    k_values: List[int],
+    fetch_k: int,
+    rerank_model=None,
+    rerank_mode: str = "none",
+    *,
+    show_progress: bool = False,
+    force_plain_progress: bool = False,
+    progress_every: int = 5,
+    progress_sink: Optional[IO[str]] = None,
+) -> Dict[str, float]:
     metrics = {f"recall@{k}": [] for k in k_values}
     metrics.update({f"precision@{k}": [] for k in k_values})
     metrics["mrr"] = []
     metrics["ndcg@3"] = []
 
-    for row in dataset:
+    it = dataset
+    if show_progress and (not force_plain_progress) and tqdm is not None:
+        it = tqdm(dataset, desc="eval.run_retrieval_eval", unit="q")
+
+    if show_progress and force_plain_progress:
+        _emit_progress(
+            f"[progress] start rows={len(dataset)} fetch_k={fetch_k} rerank={'on' if rerank_model else 'off'}",
+            progress_sink,
+        )
+
+    for idx, row in enumerate(it):
         q = row["question"]
         refs = row.get("references") or []
-        res = col.query(query_texts=[q], n_results=fetch_k, include=["documents"])
-        docs = (res or {}).get("documents", [[]])[0] if res else []
-        docs = [d or "" for d in docs]
-        if rerank_model:
-            docs = [d for d, _ in rerank(q, docs, rerank_model, rerank_mode)]
+        try:
+            res = col.query(query_texts=[q], n_results=fetch_k, include=["documents"])
+            docs = (res or {}).get("documents", [[]])[0] if res else []
+            docs = [d or "" for d in docs]
+            if rerank_model:
+                docs = [d for d, _ in rerank(q, docs, rerank_model, rerank_mode)]
+        except RuntimeError as e:
+            msg = str(e)
+            if "out of memory" in msg.lower() or "cuda" in msg.lower():
+                extra = _maybe_torch_cuda_stats()
+                raise RuntimeError(f"CUDA OOM during retrieval/rerank at row={idx}: {msg}. {extra}".strip()) from e
+            raise
+
+        if show_progress and (force_plain_progress or tqdm is None) and progress_every > 0:
+            if (idx + 1) == 1 or (idx + 1) % progress_every == 0:
+                extra = _maybe_torch_cuda_stats()
+                suffix = f" ({extra})" if extra else ""
+                _emit_progress(f"[progress] {idx+1}/{len(dataset)}{suffix}", progress_sink)
 
         for k in k_values:
             metrics[f"recall@{k}"].append(recall_at_k(docs, refs, k))
@@ -177,15 +215,95 @@ def main():
     parser.add_argument("--fetch-k", type=int, default=int(os.getenv("RETRIEVER_FETCH_K", "50") or 50), help="How many docs to fetch before rerank")
     parser.add_argument("--rerank-model", default=os.getenv("RERANK_MODEL", ""), help="Optional rerank model (CrossEncoder or bi-encoder)")
     parser.add_argument("--rerank-mode", default=os.getenv("RERANK_MODE", "auto"), help="auto|cross|bi")
+    parser.add_argument("--out-json", default="", help="If set, write metrics JSON to this path")
+    parser.add_argument("--progress", action="store_true", help="Show progress while evaluating (tqdm if available).")
+    parser.add_argument(
+        "--progress-plain",
+        action="store_true",
+        help="Print plain progress lines (disables tqdm; useful for logs/CI).",
+    )
+    parser.add_argument("--progress-every", type=int, default=5, help="If tqdm missing, print progress every N rows.")
+    parser.add_argument(
+        "--progress-log",
+        default="",
+        help="Append-friendly log path for plain progress lines (UTF-8). Useful when terminal capture drops output.",
+    )
+    parser.add_argument(
+        "--chroma-host",
+        default=os.getenv("RAG_EVAL_CHROMA_HOST", os.getenv("CHROMA_HOST", "127.0.0.1")),
+        help="Хост Chroma для eval (по умолчанию localhost; RAG_EVAL_CHROMA_HOST переопределяет CHROMA_HOST из .env compose).",
+    )
+    parser.add_argument(
+        "--chroma-port",
+        type=int,
+        default=int(os.getenv("RAG_EVAL_CHROMA_PORT", os.getenv("CHROMA_PORT", "18000"))),
+        help="Порт Chroma (проброс Docker, обычно 18000).",
+    )
+    parser.add_argument(
+        "--max-rows",
+        type=int,
+        default=int(os.getenv("RETRIEVAL_EVAL_MAX_ROWS", "0") or 0),
+        help="Ограничить число вопросов (0 = все). Можно задать через RETRIEVAL_EVAL_MAX_ROWS.",
+    )
     args = parser.parse_args()
 
     k_values = [int(x) for x in args.k.split(",") if x.strip()]
     dataset = load_eval(Path(args.eval_file))
-    col = connect_client(args.embed_model)
-    rerank_model, rerank_mode = build_reranker(args.rerank_model, args.rerank_mode)
-    scores = evaluate(col, dataset, k_values, fetch_k=args.fetch_k, rerank_model=rerank_model, rerank_mode=rerank_mode)
+    if args.max_rows > 0:
+        dataset = dataset[: args.max_rows]
+    col = connect_client(args.embed_model, host=args.chroma_host, port=args.chroma_port)
+    device = os.getenv("RERANK_DEVICE", "cuda")
+    rerank_model, rerank_mode = load_reranker(args.rerank_model, args.rerank_mode, device=device)
+    show_progress = bool(args.progress)
+    force_plain_progress = bool(args.progress_plain)
+
+    progress_sink: Optional[IO[str]] = None
+    progress_path = (args.progress_log or "").strip()
+    if progress_path:
+        pl = Path(progress_path)
+        pl.parent.mkdir(parents=True, exist_ok=True)
+        progress_sink = pl.open("w", encoding="utf-8")
+
+    _emit_progress(
+        f"[progress] rerank_ready model={args.rerank_model!r} mode={rerank_mode!r} device={device!r} rows={len(dataset)}",
+        progress_sink,
+    )
+
+    try:
+        scores = evaluate(
+            col,
+            dataset,
+            k_values,
+            fetch_k=args.fetch_k,
+            rerank_model=rerank_model,
+            rerank_mode=rerank_mode,
+            show_progress=show_progress,
+            force_plain_progress=force_plain_progress,
+            progress_every=max(1, int(args.progress_every)),
+            progress_sink=progress_sink,
+        )
+    finally:
+        if progress_sink is not None:
+            progress_sink.close()
     for k, v in scores.items():
         print(f"{k}: {v:.4f}")
+    if args.out_json.strip():
+        outp = Path(args.out_json)
+        outp.parent.mkdir(parents=True, exist_ok=True)
+        payload = dict(scores)
+        payload["_meta"] = {
+            "eval_file": args.eval_file,
+            "embed_model": args.embed_model,
+            "fetch_k": args.fetch_k,
+            "rerank_model": args.rerank_model,
+            "rerank_mode": rerank_mode,
+            "chroma_host": args.chroma_host,
+            "chroma_port": args.chroma_port,
+            "chroma_collection": os.getenv("CHROMA_COLLECTION", "default"),
+            "max_rows": args.max_rows,
+        }
+        outp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        print("Wrote", outp)
 
 
 if __name__ == "__main__":

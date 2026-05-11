@@ -15,5 +15,38 @@ scraped_site/
 dumped/
 exports/
 
+# Локальные снапшоты HF (python scripts/download_embedders.py)
+DATA/hf_embedders/
+
 # Misc
 *.log
+ml_service.db
+
+# Кэши и служебные каталоги инструментов
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+.claude/
+
+# Локальная Chroma / блокировки (не коммитить персист и лок)
+DATA/chromadb_persist/
+DATA/eval_gpu.lock
+
+# Воспроизводимые прогоны retrieval/answer-eval (артефакты регенерируются)
+eval/runs/
+
+# Файловые архивы и упаковки (не путать с каталогом archive/ в корне репо)
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+
+# Исторический код и скрипты в archive/ (не тянуть в индекс по умолчанию)
+archive/
+
+# Локальный справочник для агента (расширяется без обязательного коммита)
+docs/AGENT_RAG_STACK.md
