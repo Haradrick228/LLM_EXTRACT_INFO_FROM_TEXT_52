@@ -1,0 +1,14 @@
+# Одноразовая база для sanity: HF SQuAD → отдельная коллекция Chroma (не corpus_phase_b_*).
+version: 1
+
+defaults:
+  chunking_label: "sanity_external"
+
+bases:
+  - base_id: sanity_squad_mpnet
+    order: 1
+    expected_collection_rows: 80
+    collection: "sanity_external_squad_mpnet"
+    backend: sentence_transformers
+    model_name: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    description: "Smoke: 80 SQuAD passages, isolated collection name."

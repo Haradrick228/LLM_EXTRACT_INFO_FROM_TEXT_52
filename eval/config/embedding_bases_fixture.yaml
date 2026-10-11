@@ -1,0 +1,66 @@
+# Реестр «баз» фазы B: одна фикстура -> шесть коллекций Chroma (SentenceTransformers / HF).
+#
+# Явный запрос: Giga-Embeddings-instruct, FRIDA, bge-m3 + три сильных multilingual по MMTEB / общим MTEB-рейтингам
+# (e5-large-instruct, jina-embeddings-v3) и ru-ориентированный FRIDA (карточка HF / MIRACL ru и др.).
+# Baseline: mpnet (gold_v2_fixture).
+#
+# Индексация:  python -m eval.phase_b.index_gold_fixture_bases --list
+#              python -m eval.phase_b.index_gold_fixture_bases --all-st
+# Порядок: тяжёлый/кастомный Giga — последним (heavy_index_last). При OOM: ST_EMBED_BATCH_SIZE, ST_EMBED_DEVICE.
+#
+# Логи/манифесты: DATA/runs/phase_b_index/<timestamp>/
+
+version: 1
+
+defaults:
+  fixture_rel: "eval/datasets/chunks_sample.jsonl"
+  chunking_label: "650_250"
+
+bases:
+  - base_id: gold_mpnet_fixture
+    order: 1
+    collection: "gold_v2_fixture"
+    backend: sentence_transformers
+    model_name: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    description: "Baseline mpnet; матрица реранкеров 2026-05-11."
+    existing_collection: true
+
+  - base_id: gold_bge_m3
+    order: 2
+    collection: "phase_b_gold_v2_bge_m3"
+    backend: sentence_transformers
+    model_name: "BAAI/bge-m3"
+    description: "BGE-M3 (запрошено + README: сильный на вашем корпусе)."
+
+  - base_id: gold_frida
+    order: 3
+    collection: "phase_b_gold_v2_frida"
+    backend: sentence_transformers
+    model_name: "ai-forever/FRIDA"
+    description: "FRIDA (запрошено): ru MTEB / MIRACL ru, RiaNews, RuBQ и др. — см. HF model card."
+
+  - base_id: gold_e5_large_instruct
+    order: 4
+    collection: "phase_b_gold_v2_e5_large_instruct"
+    backend: sentence_transformers
+    model_name: "intfloat/multilingual-e5-large-instruct"
+    description: "E5 large instruct: сильный multilingual (MMTEB 2025 и др. публичные таблицы)."
+
+  - base_id: gold_jina_embeddings_v3
+    order: 5
+    collection: "phase_b_gold_v2_jina_embeddings_v3"
+    backend: sentence_transformers
+    model_name: "jinaai/jina-embeddings-v3"
+    description: "Jina v3: актуальный multilingual конкурент на общих MTEB-ориентированных сравнениях."
+    st_model_kwargs:
+      trust_remote_code: true
+
+  - base_id: gold_giga_embeddings_instruct
+    order: 6
+    collection: "phase_b_gold_v2_giga_embeddings_instruct"
+    backend: sentence_transformers
+    model_name: "ai-sage/Giga-Embeddings-instruct"
+    description: "Giga-Embeddings-instruct (HF ST, не API). Кастомный код модели — trust_remote_code; индексировать последним."
+    heavy_index_last: true
+    st_model_kwargs:
+      trust_remote_code: true

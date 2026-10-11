@@ -1,0 +1,112 @@
+# Полный корпус: пять dense-эмбеддеров corpus_phase_b_* + опционально «базовая» коллекция README (`default_clean`).
+# `expected_collection_rows`: точное число для count()-проверки; `null` / `skip` — не проверять.
+# `collection_fallback`: если в Chroma нет имени `collection` (часто `default_clean` отсутствует), используется fallback (например `default`).
+# Giga: только с PHASE_B_ALLOW_FULL_GIGA при отдельной индексации.
+#
+# Источник строк: JSONL с полями id, document, metadata (как export_chroma_run / chunks_from_chroma.jsonl).
+# 1) Экспорт из эталонной коллекции (например `default`):
+#    python -m eval.export_chroma_run --collection default --run-id corpus_export_<ts>
+# 2) Индексация:
+#    python -m eval.phase_b.index_jsonl_bases --jsonl DATA/runs/corpus_export_<ts>/chunks_from_chroma.jsonl --all-st --rebuild
+#
+# Пакеты add в Chroma: PHASE_B_CHROMA_ADD_BATCH (по умолчанию 256). VRAM: ST_EMBED_BATCH_SIZE, ST_EMBED_DEVICE.
+
+version: 1
+
+defaults:
+  chunking_label: "650_250"
+
+bases:
+  - base_id: full_mpnet
+    order: 1
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_mpnet"
+    backend: sentence_transformers
+    model_name: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    description: "Полный корпус, mpnet."
+
+  - base_id: full_bge_m3
+    order: 2
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_bge_m3"
+    backend: sentence_transformers
+    model_name: "BAAI/bge-m3"
+    description: "Полный корпус, BGE-M3."
+
+  - base_id: full_frida
+    order: 3
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_frida"
+    backend: sentence_transformers
+    model_name: "ai-forever/FRIDA"
+    description: "Полный корпус, FRIDA."
+
+  - base_id: full_e5_large_instruct
+    order: 4
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_e5_large_instruct"
+    backend: sentence_transformers
+    model_name: "intfloat/multilingual-e5-large-instruct"
+    description: "Полный корпус, E5 large instruct."
+
+  - base_id: full_jina_embeddings_v3
+    order: 5
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_jina_embeddings_v3"
+    backend: sentence_transformers
+    model_name: "jinaai/jina-embeddings-v3"
+    description: "Полный корпус, Jina v3."
+    st_model_kwargs:
+      trust_remote_code: true
+
+  - base_id: full_default_clean
+    order: 6
+    description: "Коллекция как в README/rerank_results (mpnet); имя в Chroma часто default_clean или default."
+    expected_collection_rows: 61543
+    collection: "default_clean"
+    collection_fallback: "default"
+    backend: sentence_transformers
+    model_name: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+
+  # F6: новые эмбеддеры. По умолчанию --all-st их НЕ берёт (тяжёлые); явный --base-id или
+  # PHASE_B_ALLOW_FULL_GIGA=1 (для Giga) включают их. Для Qwen3 — отдельный гейт
+  # PHASE_B_ALLOW_FULL_QWEN3=1 (см. _apply_full_qwen3_index_policy).
+  - base_id: full_giga_embeddings_instruct
+    order: 7
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_giga_embeddings_instruct"
+    backend: sentence_transformers
+    model_name: "ai-sage/Giga-Embeddings-instruct"
+    description: "ruMTEB-лидер (top-1 на конец 2025). Требует trust_remote_code, ~2.7B параметров."
+    st_model_kwargs:
+      trust_remote_code: true
+
+  - base_id: full_qwen3_embedding_4b
+    order: 8
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_qwen3_embedding_4b"
+    backend: sentence_transformers
+    model_name: "Qwen/Qwen3-Embedding-4B"
+    description: "Qwen3 family — лучше general-purpose, чем mpnet/e5. fp16, 4B параметров."
+    st_model_kwargs:
+      trust_remote_code: true
+
+  - base_id: full_qwen3_embedding_8b
+    order: 9
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_qwen3_embedding_8b"
+    backend: sentence_transformers
+    model_name: "Qwen/Qwen3-Embedding-8B"
+    description: "Qwen3 8B — пиковый. Требует ~16-18 GB VRAM (fp16). Включать только если нужен top score."
+    st_model_kwargs:
+      trust_remote_code: true
+
+  - base_id: full_user_bge_m3
+    order: 10
+    expected_collection_rows: 61543
+    collection: "corpus_phase_b_user_bge_m3"
+    backend: sentence_transformers
+    model_name: "C:/IT/VS Code/model/USER-bge-m3"
+    description: "Полный корпус, USER-bge-m3 (ru, 1024d, deepvk). Supplement к canonical B3."
+    st_normalize_embeddings: true
+    st_device: cuda

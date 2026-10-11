@@ -1,0 +1,130 @@
+# Frozen research protocol — Phase B full-corpus (B3) + validity suite.
+# Do not edit ad hoc during comparison runs; bump protocol_version when changing knobs.
+#
+# Validate: python -m eval.diagnostics.validate_research_run_contract --protocol eval/config/final_research_protocol.yaml --run-dir eval/runs/<id>_b3_full_corpus_rerank
+
+protocol_version: "2026-05-27"
+label: "phase_b_full_corpus_final"
+
+corpus:
+  expected_collection_rows: 61543
+  base_ids:
+    - full_mpnet
+    - full_bge_m3
+    - full_frida
+    - full_e5_large_instruct
+    - full_jina_embeddings_v3
+    - full_default_clean
+  excluded_base_ids:
+    - full_giga_embeddings_instruct
+    - full_qwen3_embedding
+  supplemental_base_ids:
+    - full_user_bge_m3
+  dense_registry: eval/config/embedding_bases_full_corpus.yaml
+  corpus_export_jsonl: DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl
+
+eval_set:
+  path: eval/datasets/eval_set_gold_v2.jsonl
+  expected_questions: 101
+  gold_sha256: "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96"
+
+retrieval_matrix_b3:
+  eval_scenario_type: full_corpus
+  retrieval_eval_shuffle: "0"
+  eval_seed: 0
+  fetch_k: 40
+  fetch_k_sensitivity_runs: [100]
+  k: "5,10,20"
+  metric_modes: "substring,token_f1,semantic"
+  semantic_threshold: 0.62
+  semantic_model: sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+  profiles:
+    - baseline_mpnet_rerank
+    - rerank_bge_v2_m3
+    - rerank_jina_v3
+  chroma_host: "127.0.0.1"
+  chroma_port: 18000
+  skip_answer_in_matrix: true
+
+anchor_dense_trace:
+  description: "Dense-only BGE-M3 on full corpus with retrieval trace for ladder A–D"
+  fetch_k: 100
+  collection: corpus_phase_b_bge_m3
+  embed_model: BAAI/bge-m3
+  canonical_run_dir: eval/runs/20260513_205851_gold_on_full_corpus_bge_m3
+
+canonical_artifacts:
+  b3_matrix_canonical:
+    run_dir: eval/runs/20260527_161527_b3_full_corpus_rerank
+    fetch_k: 40
+    metric_modes: "substring,token_f1,semantic"
+    note: "Canonical B3 6×3 full corpus — единственный источник для финального отчёта"
+  external_sanity:
+    run_dir: eval/runs/20260513_sanity_external_squad_mpnet
+  neg_control:
+    shuffled_eval: eval/runs/_neg_control/shuffled_questions_gold_v2.jsonl
+    honest_cell:
+      scenario: full_frida
+      profile: rerank_jina_v3
+    retrieval_out: eval/runs/_neg_control/retrieval_neg_control.json
+
+supplemental_b3:
+  run_dir: eval/runs/20260531_012703_b3_full_corpus_rerank
+  base_ids:
+    - full_user_bge_m3
+  note: "1×3 supplement USER-bge-m3; fill run_dir after eval/runs/<ts>_b3_user_bge_m3_rerank"
+
+production_recommendation:
+  scenario: full_user_bge_m3
+  profile: rerank_bge_v2_m3
+  note: "USER-bge-m3 — быстрый индекс; BGE reranker в паре (см. вкладка Бенчмарк embedder)."
+quality_recommendation:
+  scenario: full_bge_m3
+  profile: rerank_bge_v2_m3
+  note: "BAAI/bge-m3 — лучший avg_ref_sim на answer-eval; не путать с USER-bge-m3."
+
+embedded_reports:
+  embedding_benchmark: analysis/reports/embedding_benchmark_nagruzka_2026_05.html
+
+validity_criteria:
+  neg_control:
+    metric: substring::recall@10
+    expect: "honest_gold >> shuffled (ratio >= 2.0 or absolute gap >= 0.03)"
+  external_sanity:
+    metric: substring::recall@10
+    min_value: 0.5
+  ladder_primary_k: 10
+  ladder_hit_fn: substring
+  wilson_z: 1.96
+
+required_summary_fields:
+  - run_dir
+  - scenarios
+  - profiles
+  - eval_file
+  - fetch_k
+  - k
+  - metric_modes
+  - semantic_threshold
+  - semantic_model
+  - eval_scenario_type
+  - scenario_chroma
+  - results
+
+required_retrieval_meta_fields:
+  - eval_file
+  - embed_model
+  - fetch_k
+  - chroma_collection
+  - max_rows
+  - eval_shuffle
+  - retrieval_eval_shuffle_env
+  - seed
+  - metric_modes
+  - primary_metric_mode
+  - gold_sha256
+
+replay:
+  b3_matrix: python -m eval.replay_experiment run phase_b3_full_corpus_rerank_matrix
+  validity_suite: python -m eval.diagnostics.run_final_research_validity_suite
+  final_report: python -m eval.reporting.emit_phase_b_final_research_report
