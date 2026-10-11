@@ -1,0 +1,4 @@
+{
+  "RERANK_MODEL": "jinaai/jina-reranker-v3",
+  "RERANK_MODE": "cross"
+}

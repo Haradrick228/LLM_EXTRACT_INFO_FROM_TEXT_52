@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "scenario": "full_default_clean",
+    "collection_yaml": "default_clean",
+    "collection_resolved": "default",
+    "job_name": "dense_only",
+    "fetch_k": 100,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.009900990099009901,
+  "recall@10": 0.019801980198019802,
+  "recall@20": 0.019801980198019802,
+  "precision@5": 0.0059405940594059415,
+  "precision@10": 0.0039603960396039604,
+  "precision@20": 0.005445544554455446,
+  "mrr": 0.01434612211221122,
+  "ndcg@3": 0.009106146427209777,
+  "substring::recall@5": 0.009900990099009901,
+  "substring::recall@10": 0.019801980198019802,
+  "substring::recall@20": 0.019801980198019802,
+  "substring::precision@5": 0.0059405940594059415,
+  "substring::precision@10": 0.0039603960396039604,
+  "substring::precision@20": 0.005445544554455446,
+  "substring::mrr": 0.01434612211221122,
+  "substring::ndcg@3": 0.009106146427209777,
+  "token_f1::recall@5": 0.0,
+  "token_f1::recall@10": 0.0,
+  "token_f1::recall@20": 0.0,
+  "token_f1::precision@5": 0.0,
+  "token_f1::precision@10": 0.0,
+  "token_f1::precision@20": 0.0,
+  "token_f1::mrr": 0.0003859456410408657,
+  "token_f1::ndcg@3": 0.0
+}

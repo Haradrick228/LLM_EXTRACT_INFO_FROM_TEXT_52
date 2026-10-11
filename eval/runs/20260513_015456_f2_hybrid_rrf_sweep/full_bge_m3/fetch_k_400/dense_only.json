@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "scenario": "full_bge_m3",
+    "collection_yaml": "corpus_phase_b_bge_m3",
+    "collection_resolved": "corpus_phase_b_bge_m3",
+    "job_name": "dense_only",
+    "fetch_k": 400,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.034653465346534656,
+  "recall@10": 0.04455445544554455,
+  "recall@20": 0.04455445544554455,
+  "precision@5": 0.019801980198019802,
+  "precision@10": 0.02277227722772277,
+  "precision@20": 0.017821782178217824,
+  "mrr": 0.04415584415584416,
+  "ndcg@3": 0.03194350876763284,
+  "substring::recall@5": 0.034653465346534656,
+  "substring::recall@10": 0.04455445544554455,
+  "substring::recall@20": 0.04455445544554455,
+  "substring::precision@5": 0.019801980198019802,
+  "substring::precision@10": 0.02277227722772277,
+  "substring::precision@20": 0.017821782178217824,
+  "substring::mrr": 0.04415584415584416,
+  "substring::ndcg@3": 0.03194350876763284,
+  "token_f1::recall@5": 0.0297029702970297,
+  "token_f1::recall@10": 0.039603960396039604,
+  "token_f1::recall@20": 0.06930693069306931,
+  "token_f1::precision@5": 0.007920792079207921,
+  "token_f1::precision@10": 0.00693069306930693,
+  "token_f1::precision@20": 0.007920792079207921,
+  "token_f1::mrr": 0.018651901670214667,
+  "token_f1::ndcg@3": 0.009900990099009901
+}

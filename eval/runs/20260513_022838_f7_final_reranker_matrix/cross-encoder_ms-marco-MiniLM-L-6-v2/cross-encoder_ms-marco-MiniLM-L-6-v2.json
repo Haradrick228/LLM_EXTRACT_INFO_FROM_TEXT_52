@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "base_spec": "hybrid_rrf:full_mpnet:DATA/indexes/bm25/corpus_full_20260512",
+    "base_meta": {
+      "kind": "hybrid_rrf",
+      "base_id": "full_mpnet",
+      "collection": "corpus_phase_b_mpnet",
+      "bm25_dir": "DATA\\indexes\\bm25\\corpus_full_20260512",
+      "rrf_k": 60
+    },
+    "reranker": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+    "candidate_top_k": 50,
+    "top_k": 20,
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 10
+  },
+  "recall@5": 0.0,
+  "recall@10": 0.0,
+  "recall@20": 0.0,
+  "precision@5": 0.0,
+  "precision@10": 0.0,
+  "precision@20": 0.0,
+  "mrr": 0.0,
+  "ndcg@3": 0.0,
+  "substring::recall@5": 0.0,
+  "substring::recall@10": 0.0,
+  "substring::recall@20": 0.0,
+  "substring::precision@5": 0.0,
+  "substring::precision@10": 0.0,
+  "substring::precision@20": 0.0,
+  "substring::mrr": 0.0,
+  "substring::ndcg@3": 0.0,
+  "token_f1::recall@5": 0.0,
+  "token_f1::recall@10": 0.0,
+  "token_f1::recall@20": 0.0,
+  "token_f1::precision@5": 0.0,
+  "token_f1::precision@10": 0.0,
+  "token_f1::precision@20": 0.0,
+  "token_f1::mrr": 0.0,
+  "token_f1::ndcg@3": 0.0
+}

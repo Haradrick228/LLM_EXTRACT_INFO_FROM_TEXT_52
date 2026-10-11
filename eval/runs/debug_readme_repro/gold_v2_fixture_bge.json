@@ -1,0 +1,23 @@
+{
+  "recall@5": 0.594059405940594,
+  "recall@10": 0.6039603960396039,
+  "precision@5": 0.29108910891089096,
+  "precision@10": 0.19207920792079228,
+  "mrr": 0.49877416313059886,
+  "ndcg@3": 0.4991733492574278,
+  "_meta": {
+    "eval_file": "eval/eval_set_gold_v2.jsonl",
+    "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "fetch_k": 40,
+    "rerank_model": "BAAI/bge-reranker-v2-m3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "gold_v2_fixture",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": "",
+    "eval_shuffle": false,
+    "retrieval_eval_shuffle_env": "0"
+  }
+}

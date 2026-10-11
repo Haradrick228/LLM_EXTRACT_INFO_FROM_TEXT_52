@@ -1,0 +1,15 @@
+{
+  "component": "gold_on_full_corpus_dense_trace",
+  "chroma_collection": "corpus_phase_b_bge_m3",
+  "embed_model": "BAAI/bge-m3",
+  "eval_file": "eval/datasets/eval_set_gold_v2.jsonl",
+  "n_queries": 101,
+  "fetch_k": 100,
+  "k": "5,10,20",
+  "metric_modes": "substring,token_f1",
+  "artifacts": {
+    "retrieval.json": "retrieval.json",
+    "trace.jsonl": "trace.jsonl"
+  },
+  "note": "Honest baseline: same gold as F2/F3, search over full 61k corpus (dense only, no rerank)."
+}

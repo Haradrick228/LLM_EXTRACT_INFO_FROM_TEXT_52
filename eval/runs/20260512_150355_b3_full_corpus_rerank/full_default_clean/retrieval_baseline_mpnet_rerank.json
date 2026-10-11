@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.0,
+  "recall@10": 0.0,
+  "precision@5": 0.0,
+  "precision@10": 0.0,
+  "mrr": 0.002151107967939651,
+  "ndcg@3": 0.0,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "fetch_k": 40,
+    "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "default",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": ""
+  }
+}

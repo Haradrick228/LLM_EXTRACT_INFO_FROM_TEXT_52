@@ -1,0 +1,37 @@
+{
+  "component": "eval.retrieval.run_hybrid_rrf_sweep",
+  "ts": "20260513_015456",
+  "dense_registry": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\config\\embedding_bases_full_corpus.yaml",
+  "bm25_dir": "DATA\\indexes\\bm25\\corpus_full_20260512",
+  "eval_file": "eval\\datasets\\eval_set_gold_v2.jsonl",
+  "scenarios": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3",
+    "full_default_clean"
+  ],
+  "fetch_ks": [
+    40,
+    100,
+    200,
+    400
+  ],
+  "rrf_k": 60,
+  "k_values": [
+    5,
+    10,
+    20
+  ],
+  "metric_modes": [
+    "substring",
+    "token_f1"
+  ],
+  "primary_metric_mode": "substring",
+  "seed": 0,
+  "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+  "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395",
+  "chroma_host": "127.0.0.1",
+  "chroma_port": 18000
+}

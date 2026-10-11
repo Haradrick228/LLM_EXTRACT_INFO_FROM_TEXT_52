@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "base_spec": "hybrid_rrf:full_mpnet:DATA/indexes/bm25/corpus_full_20260512",
+    "base_meta": {
+      "kind": "hybrid_rrf",
+      "base_id": "full_mpnet",
+      "collection": "corpus_phase_b_mpnet",
+      "bm25_dir": "DATA\\indexes\\bm25\\corpus_full_20260512",
+      "rrf_k": 60
+    },
+    "reranker": "jinaai/jina-reranker-v2-base-multilingual",
+    "candidate_top_k": 50,
+    "top_k": 20,
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.034653465346534656,
+  "recall@10": 0.034653465346534656,
+  "recall@20": 0.054455445544554455,
+  "precision@5": 0.015841584158415842,
+  "precision@10": 0.01386138613861386,
+  "precision@20": 0.014851485148514854,
+  "mrr": 0.025632563256325635,
+  "ndcg@3": 0.016147819342291658,
+  "substring::recall@5": 0.034653465346534656,
+  "substring::recall@10": 0.034653465346534656,
+  "substring::recall@20": 0.054455445544554455,
+  "substring::precision@5": 0.015841584158415842,
+  "substring::precision@10": 0.01386138613861386,
+  "substring::precision@20": 0.014851485148514854,
+  "substring::mrr": 0.025632563256325635,
+  "substring::ndcg@3": 0.016147819342291658,
+  "token_f1::recall@5": 0.019801980198019802,
+  "token_f1::recall@10": 0.0297029702970297,
+  "token_f1::recall@20": 0.039603960396039604,
+  "token_f1::precision@5": 0.0059405940594059415,
+  "token_f1::precision@10": 0.007920792079207921,
+  "token_f1::precision@20": 0.005445544554455445,
+  "token_f1::mrr": 0.009975997599759976,
+  "token_f1::ndcg@3": 0.006246829243281757
+}

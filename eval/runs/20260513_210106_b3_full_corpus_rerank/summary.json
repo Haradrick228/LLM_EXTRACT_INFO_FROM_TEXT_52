@@ -1,0 +1,156 @@
+{
+  "run_dir": "eval\\runs\\20260513_210106_b3_full_corpus_rerank",
+  "dense_registry": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\config\\embedding_bases_full_corpus.yaml",
+  "scenarios": [
+    "full_bge_m3"
+  ],
+  "retrieval_only": false,
+  "profiles": [
+    "rerank_jina_v3",
+    "rerank_bge_v2_m3"
+  ],
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+  "fetch_k": 40,
+  "k": "5,10,20",
+  "expected_rows_cli": 61543,
+  "retrieval_trace": false,
+  "trace_doc_chars": 2500,
+  "matrix_manifest": "matrix_manifest.json",
+  "metrics_matrix_md": "metrics_matrix.md",
+  "scenario_chroma": {
+    "full_bge_m3": {
+      "base_id": "full_bge_m3",
+      "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+      "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+      "collection_fallback": null,
+      "embed_model": "BAAI/bge-m3",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    }
+  },
+  "results": {
+    "full_bge_m3": {
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+        "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+        "embed_model": "BAAI/bge-m3",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross",
+        "answer_returncode": 0,
+        "metrics": {
+          "recall@5": 0.034653465346534656,
+          "recall@10": 0.04455445544554455,
+          "recall@20": 0.04455445544554455,
+          "precision@5": 0.019801980198019802,
+          "precision@10": 0.02277227722772277,
+          "precision@20": 0.017821782178217824,
+          "mrr": 0.04415584415584416,
+          "ndcg@3": 0.03194350876763284,
+          "substring::recall@5": 0.034653465346534656,
+          "substring::recall@10": 0.04455445544554455,
+          "substring::recall@20": 0.04455445544554455,
+          "substring::precision@5": 0.019801980198019802,
+          "substring::precision@10": 0.02277227722772277,
+          "substring::precision@20": 0.017821782178217824,
+          "substring::mrr": 0.04415584415584416,
+          "substring::ndcg@3": 0.03194350876763284,
+          "token_f1::recall@5": 0.0297029702970297,
+          "token_f1::recall@10": 0.039603960396039604,
+          "token_f1::recall@20": 0.06930693069306931,
+          "token_f1::precision@5": 0.007920792079207921,
+          "token_f1::precision@10": 0.00693069306930693,
+          "token_f1::precision@20": 0.007920792079207921,
+          "token_f1::mrr": 0.018534889203206034,
+          "token_f1::ndcg@3": 0.009900990099009901
+        },
+        "metrics_meta": {
+          "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+          "embed_model": "BAAI/bge-m3",
+          "fetch_k": 40,
+          "rerank_model": "jinaai/jina-reranker-v3",
+          "rerank_mode": "cross",
+          "chroma_host": "127.0.0.1",
+          "chroma_port": 18000,
+          "chroma_collection": "corpus_phase_b_bge_m3",
+          "max_rows": 0,
+          "retrieval_trace_jsonl": "",
+          "trace_profile_label": "",
+          "eval_shuffle": false,
+          "retrieval_eval_shuffle_env": "0",
+          "seed": 0,
+          "metric_modes": [
+            "substring",
+            "token_f1"
+          ],
+          "primary_metric_mode": "substring",
+          "semantic_model": null,
+          "semantic_threshold": null,
+          "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+          "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+        }
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+        "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+        "embed_model": "BAAI/bge-m3",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross",
+        "answer_returncode": 0,
+        "metrics": {
+          "recall@5": 0.024752475247524754,
+          "recall@10": 0.054455445544554455,
+          "recall@20": 0.054455445544554455,
+          "precision@5": 0.009900990099009901,
+          "precision@10": 0.015841584158415842,
+          "precision@20": 0.020792079207920793,
+          "mrr": 0.020876808177712182,
+          "ndcg@3": 0.006070764284806519,
+          "substring::recall@5": 0.024752475247524754,
+          "substring::recall@10": 0.054455445544554455,
+          "substring::recall@20": 0.054455445544554455,
+          "substring::precision@5": 0.009900990099009901,
+          "substring::precision@10": 0.015841584158415842,
+          "substring::precision@20": 0.020792079207920793,
+          "substring::mrr": 0.020876808177712182,
+          "substring::ndcg@3": 0.006070764284806519,
+          "token_f1::recall@5": 0.0594059405940594,
+          "token_f1::recall@10": 0.06930693069306931,
+          "token_f1::recall@20": 0.06930693069306931,
+          "token_f1::precision@5": 0.0297029702970297,
+          "token_f1::precision@10": 0.015841584158415842,
+          "token_f1::precision@20": 0.007920792079207921,
+          "token_f1::mrr": 0.04844413012729844,
+          "token_f1::ndcg@3": 0.04950495049504951
+        },
+        "metrics_meta": {
+          "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+          "embed_model": "BAAI/bge-m3",
+          "fetch_k": 40,
+          "rerank_model": "BAAI/bge-reranker-v2-m3",
+          "rerank_mode": "cross",
+          "chroma_host": "127.0.0.1",
+          "chroma_port": 18000,
+          "chroma_collection": "corpus_phase_b_bge_m3",
+          "max_rows": 0,
+          "retrieval_trace_jsonl": "",
+          "trace_profile_label": "",
+          "eval_shuffle": false,
+          "retrieval_eval_shuffle_env": "0",
+          "seed": 0,
+          "metric_modes": [
+            "substring",
+            "token_f1"
+          ],
+          "primary_metric_mode": "substring",
+          "semantic_model": null,
+          "semantic_threshold": null,
+          "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+          "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+        }
+      }
+    }
+  }
+}

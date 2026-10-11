@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.0297029702970297,
+  "recall@10": 0.0594059405940594,
+  "precision@5": 0.013861386138613863,
+  "precision@10": 0.018811881188118815,
+  "mrr": 0.022422599402797422,
+  "ndcg@3": 0.006070764284806519,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "intfloat/multilingual-e5-large-instruct",
+    "fetch_k": 40,
+    "rerank_model": "BAAI/bge-reranker-v2-m3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_e5_large_instruct",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": ""
+  }
+}

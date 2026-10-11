@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "scenario": "full_frida",
+    "collection_yaml": "corpus_phase_b_frida",
+    "collection_resolved": "corpus_phase_b_frida",
+    "job_name": "hybrid_rrf",
+    "fetch_k": 400,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.019801980198019802,
+  "recall@10": 0.0594059405940594,
+  "recall@20": 0.06435643564356436,
+  "precision@5": 0.019801980198019802,
+  "precision@10": 0.020792079207920797,
+  "precision@20": 0.024257425742574258,
+  "mrr": 0.030397377427080402,
+  "ndcg@3": 0.026667588154626443,
+  "substring::recall@5": 0.019801980198019802,
+  "substring::recall@10": 0.0594059405940594,
+  "substring::recall@20": 0.06435643564356436,
+  "substring::precision@5": 0.019801980198019802,
+  "substring::precision@10": 0.020792079207920797,
+  "substring::precision@20": 0.024257425742574258,
+  "substring::mrr": 0.030397377427080402,
+  "substring::ndcg@3": 0.026667588154626443,
+  "token_f1::recall@5": 0.019801980198019802,
+  "token_f1::recall@10": 0.04950495049504951,
+  "token_f1::recall@20": 0.0594059405940594,
+  "token_f1::precision@5": 0.0059405940594059415,
+  "token_f1::precision@10": 0.009900990099009901,
+  "token_f1::precision@20": 0.006435643564356436,
+  "token_f1::mrr": 0.012382488248824883,
+  "token_f1::ndcg@3": 0.006246829243281757
+}

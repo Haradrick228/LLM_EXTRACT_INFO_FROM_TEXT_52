@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.034653465346534656,
+  "recall@10": 0.034653465346534656,
+  "precision@5": 0.015841584158415842,
+  "precision@10": 0.017821782178217824,
+  "mrr": 0.03705105804698117,
+  "ndcg@3": 0.02890812662522958,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "BAAI/bge-m3",
+    "fetch_k": 40,
+    "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_bge_m3",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": ""
+  }
+}

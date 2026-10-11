@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "scenario": "full_e5_large_instruct",
+    "collection_yaml": "corpus_phase_b_e5_large_instruct",
+    "collection_resolved": "corpus_phase_b_e5_large_instruct",
+    "job_name": "hyde",
+    "fetch_k": 100,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:7b-instruct",
+    "n_queries": 101
+  },
+  "recall@5": 0.01485148514851485,
+  "recall@10": 0.024752475247524754,
+  "recall@20": 0.024752475247524754,
+  "precision@5": 0.0039603960396039604,
+  "precision@10": 0.0029702970297029708,
+  "precision@20": 0.0019801980198019802,
+  "mrr": 0.006242338519566242,
+  "ndcg@3": 0.0,
+  "substring::recall@5": 0.01485148514851485,
+  "substring::recall@10": 0.024752475247524754,
+  "substring::recall@20": 0.024752475247524754,
+  "substring::precision@5": 0.0039603960396039604,
+  "substring::precision@10": 0.0029702970297029708,
+  "substring::precision@20": 0.0019801980198019802,
+  "substring::mrr": 0.006242338519566242,
+  "substring::ndcg@3": 0.0,
+  "token_f1::recall@5": 0.009900990099009901,
+  "token_f1::recall@10": 0.0297029702970297,
+  "token_f1::recall@20": 0.04950495049504951,
+  "token_f1::precision@5": 0.0019801980198019802,
+  "token_f1::precision@10": 0.0029702970297029708,
+  "token_f1::precision@20": 0.0049504950495049506,
+  "token_f1::mrr": 0.005978674790555978,
+  "token_f1::ndcg@3": 0.0
+}

@@ -1,0 +1,51 @@
+{
+  "component": "eval.retrieval.run_bge_m3_multi_vector_sweep",
+  "ts": "20260513_020808",
+  "scenario": "full_bge_m3",
+  "collection_resolved": "corpus_phase_b_bge_m3",
+  "candidate_top_k": 100,
+  "top_k": 20,
+  "combos": [
+    {
+      "name": "dense_only",
+      "w_dense": 1.0,
+      "w_sparse": 0.0,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_sparse",
+      "w_dense": 0.6,
+      "w_sparse": 0.4,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_colbert",
+      "w_dense": 0.5,
+      "w_sparse": 0.0,
+      "w_colbert": 0.5
+    },
+    {
+      "name": "balanced",
+      "w_dense": 0.4,
+      "w_sparse": 0.2,
+      "w_colbert": 0.4
+    },
+    {
+      "name": "sparse_heavy",
+      "w_dense": 0.2,
+      "w_sparse": 0.6,
+      "w_colbert": 0.2
+    }
+  ],
+  "metric_modes": [
+    "substring",
+    "token_f1"
+  ],
+  "primary_metric_mode": "substring",
+  "bge_model": "BAAI/bge-m3",
+  "bge_device": null,
+  "bge_batch_size": 8,
+  "seed": 0,
+  "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+  "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+}

@@ -1,0 +1,4 @@
+{
+  "RERANK_MODEL": "sentence-transformers/all-MiniLM-L6-v2",
+  "RERANK_MODE": "cross"
+}

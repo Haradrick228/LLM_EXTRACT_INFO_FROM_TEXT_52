@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.034653465346534656,
+  "recall@10": 0.04455445544554455,
+  "precision@5": 0.019801980198019802,
+  "precision@10": 0.02277227722772277,
+  "mrr": 0.04415584415584416,
+  "ndcg@3": 0.03194350876763284,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "BAAI/bge-m3",
+    "fetch_k": 40,
+    "rerank_model": "jinaai/jina-reranker-v3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_bge_m3",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260512_143229_b3_full_corpus_rerank\\full_bge_m3\\retrieval_trace_rerank_jina_v3.jsonl",
+    "trace_profile_label": "rerank_jina_v3"
+  }
+}

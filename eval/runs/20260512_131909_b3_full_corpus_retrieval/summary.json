@@ -1,0 +1,44 @@
+{
+  "run_dir": "eval\\runs\\20260512_131909_b3_full_corpus_retrieval",
+  "dense_registry": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\phase_b\\embedding_bases_full_corpus.yaml",
+  "scenarios": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3"
+  ],
+  "retrieval_only": true,
+  "profiles": [],
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+  "fetch_k": 40,
+  "k": "5,10",
+  "expected_rows": 61543,
+  "results": {
+    "full_mpnet": {
+      "dense_only": {
+        "retrieval_returncode": 0
+      }
+    },
+    "full_bge_m3": {
+      "dense_only": {
+        "retrieval_returncode": 0
+      }
+    },
+    "full_frida": {
+      "dense_only": {
+        "retrieval_returncode": 0
+      }
+    },
+    "full_e5_large_instruct": {
+      "dense_only": {
+        "retrieval_returncode": 0
+      }
+    },
+    "full_jina_embeddings_v3": {
+      "dense_only": {
+        "retrieval_returncode": 1
+      }
+    }
+  }
+}

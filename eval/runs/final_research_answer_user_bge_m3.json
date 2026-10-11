@@ -1,0 +1,92 @@
+{
+  "b3_run_dir": "eval\\runs\\20260531_012703_b3_full_corpus_rerank",
+  "metric": "substring::recall@10",
+  "cells": [
+    {
+      "rank": 1,
+      "substring_recall_at_10": 0.034653465346534656,
+      "scenario": "full_user_bge_m3",
+      "profile": "baseline_mpnet_rerank",
+      "retrieval_json": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_baseline_mpnet_rerank.json",
+      "returncode": 0,
+      "manifest": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\01_full_user_bge_m3_baseline_mpnet_rerank\\answer_eval_manifest.json",
+      "manifest_data": {
+        "schema": "answer_eval_in_run_dir_v1",
+        "run_dir": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/_answer_user_bge_m3/01_full_user_bge_m3_baseline_mpnet_rerank",
+        "answer_eval_file": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+        "answer_eval_out": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\01_full_user_bge_m3_baseline_mpnet_rerank\\answer_eval_results.jsonl",
+        "fetch_k": "40",
+        "chroma_collection": "corpus_phase_b_user_bge_m3",
+        "chroma_embed_model": "C:/IT/VS Code/model/USER-bge-m3",
+        "max_rows": 0,
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross",
+        "retrieval_json": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/full_user_bge_m3/retrieval_baseline_mpnet_rerank.json"
+      }
+    },
+    {
+      "rank": 2,
+      "substring_recall_at_10": 0.054455445544554455,
+      "scenario": "full_user_bge_m3",
+      "profile": "rerank_bge_v2_m3",
+      "retrieval_json": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_rerank_bge_v2_m3.json",
+      "returncode": 0,
+      "manifest": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\02_full_user_bge_m3_rerank_bge_v2_m3\\answer_eval_manifest.json",
+      "manifest_data": {
+        "schema": "answer_eval_in_run_dir_v1",
+        "run_dir": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/_answer_user_bge_m3/02_full_user_bge_m3_rerank_bge_v2_m3",
+        "answer_eval_file": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+        "answer_eval_out": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\02_full_user_bge_m3_rerank_bge_v2_m3\\answer_eval_results.jsonl",
+        "fetch_k": "40",
+        "chroma_collection": "corpus_phase_b_user_bge_m3",
+        "chroma_embed_model": "C:/IT/VS Code/model/USER-bge-m3",
+        "max_rows": 0,
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross",
+        "retrieval_json": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/full_user_bge_m3/retrieval_rerank_bge_v2_m3.json"
+      }
+    },
+    {
+      "rank": 3,
+      "substring_recall_at_10": 0.06435643564356436,
+      "scenario": "full_user_bge_m3",
+      "profile": "rerank_jina_v3",
+      "retrieval_json": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_rerank_jina_v3.json",
+      "returncode": 0,
+      "manifest": "eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\03_full_user_bge_m3_rerank_jina_v3\\answer_eval_manifest.json",
+      "manifest_data": {
+        "schema": "answer_eval_in_run_dir_v1",
+        "run_dir": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/_answer_user_bge_m3/03_full_user_bge_m3_rerank_jina_v3",
+        "answer_eval_file": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+        "answer_eval_out": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\_answer_user_bge_m3\\03_full_user_bge_m3_rerank_jina_v3\\answer_eval_results.jsonl",
+        "fetch_k": "40",
+        "chroma_collection": "corpus_phase_b_user_bge_m3",
+        "chroma_embed_model": "C:/IT/VS Code/model/USER-bge-m3",
+        "max_rows": 0,
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross",
+        "retrieval_json": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260531_012703_b3_full_corpus_rerank/full_user_bge_m3/retrieval_rerank_jina_v3.json"
+      }
+    }
+  ],
+  "candidates_planned": [
+    {
+      "scenario": "full_user_bge_m3",
+      "profile": "baseline_mpnet_rerank",
+      "retrieval_json": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_baseline_mpnet_rerank.json",
+      "exists": true
+    },
+    {
+      "scenario": "full_user_bge_m3",
+      "profile": "rerank_bge_v2_m3",
+      "retrieval_json": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_rerank_bge_v2_m3.json",
+      "exists": true
+    },
+    {
+      "scenario": "full_user_bge_m3",
+      "profile": "rerank_jina_v3",
+      "retrieval_json": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260531_012703_b3_full_corpus_rerank\\full_user_bge_m3\\retrieval_rerank_jina_v3.json",
+      "exists": true
+    }
+  ]
+}

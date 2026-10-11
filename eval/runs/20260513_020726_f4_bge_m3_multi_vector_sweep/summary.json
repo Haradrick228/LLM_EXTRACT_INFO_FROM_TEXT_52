@@ -1,0 +1,60 @@
+{
+  "run_dir": "eval\\runs\\20260513_020726_f4_bge_m3_multi_vector_sweep",
+  "n_queries": 101,
+  "candidate_top_k": 100,
+  "top_k": 20,
+  "combos": [
+    {
+      "name": "dense_only",
+      "w_dense": 1.0,
+      "w_sparse": 0.0,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_sparse",
+      "w_dense": 0.6,
+      "w_sparse": 0.4,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_colbert",
+      "w_dense": 0.5,
+      "w_sparse": 0.0,
+      "w_colbert": 0.5
+    },
+    {
+      "name": "balanced",
+      "w_dense": 0.4,
+      "w_sparse": 0.2,
+      "w_colbert": 0.4
+    },
+    {
+      "name": "sparse_heavy",
+      "w_dense": 0.2,
+      "w_sparse": 0.6,
+      "w_colbert": 0.2
+    }
+  ],
+  "results": {
+    "dense_only": {
+      "ok": false,
+      "error": "FlagEmbedding is required for FlagEmbeddingMultiVectorEncoder; install via `pip install FlagEmbedding`"
+    },
+    "dense_sparse": {
+      "ok": false,
+      "error": "FlagEmbedding is required for FlagEmbeddingMultiVectorEncoder; install via `pip install FlagEmbedding`"
+    },
+    "dense_colbert": {
+      "ok": false,
+      "error": "FlagEmbedding is required for FlagEmbeddingMultiVectorEncoder; install via `pip install FlagEmbedding`"
+    },
+    "balanced": {
+      "ok": false,
+      "error": "FlagEmbedding is required for FlagEmbeddingMultiVectorEncoder; install via `pip install FlagEmbedding`"
+    },
+    "sparse_heavy": {
+      "ok": false,
+      "error": "FlagEmbedding is required for FlagEmbeddingMultiVectorEncoder; install via `pip install FlagEmbedding`"
+    }
+  }
+}

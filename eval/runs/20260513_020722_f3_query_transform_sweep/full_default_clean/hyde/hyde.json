@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "scenario": "full_default_clean",
+    "collection_yaml": "default_clean",
+    "collection_resolved": "default",
+    "job_name": "hyde",
+    "fetch_k": 100,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:7b-instruct",
+    "n_queries": 101
+  },
+  "recall@5": 0.0,
+  "recall@10": 0.0,
+  "recall@20": 0.0,
+  "precision@5": 0.0,
+  "precision@10": 0.0,
+  "precision@20": 0.0,
+  "mrr": 0.0004500450045004501,
+  "ndcg@3": 0.0,
+  "substring::recall@5": 0.0,
+  "substring::recall@10": 0.0,
+  "substring::recall@20": 0.0,
+  "substring::precision@5": 0.0,
+  "substring::precision@10": 0.0,
+  "substring::precision@20": 0.0,
+  "substring::mrr": 0.0004500450045004501,
+  "substring::ndcg@3": 0.0,
+  "token_f1::recall@5": 0.0,
+  "token_f1::recall@10": 0.0,
+  "token_f1::recall@20": 0.0,
+  "token_f1::precision@5": 0.0,
+  "token_f1::precision@10": 0.0,
+  "token_f1::precision@20": 0.0,
+  "token_f1::mrr": 0.0,
+  "token_f1::ndcg@3": 0.0
+}

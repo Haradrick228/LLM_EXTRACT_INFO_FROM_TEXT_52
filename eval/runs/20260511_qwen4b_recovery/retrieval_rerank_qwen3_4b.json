@@ -1,0 +1,19 @@
+{
+  "recall@5": 0.6782178217821783,
+  "recall@10": 0.8118811881188119,
+  "precision@5": 0.33069306930693065,
+  "precision@10": 0.2475247524752477,
+  "mrr": 0.576146110095764,
+  "ndcg@3": 0.9046348504597003,
+  "_meta": {
+    "eval_file": "eval/eval_set_with_answer_ref.jsonl",
+    "embed_model": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\DATA\\hf_embedders\\sentence-transformers__paraphrase-multilingual-mpnet-base-v2",
+    "fetch_k": 40,
+    "rerank_model": "Qwen/Qwen3-Reranker-4B",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "gold_v2_fixture",
+    "max_rows": 0
+  }
+}

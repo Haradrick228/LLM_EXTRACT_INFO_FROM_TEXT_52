@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "scenario": "full_bge_m3",
+    "combo": "balanced",
+    "candidate_top_k": 100,
+    "top_k": 20,
+    "weights": {
+      "dense": 0.4,
+      "sparse": 0.2,
+      "colbert": 0.4
+    },
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.054455445544554455,
+  "recall@10": 0.054455445544554455,
+  "recall@20": 0.06435643564356436,
+  "precision@5": 0.02772277227722772,
+  "precision@10": 0.024752475247524757,
+  "precision@20": 0.021782178217821784,
+  "mrr": 0.047296268088347304,
+  "ndcg@3": 0.0349788909100361,
+  "substring::recall@5": 0.054455445544554455,
+  "substring::recall@10": 0.054455445544554455,
+  "substring::recall@20": 0.06435643564356436,
+  "substring::precision@5": 0.02772277227722772,
+  "substring::precision@10": 0.024752475247524757,
+  "substring::precision@20": 0.021782178217821784,
+  "substring::mrr": 0.047296268088347304,
+  "substring::ndcg@3": 0.0349788909100361,
+  "token_f1::recall@5": 0.0297029702970297,
+  "token_f1::recall@10": 0.039603960396039604,
+  "token_f1::recall@20": 0.0594059405940594,
+  "token_f1::precision@5": 0.007920792079207921,
+  "token_f1::precision@10": 0.00693069306930693,
+  "token_f1::precision@20": 0.006435643564356434,
+  "token_f1::mrr": 0.01761233815689261,
+  "token_f1::ndcg@3": 0.009900990099009901
+}

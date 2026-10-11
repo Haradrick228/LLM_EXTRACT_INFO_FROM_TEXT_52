@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "scenario": "full_bge_m3",
+    "combo": "dense_sparse",
+    "candidate_top_k": 100,
+    "top_k": 20,
+    "weights": {
+      "dense": 0.6,
+      "sparse": 0.4,
+      "colbert": 0.0
+    },
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.04455445544554455,
+  "recall@10": 0.054455445544554455,
+  "recall@20": 0.054455445544554455,
+  "precision@5": 0.025742574257425738,
+  "precision@10": 0.024752475247524754,
+  "precision@20": 0.019801980198019802,
+  "mrr": 0.04521452145214521,
+  "ndcg@3": 0.0349788909100361,
+  "substring::recall@5": 0.04455445544554455,
+  "substring::recall@10": 0.054455445544554455,
+  "substring::recall@20": 0.054455445544554455,
+  "substring::precision@5": 0.025742574257425738,
+  "substring::precision@10": 0.024752475247524754,
+  "substring::precision@20": 0.019801980198019802,
+  "substring::mrr": 0.04521452145214521,
+  "substring::ndcg@3": 0.0349788909100361,
+  "token_f1::recall@5": 0.009900990099009901,
+  "token_f1::recall@10": 0.0297029702970297,
+  "token_f1::recall@20": 0.0297029702970297,
+  "token_f1::precision@5": 0.0039603960396039604,
+  "token_f1::precision@10": 0.0039603960396039604,
+  "token_f1::precision@20": 0.0019801980198019802,
+  "token_f1::mrr": 0.012729844413012729,
+  "token_f1::ndcg@3": 0.009900990099009901
+}

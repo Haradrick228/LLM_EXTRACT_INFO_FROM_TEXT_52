@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "scenario": "full_mpnet",
+    "collection_yaml": "corpus_phase_b_mpnet",
+    "collection_resolved": "corpus_phase_b_mpnet",
+    "job_name": "hyde",
+    "fetch_k": 100,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "llm_provider": "ollama",
+    "llm_model": "qwen2.5:7b-instruct",
+    "n_queries": 101
+  },
+  "recall@5": 0.0,
+  "recall@10": 0.0,
+  "recall@20": 0.0049504950495049506,
+  "precision@5": 0.0,
+  "precision@10": 0.0,
+  "precision@20": 0.0014851485148514852,
+  "mrr": 0.0007072135785007071,
+  "ndcg@3": 0.0,
+  "substring::recall@5": 0.0,
+  "substring::recall@10": 0.0,
+  "substring::recall@20": 0.0049504950495049506,
+  "substring::precision@5": 0.0,
+  "substring::precision@10": 0.0,
+  "substring::precision@20": 0.0014851485148514852,
+  "substring::mrr": 0.0007072135785007071,
+  "substring::ndcg@3": 0.0,
+  "token_f1::recall@5": 0.0,
+  "token_f1::recall@10": 0.0,
+  "token_f1::recall@20": 0.0,
+  "token_f1::precision@5": 0.0,
+  "token_f1::precision@10": 0.0,
+  "token_f1::precision@20": 0.0,
+  "token_f1::mrr": 0.0,
+  "token_f1::ndcg@3": 0.0
+}

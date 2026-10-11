@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.0594059405940594,
+  "recall@10": 0.0594059405940594,
+  "precision@5": 0.019801980198019802,
+  "precision@10": 0.01089108910891089,
+  "mrr": 0.05203905005885204,
+  "ndcg@3": 0.051302775210803,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "intfloat/multilingual-e5-large-instruct",
+    "fetch_k": 40,
+    "rerank_model": "jinaai/jina-reranker-v3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_e5_large_instruct",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260512_143229_b3_full_corpus_rerank\\full_e5_large_instruct\\retrieval_trace_rerank_jina_v3.jsonl",
+    "trace_profile_label": "rerank_jina_v3"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "answer_eval_in_run_dir_v1",
+  "run_dir": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260513_205851_gold_on_full_corpus_bge_m3",
+  "answer_eval_file": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+  "answer_eval_out": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260513_205851_gold_on_full_corpus_bge_m3\\answer_eval_results.jsonl",
+  "fetch_k": "100",
+  "chroma_collection": "corpus_phase_b_bge_m3",
+  "chroma_embed_model": "BAAI/bge-m3",
+  "max_rows": 0,
+  "retrieval_meta_present": true
+}

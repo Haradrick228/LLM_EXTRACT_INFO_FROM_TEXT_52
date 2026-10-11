@@ -1,0 +1,11 @@
+{
+  "run_dir": "eval\\runs\\20260511_172226_rerank_matrix",
+  "profiles": [
+    "baseline_mpnet_rerank"
+  ],
+  "results": {
+    "baseline_mpnet_rerank": {
+      "retrieval_returncode": 0
+    }
+  }
+}

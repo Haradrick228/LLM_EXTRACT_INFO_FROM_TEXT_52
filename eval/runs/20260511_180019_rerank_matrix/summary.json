@@ -1,0 +1,19 @@
+{
+  "run_dir": "eval\\runs\\20260511_180019_rerank_matrix",
+  "profiles": [
+    "baseline_mpnet_rerank",
+    "rerank_jina_v3",
+    "rerank_bge_v2_m3"
+  ],
+  "results": {
+    "baseline_mpnet_rerank": {
+      "retrieval_returncode": 0
+    },
+    "rerank_jina_v3": {
+      "retrieval_returncode": 0
+    },
+    "rerank_bge_v2_m3": {
+      "retrieval_returncode": 0
+    }
+  }
+}

@@ -1,0 +1,305 @@
+{
+  "run_dir": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep",
+  "n_queries": 101,
+  "candidate_top_k": 100,
+  "top_k": 20,
+  "combos": [
+    {
+      "name": "dense_only",
+      "w_dense": 1.0,
+      "w_sparse": 0.0,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_sparse",
+      "w_dense": 0.6,
+      "w_sparse": 0.4,
+      "w_colbert": 0.0
+    },
+    {
+      "name": "dense_colbert",
+      "w_dense": 0.5,
+      "w_sparse": 0.0,
+      "w_colbert": 0.5
+    },
+    {
+      "name": "balanced",
+      "w_dense": 0.4,
+      "w_sparse": 0.2,
+      "w_colbert": 0.4
+    },
+    {
+      "name": "sparse_heavy",
+      "w_dense": 0.2,
+      "w_sparse": 0.6,
+      "w_colbert": 0.2
+    }
+  ],
+  "results": {
+    "dense_only": {
+      "metrics": {
+        "recall@5": 0.034653465346534656,
+        "recall@10": 0.04455445544554455,
+        "recall@20": 0.04455445544554455,
+        "precision@5": 0.019801980198019802,
+        "precision@10": 0.02277227722772277,
+        "precision@20": 0.017821782178217824,
+        "mrr": 0.043234323432343236,
+        "ndcg@3": 0.03194350876763284,
+        "substring::recall@5": 0.034653465346534656,
+        "substring::recall@10": 0.04455445544554455,
+        "substring::recall@20": 0.04455445544554455,
+        "substring::precision@5": 0.019801980198019802,
+        "substring::precision@10": 0.02277227722772277,
+        "substring::precision@20": 0.017821782178217824,
+        "substring::mrr": 0.043234323432343236,
+        "substring::ndcg@3": 0.03194350876763284,
+        "token_f1::recall@5": 0.0297029702970297,
+        "token_f1::recall@10": 0.039603960396039604,
+        "token_f1::recall@20": 0.06930693069306931,
+        "token_f1::precision@5": 0.007920792079207921,
+        "token_f1::precision@10": 0.00693069306930693,
+        "token_f1::precision@20": 0.007920792079207921,
+        "token_f1::mrr": 0.018534889203206034,
+        "token_f1::ndcg@3": 0.009900990099009901
+      },
+      "metrics_by_mode": {
+        "substring": {
+          "recall@5": 0.034653465346534656,
+          "recall@10": 0.04455445544554455,
+          "recall@20": 0.04455445544554455,
+          "precision@5": 0.019801980198019802,
+          "precision@10": 0.02277227722772277,
+          "precision@20": 0.017821782178217824,
+          "mrr": 0.043234323432343236,
+          "ndcg@3": 0.03194350876763284
+        },
+        "token_f1": {
+          "recall@5": 0.0297029702970297,
+          "recall@10": 0.039603960396039604,
+          "recall@20": 0.06930693069306931,
+          "precision@5": 0.007920792079207921,
+          "precision@10": 0.00693069306930693,
+          "precision@20": 0.007920792079207921,
+          "mrr": 0.018534889203206034,
+          "ndcg@3": 0.009900990099009901
+        }
+      },
+      "json": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_only\\dense_only.json",
+      "trace": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_only\\dense_only.trace.jsonl",
+      "ok": true
+    },
+    "dense_sparse": {
+      "metrics": {
+        "recall@5": 0.04455445544554455,
+        "recall@10": 0.054455445544554455,
+        "recall@20": 0.054455445544554455,
+        "precision@5": 0.025742574257425738,
+        "precision@10": 0.024752475247524754,
+        "precision@20": 0.019801980198019802,
+        "mrr": 0.04521452145214521,
+        "ndcg@3": 0.0349788909100361,
+        "substring::recall@5": 0.04455445544554455,
+        "substring::recall@10": 0.054455445544554455,
+        "substring::recall@20": 0.054455445544554455,
+        "substring::precision@5": 0.025742574257425738,
+        "substring::precision@10": 0.024752475247524754,
+        "substring::precision@20": 0.019801980198019802,
+        "substring::mrr": 0.04521452145214521,
+        "substring::ndcg@3": 0.0349788909100361,
+        "token_f1::recall@5": 0.009900990099009901,
+        "token_f1::recall@10": 0.0297029702970297,
+        "token_f1::recall@20": 0.0297029702970297,
+        "token_f1::precision@5": 0.0039603960396039604,
+        "token_f1::precision@10": 0.0039603960396039604,
+        "token_f1::precision@20": 0.0019801980198019802,
+        "token_f1::mrr": 0.012729844413012729,
+        "token_f1::ndcg@3": 0.009900990099009901
+      },
+      "metrics_by_mode": {
+        "substring": {
+          "recall@5": 0.04455445544554455,
+          "recall@10": 0.054455445544554455,
+          "recall@20": 0.054455445544554455,
+          "precision@5": 0.025742574257425738,
+          "precision@10": 0.024752475247524754,
+          "precision@20": 0.019801980198019802,
+          "mrr": 0.04521452145214521,
+          "ndcg@3": 0.0349788909100361
+        },
+        "token_f1": {
+          "recall@5": 0.009900990099009901,
+          "recall@10": 0.0297029702970297,
+          "recall@20": 0.0297029702970297,
+          "precision@5": 0.0039603960396039604,
+          "precision@10": 0.0039603960396039604,
+          "precision@20": 0.0019801980198019802,
+          "mrr": 0.012729844413012729,
+          "ndcg@3": 0.009900990099009901
+        }
+      },
+      "json": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_sparse\\dense_sparse.json",
+      "trace": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_sparse\\dense_sparse.trace.jsonl",
+      "ok": true
+    },
+    "dense_colbert": {
+      "metrics": {
+        "recall@5": 0.054455445544554455,
+        "recall@10": 0.06435643564356436,
+        "recall@20": 0.06435643564356436,
+        "precision@5": 0.023762376237623763,
+        "precision@10": 0.025742574257425745,
+        "precision@20": 0.021287128712871292,
+        "mrr": 0.046958981612446965,
+        "ndcg@3": 0.03194350876763284,
+        "substring::recall@5": 0.054455445544554455,
+        "substring::recall@10": 0.06435643564356436,
+        "substring::recall@20": 0.06435643564356436,
+        "substring::precision@5": 0.023762376237623763,
+        "substring::precision@10": 0.025742574257425745,
+        "substring::precision@20": 0.021287128712871292,
+        "substring::mrr": 0.046958981612446965,
+        "substring::ndcg@3": 0.03194350876763284,
+        "token_f1::recall@5": 0.039603960396039604,
+        "token_f1::recall@10": 0.0594059405940594,
+        "token_f1::recall@20": 0.06930693069306931,
+        "token_f1::precision@5": 0.009900990099009901,
+        "token_f1::precision@10": 0.012871287128712869,
+        "token_f1::precision@20": 0.007920792079207921,
+        "token_f1::mrr": 0.020796365350820797,
+        "token_f1::ndcg@3": 0.009900990099009901
+      },
+      "metrics_by_mode": {
+        "substring": {
+          "recall@5": 0.054455445544554455,
+          "recall@10": 0.06435643564356436,
+          "recall@20": 0.06435643564356436,
+          "precision@5": 0.023762376237623763,
+          "precision@10": 0.025742574257425745,
+          "precision@20": 0.021287128712871292,
+          "mrr": 0.046958981612446965,
+          "ndcg@3": 0.03194350876763284
+        },
+        "token_f1": {
+          "recall@5": 0.039603960396039604,
+          "recall@10": 0.0594059405940594,
+          "recall@20": 0.06930693069306931,
+          "precision@5": 0.009900990099009901,
+          "precision@10": 0.012871287128712869,
+          "precision@20": 0.007920792079207921,
+          "mrr": 0.020796365350820797,
+          "ndcg@3": 0.009900990099009901
+        }
+      },
+      "json": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_colbert\\dense_colbert.json",
+      "trace": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\dense_colbert\\dense_colbert.trace.jsonl",
+      "ok": true
+    },
+    "balanced": {
+      "metrics": {
+        "recall@5": 0.054455445544554455,
+        "recall@10": 0.054455445544554455,
+        "recall@20": 0.06435643564356436,
+        "precision@5": 0.02772277227722772,
+        "precision@10": 0.024752475247524757,
+        "precision@20": 0.021782178217821784,
+        "mrr": 0.047296268088347304,
+        "ndcg@3": 0.0349788909100361,
+        "substring::recall@5": 0.054455445544554455,
+        "substring::recall@10": 0.054455445544554455,
+        "substring::recall@20": 0.06435643564356436,
+        "substring::precision@5": 0.02772277227722772,
+        "substring::precision@10": 0.024752475247524757,
+        "substring::precision@20": 0.021782178217821784,
+        "substring::mrr": 0.047296268088347304,
+        "substring::ndcg@3": 0.0349788909100361,
+        "token_f1::recall@5": 0.0297029702970297,
+        "token_f1::recall@10": 0.039603960396039604,
+        "token_f1::recall@20": 0.0594059405940594,
+        "token_f1::precision@5": 0.007920792079207921,
+        "token_f1::precision@10": 0.00693069306930693,
+        "token_f1::precision@20": 0.006435643564356434,
+        "token_f1::mrr": 0.01761233815689261,
+        "token_f1::ndcg@3": 0.009900990099009901
+      },
+      "metrics_by_mode": {
+        "substring": {
+          "recall@5": 0.054455445544554455,
+          "recall@10": 0.054455445544554455,
+          "recall@20": 0.06435643564356436,
+          "precision@5": 0.02772277227722772,
+          "precision@10": 0.024752475247524757,
+          "precision@20": 0.021782178217821784,
+          "mrr": 0.047296268088347304,
+          "ndcg@3": 0.0349788909100361
+        },
+        "token_f1": {
+          "recall@5": 0.0297029702970297,
+          "recall@10": 0.039603960396039604,
+          "recall@20": 0.0594059405940594,
+          "precision@5": 0.007920792079207921,
+          "precision@10": 0.00693069306930693,
+          "precision@20": 0.006435643564356434,
+          "mrr": 0.01761233815689261,
+          "ndcg@3": 0.009900990099009901
+        }
+      },
+      "json": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\balanced\\balanced.json",
+      "trace": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\balanced\\balanced.trace.jsonl",
+      "ok": true
+    },
+    "sparse_heavy": {
+      "metrics": {
+        "recall@5": 0.04455445544554455,
+        "recall@10": 0.054455445544554455,
+        "recall@20": 0.06435643564356436,
+        "precision@5": 0.031683168316831684,
+        "precision@10": 0.022772277227722775,
+        "precision@20": 0.023267326732673267,
+        "mrr": 0.0462046204620462,
+        "ndcg@3": 0.0349788909100361,
+        "substring::recall@5": 0.04455445544554455,
+        "substring::recall@10": 0.054455445544554455,
+        "substring::recall@20": 0.06435643564356436,
+        "substring::precision@5": 0.031683168316831684,
+        "substring::precision@10": 0.022772277227722775,
+        "substring::precision@20": 0.023267326732673267,
+        "substring::mrr": 0.0462046204620462,
+        "substring::ndcg@3": 0.0349788909100361,
+        "token_f1::recall@5": 0.009900990099009901,
+        "token_f1::recall@10": 0.0297029702970297,
+        "token_f1::recall@20": 0.039603960396039604,
+        "token_f1::precision@5": 0.0039603960396039604,
+        "token_f1::precision@10": 0.0039603960396039604,
+        "token_f1::precision@20": 0.0024752475247524753,
+        "token_f1::mrr": 0.012871287128712872,
+        "token_f1::ndcg@3": 0.009900990099009901
+      },
+      "metrics_by_mode": {
+        "substring": {
+          "recall@5": 0.04455445544554455,
+          "recall@10": 0.054455445544554455,
+          "recall@20": 0.06435643564356436,
+          "precision@5": 0.031683168316831684,
+          "precision@10": 0.022772277227722775,
+          "precision@20": 0.023267326732673267,
+          "mrr": 0.0462046204620462,
+          "ndcg@3": 0.0349788909100361
+        },
+        "token_f1": {
+          "recall@5": 0.009900990099009901,
+          "recall@10": 0.0297029702970297,
+          "recall@20": 0.039603960396039604,
+          "precision@5": 0.0039603960396039604,
+          "precision@10": 0.0039603960396039604,
+          "precision@20": 0.0024752475247524753,
+          "mrr": 0.012871287128712872,
+          "ndcg@3": 0.009900990099009901
+        }
+      },
+      "json": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\sparse_heavy\\sparse_heavy.json",
+      "trace": "eval\\runs\\20260513_020808_f4_bge_m3_multi_vector_sweep\\sparse_heavy\\sparse_heavy.trace.jsonl",
+      "ok": true
+    }
+  }
+}

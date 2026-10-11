@@ -1,0 +1,245 @@
+{
+  "run_dir": "eval\\runs\\20260512_150355_b3_full_corpus_rerank",
+  "dense_registry": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\phase_b\\embedding_bases_full_corpus.yaml",
+  "scenarios": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3",
+    "full_default_clean"
+  ],
+  "retrieval_only": false,
+  "profiles": [
+    "baseline_mpnet_rerank",
+    "rerank_bge_v2_m3",
+    "rerank_jina_v3"
+  ],
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+  "fetch_k": 40,
+  "k": "5,10",
+  "expected_rows_cli": 0,
+  "retrieval_trace": false,
+  "trace_doc_chars": 2500,
+  "matrix_manifest": "matrix_manifest.json",
+  "scenario_chroma": {
+    "full_mpnet": {
+      "base_id": "full_mpnet",
+      "chroma_collection_yaml": "corpus_phase_b_mpnet",
+      "chroma_collection_resolved": "corpus_phase_b_mpnet",
+      "collection_fallback": null,
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_bge_m3": {
+      "base_id": "full_bge_m3",
+      "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+      "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+      "collection_fallback": null,
+      "embed_model": "BAAI/bge-m3",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_frida": {
+      "base_id": "full_frida",
+      "chroma_collection_yaml": "corpus_phase_b_frida",
+      "chroma_collection_resolved": "corpus_phase_b_frida",
+      "collection_fallback": null,
+      "embed_model": "ai-forever/FRIDA",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_e5_large_instruct": {
+      "base_id": "full_e5_large_instruct",
+      "chroma_collection_yaml": "corpus_phase_b_e5_large_instruct",
+      "chroma_collection_resolved": "corpus_phase_b_e5_large_instruct",
+      "collection_fallback": null,
+      "embed_model": "intfloat/multilingual-e5-large-instruct",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_jina_embeddings_v3": {
+      "base_id": "full_jina_embeddings_v3",
+      "chroma_collection_yaml": "corpus_phase_b_jina_embeddings_v3",
+      "chroma_collection_resolved": "corpus_phase_b_jina_embeddings_v3",
+      "collection_fallback": null,
+      "embed_model": "jinaai/jina-embeddings-v3",
+      "trust_remote_code": true,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_default_clean": {
+      "base_id": "full_default_clean",
+      "chroma_collection_yaml": "default_clean",
+      "chroma_collection_resolved": "default",
+      "collection_fallback": "default",
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    }
+  },
+  "results": {
+    "full_mpnet": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_mpnet",
+        "chroma_collection_yaml": "corpus_phase_b_mpnet",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_mpnet",
+        "chroma_collection_yaml": "corpus_phase_b_mpnet",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_mpnet",
+        "chroma_collection_yaml": "corpus_phase_b_mpnet",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    },
+    "full_bge_m3": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+        "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+        "embed_model": "BAAI/bge-m3",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+        "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+        "embed_model": "BAAI/bge-m3",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_bge_m3",
+        "chroma_collection_yaml": "corpus_phase_b_bge_m3",
+        "embed_model": "BAAI/bge-m3",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    },
+    "full_frida": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_frida",
+        "chroma_collection_yaml": "corpus_phase_b_frida",
+        "embed_model": "ai-forever/FRIDA",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_frida",
+        "chroma_collection_yaml": "corpus_phase_b_frida",
+        "embed_model": "ai-forever/FRIDA",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_frida",
+        "chroma_collection_yaml": "corpus_phase_b_frida",
+        "embed_model": "ai-forever/FRIDA",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    },
+    "full_e5_large_instruct": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_e5_large_instruct",
+        "chroma_collection_yaml": "corpus_phase_b_e5_large_instruct",
+        "embed_model": "intfloat/multilingual-e5-large-instruct",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_e5_large_instruct",
+        "chroma_collection_yaml": "corpus_phase_b_e5_large_instruct",
+        "embed_model": "intfloat/multilingual-e5-large-instruct",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_e5_large_instruct",
+        "chroma_collection_yaml": "corpus_phase_b_e5_large_instruct",
+        "embed_model": "intfloat/multilingual-e5-large-instruct",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    },
+    "full_jina_embeddings_v3": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_jina_embeddings_v3",
+        "chroma_collection_yaml": "corpus_phase_b_jina_embeddings_v3",
+        "embed_model": "jinaai/jina-embeddings-v3",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_jina_embeddings_v3",
+        "chroma_collection_yaml": "corpus_phase_b_jina_embeddings_v3",
+        "embed_model": "jinaai/jina-embeddings-v3",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_jina_embeddings_v3",
+        "chroma_collection_yaml": "corpus_phase_b_jina_embeddings_v3",
+        "embed_model": "jinaai/jina-embeddings-v3",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    },
+    "full_default_clean": {
+      "baseline_mpnet_rerank": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "default",
+        "chroma_collection_yaml": "default_clean",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "sentence-transformers/all-MiniLM-L6-v2",
+        "rerank_mode": "cross"
+      },
+      "rerank_bge_v2_m3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "default",
+        "chroma_collection_yaml": "default_clean",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "BAAI/bge-reranker-v2-m3",
+        "rerank_mode": "cross"
+      },
+      "rerank_jina_v3": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "default",
+        "chroma_collection_yaml": "default_clean",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "jinaai/jina-reranker-v3",
+        "rerank_mode": "cross"
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "scenario": "full_e5_large_instruct",
+    "collection_yaml": "corpus_phase_b_e5_large_instruct",
+    "collection_resolved": "corpus_phase_b_e5_large_instruct",
+    "job_name": "hybrid_rrf",
+    "fetch_k": 400,
+    "rrf_k": 60,
+    "k_values": [
+      5,
+      10,
+      20
+    ],
+    "metric_modes": [
+      "substring",
+      "token_f1"
+    ],
+    "primary_metric_mode": "substring",
+    "n_queries": 101
+  },
+  "recall@5": 0.07425742574257425,
+  "recall@10": 0.08415841584158416,
+  "recall@20": 0.08415841584158416,
+  "precision@5": 0.041584158415841586,
+  "precision@10": 0.029702970297029712,
+  "precision@20": 0.02524752475247525,
+  "mrr": 0.08388769752551294,
+  "ndcg@3": 0.08256872849798391,
+  "substring::recall@5": 0.07425742574257425,
+  "substring::recall@10": 0.08415841584158416,
+  "substring::recall@20": 0.08415841584158416,
+  "substring::precision@5": 0.041584158415841586,
+  "substring::precision@10": 0.029702970297029712,
+  "substring::precision@20": 0.02524752475247525,
+  "substring::mrr": 0.08388769752551294,
+  "substring::ndcg@3": 0.08256872849798391,
+  "token_f1::recall@5": 0.0297029702970297,
+  "token_f1::recall@10": 0.039603960396039604,
+  "token_f1::recall@20": 0.04950495049504951,
+  "token_f1::precision@5": 0.011881188118811883,
+  "token_f1::precision@10": 0.009900990099009901,
+  "token_f1::precision@20": 0.00693069306930693,
+  "token_f1::mrr": 0.025486065090025486,
+  "token_f1::ndcg@3": 0.024752475247524754
+}

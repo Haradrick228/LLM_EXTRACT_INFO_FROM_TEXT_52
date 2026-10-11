@@ -1,0 +1,23 @@
+{
+  "recall@5": 0.125,
+  "recall@10": 0.125,
+  "precision@5": 0.05,
+  "precision@10": 0.0375,
+  "mrr": 0.125,
+  "ndcg@3": 0.125,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "jinaai/jina-embeddings-v3",
+    "fetch_k": 40,
+    "rerank_model": "jinaai/jina-reranker-v3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_jina_embeddings_v3",
+    "max_rows": 8,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": "",
+    "eval_shuffle": false,
+    "retrieval_eval_shuffle_env": "0"
+  }
+}

@@ -1,0 +1,3897 @@
+{
+  "run_dir": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep",
+  "scenarios": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3",
+    "full_default_clean"
+  ],
+  "fetch_ks": [
+    40,
+    100,
+    200,
+    400
+  ],
+  "rrf_k": 60,
+  "n_queries": 101,
+  "results": {
+    "full_mpnet": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.019801980198019802,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0039603960396039604,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.01419141914191419,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.019801980198019802,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0039603960396039604,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.01419141914191419,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0039603960396039604,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.01419141914191419,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.01485148514851485,
+            "recall@10": 0.01485148514851485,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.01914046667824677,
+            "ndcg@3": 0.013731215913213284,
+            "substring::recall@5": 0.01485148514851485,
+            "substring::recall@10": 0.01485148514851485,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.01914046667824677,
+            "substring::ndcg@3": 0.013731215913213284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.009975997599759976,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.01485148514851485,
+              "recall@10": 0.01485148514851485,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.01914046667824677,
+              "ndcg@3": 0.013731215913213284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.009975997599759976,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.019801980198019802,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0039603960396039604,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.014351112530607899,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.019801980198019802,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0039603960396039604,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.014351112530607899,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0003756758654588863,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0039603960396039604,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.014351112530607899,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0003756758654588863,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.01485148514851485,
+            "recall@10": 0.01485148514851485,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.019277980429621908,
+            "ndcg@3": 0.013731215913213284,
+            "substring::recall@5": 0.01485148514851485,
+            "substring::recall@10": 0.01485148514851485,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.019277980429621908,
+            "substring::ndcg@3": 0.013731215913213284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.009975997599759976,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.01485148514851485,
+              "recall@10": 0.01485148514851485,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.019277980429621908,
+              "ndcg@3": 0.013731215913213284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.009975997599759976,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.009900990099009901,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0029702970297029708,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.014395820909425023,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.009900990099009901,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0029702970297029708,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.014395820909425023,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.00043136893476581706,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.014395820909425023,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.00043136893476581706,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.01386138613861386,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.026654093980826656,
+            "ndcg@3": 0.016147819342291658,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.01386138613861386,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.026654093980826656,
+            "substring::ndcg@3": 0.016147819342291658,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.010045722882147369,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.01386138613861386,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.026654093980826656,
+              "ndcg@3": 0.016147819342291658
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.010045722882147369,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.009900990099009901,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0029702970297029708,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.014534839644388599,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.009900990099009901,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0029702970297029708,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.014534839644388599,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0004788423235854326,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.014534839644388599,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0004788423235854326,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.01386138613861386,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.02572442184204991,
+            "ndcg@3": 0.01485148514851485,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.01386138613861386,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.02572442184204991,
+            "substring::ndcg@3": 0.01485148514851485,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.010045235292760043,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.01386138613861386,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.02572442184204991,
+              "ndcg@3": 0.01485148514851485
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.010045235292760043,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_mpnet\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    },
+    "full_bge_m3": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.04455445544554455,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.02277227722772277,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.04415584415584416,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.04455445544554455,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.02277227722772277,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.04415584415584416,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.06930693069306931,
+            "token_f1::precision@5": 0.007920792079207921,
+            "token_f1::precision@10": 0.00693069306930693,
+            "token_f1::precision@20": 0.007920792079207921,
+            "token_f1::mrr": 0.018534889203206034,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.04455445544554455,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.02277227722772277,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.04415584415584416,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.06930693069306931,
+              "precision@5": 0.007920792079207921,
+              "precision@10": 0.00693069306930693,
+              "precision@20": 0.007920792079207921,
+              "mrr": 0.018534889203206034,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.019801980198019802,
+            "precision@20": 0.024257425742574258,
+            "mrr": 0.04215421542154216,
+            "ndcg@3": 0.03880911672423948,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.019801980198019802,
+            "substring::precision@20": 0.024257425742574258,
+            "substring::mrr": 0.04215421542154216,
+            "substring::ndcg@3": 0.03880911672423948,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0594059405940594,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.012871287128712872,
+            "token_f1::precision@20": 0.00891089108910891,
+            "token_f1::mrr": 0.021054010162921057,
+            "token_f1::ndcg@3": 0.016147819342291658
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.019801980198019802,
+              "precision@20": 0.024257425742574258,
+              "mrr": 0.04215421542154216,
+              "ndcg@3": 0.03880911672423948
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.00891089108910891,
+              "mrr": 0.021054010162921057,
+              "ndcg@3": 0.016147819342291658
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.04455445544554455,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.02277227722772277,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.04415584415584416,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.04455445544554455,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.02277227722772277,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.04415584415584416,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.06930693069306931,
+            "token_f1::precision@5": 0.007920792079207921,
+            "token_f1::precision@10": 0.00693069306930693,
+            "token_f1::precision@20": 0.007920792079207921,
+            "token_f1::mrr": 0.01867838181333661,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.04455445544554455,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.02277227722772277,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.04415584415584416,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.06930693069306931,
+              "precision@5": 0.007920792079207921,
+              "precision@10": 0.00693069306930693,
+              "precision@20": 0.007920792079207921,
+              "mrr": 0.01867838181333661,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.01881188118811881,
+            "precision@20": 0.023762376237623763,
+            "mrr": 0.03744520793542769,
+            "ndcg@3": 0.03577373458183622,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.01881188118811881,
+            "substring::precision@20": 0.023762376237623763,
+            "substring::mrr": 0.03744520793542769,
+            "substring::ndcg@3": 0.03577373458183622,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.00891089108910891,
+            "token_f1::mrr": 0.019078098286019075,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.01881188118811881,
+              "precision@20": 0.023762376237623763,
+              "mrr": 0.03744520793542769,
+              "ndcg@3": 0.03577373458183622
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.00891089108910891,
+              "mrr": 0.019078098286019075,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.04455445544554455,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.02277227722772277,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.04415584415584416,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.04455445544554455,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.02277227722772277,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.04415584415584416,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.06930693069306931,
+            "token_f1::precision@5": 0.007920792079207921,
+            "token_f1::precision@10": 0.00693069306930693,
+            "token_f1::precision@20": 0.007920792079207921,
+            "token_f1::mrr": 0.01874619681401476,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.04455445544554455,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.02277227722772277,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.04415584415584416,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.06930693069306931,
+              "precision@5": 0.007920792079207921,
+              "precision@10": 0.00693069306930693,
+              "precision@20": 0.007920792079207921,
+              "mrr": 0.01874619681401476,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.021782178217821784,
+            "precision@10": 0.01881188118811881,
+            "precision@20": 0.023762376237623763,
+            "mrr": 0.03736445073078736,
+            "ndcg@3": 0.03577373458183622,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.021782178217821784,
+            "substring::precision@10": 0.01881188118811881,
+            "substring::precision@20": 0.023762376237623763,
+            "substring::mrr": 0.03736445073078736,
+            "substring::ndcg@3": 0.03577373458183622,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.00891089108910891,
+            "token_f1::mrr": 0.01914782356840647,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.021782178217821784,
+              "precision@10": 0.01881188118811881,
+              "precision@20": 0.023762376237623763,
+              "mrr": 0.03736445073078736,
+              "ndcg@3": 0.03577373458183622
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.00891089108910891,
+              "mrr": 0.01914782356840647,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.034653465346534656,
+            "recall@10": 0.04455445544554455,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.02277227722772277,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.04415584415584416,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.034653465346534656,
+            "substring::recall@10": 0.04455445544554455,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.02277227722772277,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.04415584415584416,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.06930693069306931,
+            "token_f1::precision@5": 0.007920792079207921,
+            "token_f1::precision@10": 0.00693069306930693,
+            "token_f1::precision@20": 0.007920792079207921,
+            "token_f1::mrr": 0.018651901670214667,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.034653465346534656,
+              "recall@10": 0.04455445544554455,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.02277227722772277,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.04415584415584416,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.06930693069306931,
+              "precision@5": 0.007920792079207921,
+              "precision@10": 0.00693069306930693,
+              "precision@20": 0.007920792079207921,
+              "mrr": 0.018651901670214667,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.021782178217821784,
+            "precision@10": 0.01881188118811881,
+            "precision@20": 0.023762376237623763,
+            "mrr": 0.03736445073078736,
+            "ndcg@3": 0.03577373458183622,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.021782178217821784,
+            "substring::precision@10": 0.01881188118811881,
+            "substring::precision@20": 0.023762376237623763,
+            "substring::mrr": 0.03736445073078736,
+            "substring::ndcg@3": 0.03577373458183622,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.00891089108910891,
+            "token_f1::mrr": 0.01911988737035486,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.021782178217821784,
+              "precision@10": 0.01881188118811881,
+              "precision@20": 0.023762376237623763,
+              "mrr": 0.03736445073078736,
+              "ndcg@3": 0.03577373458183622
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.00891089108910891,
+              "mrr": 0.01911988737035486,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_bge_m3\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    },
+    "full_frida": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.023762376237623766,
+            "precision@10": 0.024752475247524757,
+            "precision@20": 0.023762376237623766,
+            "mrr": 0.04008329404369009,
+            "ndcg@3": 0.02587274448282632,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.023762376237623766,
+            "substring::precision@10": 0.024752475247524757,
+            "substring::precision@20": 0.023762376237623766,
+            "substring::mrr": 0.04008329404369009,
+            "substring::ndcg@3": 0.02587274448282632,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0019801980198019802,
+            "token_f1::precision@10": 0.0009900990099009901,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.003182461103253182,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.023762376237623766,
+              "precision@10": 0.024752475247524757,
+              "precision@20": 0.023762376237623766,
+              "mrr": 0.04008329404369009,
+              "ndcg@3": 0.02587274448282632
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0019801980198019802,
+              "precision@10": 0.0009900990099009901,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.003182461103253182,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.019801980198019802,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.021782178217821784,
+            "precision@20": 0.02524752475247525,
+            "mrr": 0.035462227541435465,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.019801980198019802,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.021782178217821784,
+            "substring::precision@20": 0.02524752475247525,
+            "substring::mrr": 0.035462227541435465,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.009900990099009901,
+            "token_f1::precision@20": 0.005940594059405941,
+            "token_f1::mrr": 0.00983026874115983,
+            "token_f1::ndcg@3": 0.0049504950495049506
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.021782178217821784,
+              "precision@20": 0.02524752475247525,
+              "mrr": 0.035462227541435465,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.009900990099009901,
+              "precision@20": 0.005940594059405941,
+              "mrr": 0.00983026874115983,
+              "ndcg@3": 0.0049504950495049506
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.023762376237623766,
+            "precision@10": 0.024752475247524757,
+            "precision@20": 0.023762376237623766,
+            "mrr": 0.04020862303228515,
+            "ndcg@3": 0.02587274448282632,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.023762376237623766,
+            "substring::precision@10": 0.024752475247524757,
+            "substring::precision@20": 0.023762376237623766,
+            "substring::mrr": 0.04020862303228515,
+            "substring::ndcg@3": 0.02587274448282632,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0019801980198019802,
+            "token_f1::precision@10": 0.0009900990099009901,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.003182461103253182,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.023762376237623766,
+              "precision@10": 0.024752475247524757,
+              "precision@20": 0.023762376237623766,
+              "mrr": 0.04020862303228515,
+              "ndcg@3": 0.02587274448282632
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0019801980198019802,
+              "precision@10": 0.0009900990099009901,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.003182461103253182,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.019801980198019802,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.021782178217821784,
+            "precision@20": 0.024752475247524754,
+            "mrr": 0.03535221654033535,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.019801980198019802,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.021782178217821784,
+            "substring::precision@20": 0.024752475247524754,
+            "substring::mrr": 0.03535221654033535,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.00891089108910891,
+            "token_f1::precision@20": 0.005940594059405941,
+            "token_f1::mrr": 0.009563456345634562,
+            "token_f1::ndcg@3": 0.0049504950495049506
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.021782178217821784,
+              "precision@20": 0.024752475247524754,
+              "mrr": 0.03535221654033535,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.00891089108910891,
+              "precision@20": 0.005940594059405941,
+              "mrr": 0.009563456345634562,
+              "ndcg@3": 0.0049504950495049506
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.023762376237623766,
+            "precision@10": 0.024752475247524757,
+            "precision@20": 0.023762376237623766,
+            "mrr": 0.04014615747289015,
+            "ndcg@3": 0.02587274448282632,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.023762376237623766,
+            "substring::precision@10": 0.024752475247524757,
+            "substring::precision@20": 0.023762376237623766,
+            "substring::mrr": 0.04014615747289015,
+            "substring::ndcg@3": 0.02587274448282632,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.005743061990928156,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.023762376237623766,
+              "precision@10": 0.024752475247524757,
+              "precision@20": 0.023762376237623766,
+              "mrr": 0.04014615747289015,
+              "ndcg@3": 0.02587274448282632
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.005743061990928156,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.019801980198019802,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.021782178217821784,
+            "precision@20": 0.024752475247524754,
+            "mrr": 0.03538249001579766,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.019801980198019802,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.021782178217821784,
+            "substring::precision@20": 0.024752475247524754,
+            "substring::mrr": 0.03538249001579766,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.009900990099009901,
+            "token_f1::precision@20": 0.006435643564356436,
+            "token_f1::mrr": 0.010732804049635733,
+            "token_f1::ndcg@3": 0.0049504950495049506
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.021782178217821784,
+              "precision@20": 0.024752475247524754,
+              "mrr": 0.03538249001579766,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.009900990099009901,
+              "precision@20": 0.006435643564356436,
+              "mrr": 0.010732804049635733,
+              "ndcg@3": 0.0049504950495049506
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.023762376237623766,
+            "precision@10": 0.024752475247524757,
+            "precision@20": 0.023267326732673274,
+            "mrr": 0.04008974630181913,
+            "ndcg@3": 0.02587274448282632,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.023762376237623766,
+            "substring::precision@10": 0.024752475247524757,
+            "substring::precision@20": 0.023267326732673274,
+            "substring::mrr": 0.04008974630181913,
+            "substring::ndcg@3": 0.02587274448282632,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.005728938772602851,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.023762376237623766,
+              "precision@10": 0.024752475247524757,
+              "precision@20": 0.023267326732673274,
+              "mrr": 0.04008974630181913,
+              "ndcg@3": 0.02587274448282632
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.005728938772602851,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.019801980198019802,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.020792079207920797,
+            "precision@20": 0.024257425742574258,
+            "mrr": 0.030397377427080402,
+            "ndcg@3": 0.026667588154626443,
+            "substring::recall@5": 0.019801980198019802,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.020792079207920797,
+            "substring::precision@20": 0.024257425742574258,
+            "substring::mrr": 0.030397377427080402,
+            "substring::ndcg@3": 0.026667588154626443,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.04950495049504951,
+            "token_f1::recall@20": 0.0594059405940594,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.009900990099009901,
+            "token_f1::precision@20": 0.006435643564356436,
+            "token_f1::mrr": 0.012382488248824883,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.020792079207920797,
+              "precision@20": 0.024257425742574258,
+              "mrr": 0.030397377427080402,
+              "ndcg@3": 0.026667588154626443
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.04950495049504951,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.009900990099009901,
+              "precision@20": 0.006435643564356436,
+              "mrr": 0.012382488248824883,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_frida\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    },
+    "full_e5_large_instruct": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.0594059405940594,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.01089108910891089,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.05203905005885204,
+            "ndcg@3": 0.051302775210803,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.0594059405940594,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.01089108910891089,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.05203905005885204,
+            "substring::ndcg@3": 0.051302775210803,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.0029702970297029708,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.019801980198019802,
+            "token_f1::ndcg@3": 0.019801980198019802
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.05203905005885204,
+              "ndcg@3": 0.051302775210803
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.019801980198019802,
+              "ndcg@3": 0.019801980198019802
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.06435643564356436,
+            "recall@10": 0.07425742574257425,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.0297029702970297,
+            "precision@10": 0.021782178217821784,
+            "precision@20": 0.018811881188118815,
+            "mrr": 0.06875687568756876,
+            "ndcg@3": 0.06739181778596762,
+            "substring::recall@5": 0.06435643564356436,
+            "substring::recall@10": 0.07425742574257425,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.0297029702970297,
+            "substring::precision@10": 0.021782178217821784,
+            "substring::precision@20": 0.018811881188118815,
+            "substring::mrr": 0.06875687568756876,
+            "substring::ndcg@3": 0.06739181778596762,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.011881188118811883,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.00693069306930693,
+            "token_f1::mrr": 0.027302730273027306,
+            "token_f1::ndcg@3": 0.02604880944130156
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.06435643564356436,
+              "recall@10": 0.07425742574257425,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.0297029702970297,
+              "precision@10": 0.021782178217821784,
+              "precision@20": 0.018811881188118815,
+              "mrr": 0.06875687568756876,
+              "ndcg@3": 0.06739181778596762
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.011881188118811883,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.00693069306930693,
+              "mrr": 0.027302730273027306,
+              "ndcg@3": 0.02604880944130156
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0594059405940594,
+            "recall@10": 0.0594059405940594,
+            "recall@20": 0.0594059405940594,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.01089108910891089,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.05203905005885204,
+            "ndcg@3": 0.051302775210803,
+            "substring::recall@5": 0.0594059405940594,
+            "substring::recall@10": 0.0594059405940594,
+            "substring::recall@20": 0.0594059405940594,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.01089108910891089,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.05203905005885204,
+            "substring::ndcg@3": 0.051302775210803,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.0029702970297029708,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.020181210667650617,
+            "token_f1::ndcg@3": 0.019801980198019802
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0594059405940594,
+              "recall@10": 0.0594059405940594,
+              "recall@20": 0.0594059405940594,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.05203905005885204,
+              "ndcg@3": 0.051302775210803
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.020181210667650617,
+              "ndcg@3": 0.019801980198019802
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.06435643564356436,
+            "recall@10": 0.07425742574257425,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.031683168316831684,
+            "precision@10": 0.02277227722772277,
+            "precision@20": 0.01930693069306931,
+            "mrr": 0.0688854599745689,
+            "ndcg@3": 0.06739181778596762,
+            "substring::recall@5": 0.06435643564356436,
+            "substring::recall@10": 0.07425742574257425,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.031683168316831684,
+            "substring::precision@10": 0.02277227722772277,
+            "substring::precision@20": 0.01930693069306931,
+            "substring::mrr": 0.0688854599745689,
+            "substring::ndcg@3": 0.06739181778596762,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.011881188118811883,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.00693069306930693,
+            "token_f1::mrr": 0.02565256525652565,
+            "token_f1::ndcg@3": 0.024752475247524754
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.06435643564356436,
+              "recall@10": 0.07425742574257425,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.031683168316831684,
+              "precision@10": 0.02277227722772277,
+              "precision@20": 0.01930693069306931,
+              "mrr": 0.0688854599745689,
+              "ndcg@3": 0.06739181778596762
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.011881188118811883,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.00693069306930693,
+              "mrr": 0.02565256525652565,
+              "ndcg@3": 0.024752475247524754
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.06435643564356436,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.02178217821782178,
+            "precision@10": 0.012871287128712869,
+            "precision@20": 0.016336633663366337,
+            "mrr": 0.05693100266874718,
+            "ndcg@3": 0.05513300102500638,
+            "substring::recall@5": 0.06435643564356436,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.02178217821782178,
+            "substring::precision@10": 0.012871287128712869,
+            "substring::precision@20": 0.016336633663366337,
+            "substring::mrr": 0.05693100266874718,
+            "substring::ndcg@3": 0.05513300102500638,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.0029702970297029708,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.020263155100064635,
+            "token_f1::ndcg@3": 0.019801980198019802
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.06435643564356436,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.02178217821782178,
+              "precision@10": 0.012871287128712869,
+              "precision@20": 0.016336633663366337,
+              "mrr": 0.05693100266874718,
+              "ndcg@3": 0.05513300102500638
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.020263155100064635,
+              "ndcg@3": 0.019801980198019802
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.06435643564356436,
+            "recall@10": 0.07425742574257425,
+            "recall@20": 0.07425742574257425,
+            "precision@5": 0.03564356435643564,
+            "precision@10": 0.02673267326732674,
+            "precision@20": 0.021287128712871292,
+            "mrr": 0.06887911013323555,
+            "ndcg@3": 0.07042719992837088,
+            "substring::recall@5": 0.06435643564356436,
+            "substring::recall@10": 0.07425742574257425,
+            "substring::recall@20": 0.07425742574257425,
+            "substring::precision@5": 0.03564356435643564,
+            "substring::precision@10": 0.02673267326732674,
+            "substring::precision@20": 0.021287128712871292,
+            "substring::mrr": 0.06887911013323555,
+            "substring::ndcg@3": 0.07042719992837088,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.011881188118811883,
+            "token_f1::precision@10": 0.009900990099009901,
+            "token_f1::precision@20": 0.00693069306930693,
+            "token_f1::mrr": 0.025486552679412813,
+            "token_f1::ndcg@3": 0.024752475247524754
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.06435643564356436,
+              "recall@10": 0.07425742574257425,
+              "recall@20": 0.07425742574257425,
+              "precision@5": 0.03564356435643564,
+              "precision@10": 0.02673267326732674,
+              "precision@20": 0.021287128712871292,
+              "mrr": 0.06887911013323555,
+              "ndcg@3": 0.07042719992837088
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.011881188118811883,
+              "precision@10": 0.009900990099009901,
+              "precision@20": 0.00693069306930693,
+              "mrr": 0.025486552679412813,
+              "ndcg@3": 0.024752475247524754
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.06435643564356436,
+            "recall@10": 0.06435643564356436,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.025742574257425738,
+            "precision@10": 0.01881188118811881,
+            "precision@20": 0.020792079207920793,
+            "mrr": 0.05697691971625905,
+            "ndcg@3": 0.05513300102500638,
+            "substring::recall@5": 0.06435643564356436,
+            "substring::recall@10": 0.06435643564356436,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.025742574257425738,
+            "substring::precision@10": 0.01881188118811881,
+            "substring::precision@20": 0.020792079207920793,
+            "substring::mrr": 0.05697691971625905,
+            "substring::ndcg@3": 0.05513300102500638,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.019801980198019802,
+            "token_f1::recall@20": 0.019801980198019802,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.0029702970297029708,
+            "token_f1::precision@20": 0.0014851485148514854,
+            "token_f1::mrr": 0.02025870055462456,
+            "token_f1::ndcg@3": 0.019801980198019802
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.06435643564356436,
+              "recall@10": 0.06435643564356436,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.025742574257425738,
+              "precision@10": 0.01881188118811881,
+              "precision@20": 0.020792079207920793,
+              "mrr": 0.05697691971625905,
+              "ndcg@3": 0.05513300102500638
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.0014851485148514854,
+              "mrr": 0.02025870055462456,
+              "ndcg@3": 0.019801980198019802
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.07425742574257425,
+            "recall@10": 0.08415841584158416,
+            "recall@20": 0.08415841584158416,
+            "precision@5": 0.041584158415841586,
+            "precision@10": 0.029702970297029712,
+            "precision@20": 0.02524752475247525,
+            "mrr": 0.08388769752551294,
+            "ndcg@3": 0.08256872849798391,
+            "substring::recall@5": 0.07425742574257425,
+            "substring::recall@10": 0.08415841584158416,
+            "substring::recall@20": 0.08415841584158416,
+            "substring::precision@5": 0.041584158415841586,
+            "substring::precision@10": 0.029702970297029712,
+            "substring::precision@20": 0.02524752475247525,
+            "substring::mrr": 0.08388769752551294,
+            "substring::ndcg@3": 0.08256872849798391,
+            "token_f1::recall@5": 0.0297029702970297,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.04950495049504951,
+            "token_f1::precision@5": 0.011881188118811883,
+            "token_f1::precision@10": 0.009900990099009901,
+            "token_f1::precision@20": 0.00693069306930693,
+            "token_f1::mrr": 0.025486065090025486,
+            "token_f1::ndcg@3": 0.024752475247524754
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.07425742574257425,
+              "recall@10": 0.08415841584158416,
+              "recall@20": 0.08415841584158416,
+              "precision@5": 0.041584158415841586,
+              "precision@10": 0.029702970297029712,
+              "precision@20": 0.02524752475247525,
+              "mrr": 0.08388769752551294,
+              "ndcg@3": 0.08256872849798391
+            },
+            "token_f1": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.04950495049504951,
+              "precision@5": 0.011881188118811883,
+              "precision@10": 0.009900990099009901,
+              "precision@20": 0.00693069306930693,
+              "mrr": 0.025486065090025486,
+              "ndcg@3": 0.024752475247524754
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_e5_large_instruct\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    },
+    "full_jina_embeddings_v3": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0297029702970297,
+            "recall@10": 0.0297029702970297,
+            "recall@20": 0.039603960396039604,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.00891089108910891,
+            "precision@20": 0.006930693069306932,
+            "mrr": 0.033646864686468644,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.0297029702970297,
+            "substring::recall@10": 0.0297029702970297,
+            "substring::recall@20": 0.039603960396039604,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.00891089108910891,
+            "substring::precision@20": 0.006930693069306932,
+            "substring::mrr": 0.033646864686468644,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.011433286185761431,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.00891089108910891,
+              "precision@20": 0.006930693069306932,
+              "mrr": 0.033646864686468644,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.011433286185761431,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.017821782178217824,
+            "precision@20": 0.017326732673267328,
+            "mrr": 0.037443030017287444,
+            "ndcg@3": 0.03273835243943296,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.017821782178217824,
+            "substring::precision@20": 0.017326732673267328,
+            "substring::mrr": 0.037443030017287444,
+            "substring::ndcg@3": 0.03273835243943296,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.006435643564356434,
+            "token_f1::mrr": 0.018288930342309592,
+            "token_f1::ndcg@3": 0.016147819342291658
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.017821782178217824,
+              "precision@20": 0.017326732673267328,
+              "mrr": 0.037443030017287444,
+              "ndcg@3": 0.03273835243943296
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.006435643564356434,
+              "mrr": 0.018288930342309592,
+              "ndcg@3": 0.016147819342291658
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0297029702970297,
+            "recall@10": 0.0297029702970297,
+            "recall@20": 0.039603960396039604,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.00891089108910891,
+            "precision@20": 0.006930693069306932,
+            "mrr": 0.033646864686468644,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.0297029702970297,
+            "substring::recall@10": 0.0297029702970297,
+            "substring::recall@20": 0.039603960396039604,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.00891089108910891,
+            "substring::precision@20": 0.006930693069306932,
+            "substring::mrr": 0.033646864686468644,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.011433286185761431,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.00891089108910891,
+              "precision@20": 0.006930693069306932,
+              "mrr": 0.033646864686468644,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.011433286185761431,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.017821782178217824,
+            "precision@20": 0.017326732673267328,
+            "mrr": 0.037645091039716215,
+            "ndcg@3": 0.03273835243943296,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.017821782178217824,
+            "substring::precision@20": 0.017326732673267328,
+            "substring::mrr": 0.037645091039716215,
+            "substring::ndcg@3": 0.03273835243943296,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.006435643564356434,
+            "token_f1::mrr": 0.016638765325807943,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.017821782178217824,
+              "precision@20": 0.017326732673267328,
+              "mrr": 0.037645091039716215,
+              "ndcg@3": 0.03273835243943296
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.006435643564356434,
+              "mrr": 0.016638765325807943,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0297029702970297,
+            "recall@10": 0.0297029702970297,
+            "recall@20": 0.039603960396039604,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.00891089108910891,
+            "precision@20": 0.006930693069306932,
+            "mrr": 0.033612642575280995,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.0297029702970297,
+            "substring::recall@10": 0.0297029702970297,
+            "substring::recall@20": 0.039603960396039604,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.00891089108910891,
+            "substring::precision@20": 0.006930693069306932,
+            "substring::mrr": 0.033612642575280995,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.011537741507608895,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.00891089108910891,
+              "precision@20": 0.006930693069306932,
+              "mrr": 0.033612642575280995,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.011537741507608895,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.017821782178217824,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.03850830682360585,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.017821782178217824,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.03850830682360585,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.006435643564356434,
+            "token_f1::mrr": 0.016708490608195337,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.017821782178217824,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.03850830682360585,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.006435643564356434,
+              "mrr": 0.016708490608195337,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.0297029702970297,
+            "recall@10": 0.0297029702970297,
+            "recall@20": 0.039603960396039604,
+            "precision@5": 0.015841584158415842,
+            "precision@10": 0.00891089108910891,
+            "precision@20": 0.006930693069306932,
+            "mrr": 0.03404266914581426,
+            "ndcg@3": 0.0297029702970297,
+            "substring::recall@5": 0.0297029702970297,
+            "substring::recall@10": 0.0297029702970297,
+            "substring::recall@20": 0.039603960396039604,
+            "substring::precision@5": 0.015841584158415842,
+            "substring::precision@10": 0.00891089108910891,
+            "substring::precision@20": 0.006930693069306932,
+            "substring::mrr": 0.03404266914581426,
+            "substring::ndcg@3": 0.0297029702970297,
+            "token_f1::recall@5": 0.009900990099009901,
+            "token_f1::recall@10": 0.009900990099009901,
+            "token_f1::recall@20": 0.0297029702970297,
+            "token_f1::precision@5": 0.0039603960396039604,
+            "token_f1::precision@10": 0.0019801980198019802,
+            "token_f1::precision@20": 0.0019801980198019802,
+            "token_f1::mrr": 0.011532596500453475,
+            "token_f1::ndcg@3": 0.009900990099009901
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.0297029702970297,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.015841584158415842,
+              "precision@10": 0.00891089108910891,
+              "precision@20": 0.006930693069306932,
+              "mrr": 0.03404266914581426,
+              "ndcg@3": 0.0297029702970297
+            },
+            "token_f1": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.0297029702970297,
+              "precision@5": 0.0039603960396039604,
+              "precision@10": 0.0019801980198019802,
+              "precision@20": 0.0019801980198019802,
+              "mrr": 0.011532596500453475,
+              "ndcg@3": 0.009900990099009901
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.06435643564356436,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.017821782178217824,
+            "precision@20": 0.017821782178217824,
+            "mrr": 0.03845163448970579,
+            "ndcg@3": 0.03194350876763284,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.06435643564356436,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.017821782178217824,
+            "substring::precision@20": 0.017821782178217824,
+            "substring::mrr": 0.03845163448970579,
+            "substring::ndcg@3": 0.03194350876763284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.009900990099009901,
+            "token_f1::precision@10": 0.010891089108910892,
+            "token_f1::precision@20": 0.006435643564356434,
+            "token_f1::mrr": 0.016708490608195337,
+            "token_f1::ndcg@3": 0.01485148514851485
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.06435643564356436,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.017821782178217824,
+              "precision@20": 0.017821782178217824,
+              "mrr": 0.03845163448970579,
+              "ndcg@3": 0.03194350876763284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.009900990099009901,
+              "precision@10": 0.010891089108910892,
+              "precision@20": 0.006435643564356434,
+              "mrr": 0.016708490608195337,
+              "ndcg@3": 0.01485148514851485
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_jina_embeddings_v3\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    },
+    "full_default_clean": {
+      "40": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.019801980198019802,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0039603960396039604,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.01419141914191419,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.019801980198019802,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0039603960396039604,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.01419141914191419,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0039603960396039604,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.01419141914191419,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.02013201320132013,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.02013201320132013,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.01485148514851485,
+            "recall@10": 0.01485148514851485,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.01914046667824677,
+            "ndcg@3": 0.013731215913213284,
+            "substring::recall@5": 0.01485148514851485,
+            "substring::recall@10": 0.01485148514851485,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.01914046667824677,
+            "substring::ndcg@3": 0.013731215913213284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.009975997599759976,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.01485148514851485,
+              "recall@10": 0.01485148514851485,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.01914046667824677,
+              "ndcg@3": 0.013731215913213284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.009975997599759976,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_40\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "100": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.019801980198019802,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0039603960396039604,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.01434612211221122,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.019801980198019802,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0039603960396039604,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.01434612211221122,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0003859456410408657,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.019801980198019802,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0039603960396039604,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.01434612211221122,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0003859456410408657,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.01485148514851485,
+            "recall@10": 0.01485148514851485,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014851485148514854,
+            "mrr": 0.019277980429621908,
+            "ndcg@3": 0.013731215913213284,
+            "substring::recall@5": 0.01485148514851485,
+            "substring::recall@10": 0.01485148514851485,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014851485148514854,
+            "substring::mrr": 0.019277980429621908,
+            "substring::ndcg@3": 0.013731215913213284,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.009975997599759976,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.01485148514851485,
+              "recall@10": 0.01485148514851485,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014851485148514854,
+              "mrr": 0.019277980429621908,
+              "ndcg@3": 0.013731215913213284
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.009975997599759976,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_100\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "200": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.009900990099009901,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0029702970297029708,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.014319014319014316,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.009900990099009901,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0029702970297029708,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.014319014319014316,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.00043093180496012125,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.014319014319014316,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.00043093180496012125,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.024752475247524754,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014356435643564359,
+            "mrr": 0.024178846456074182,
+            "ndcg@3": 0.016147819342291658,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.024752475247524754,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014356435643564359,
+            "substring::mrr": 0.024178846456074182,
+            "substring::ndcg@3": 0.016147819342291658,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.010045722882147369,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.024752475247524754,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014356435643564359,
+              "mrr": 0.024178846456074182,
+              "ndcg@3": 0.016147819342291658
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.010045722882147369,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_200\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      },
+      "400": {
+        "dense_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.009900990099009901,
+            "recall@20": 0.019801980198019802,
+            "precision@5": 0.0059405940594059415,
+            "precision@10": 0.0029702970297029708,
+            "precision@20": 0.005445544554455446,
+            "mrr": 0.014473504116390581,
+            "ndcg@3": 0.009106146427209777,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.009900990099009901,
+            "substring::recall@20": 0.019801980198019802,
+            "substring::precision@5": 0.0059405940594059415,
+            "substring::precision@10": 0.0029702970297029708,
+            "substring::precision@20": 0.005445544554455446,
+            "substring::mrr": 0.014473504116390581,
+            "substring::ndcg@3": 0.009106146427209777,
+            "token_f1::recall@5": 0.0,
+            "token_f1::recall@10": 0.0,
+            "token_f1::recall@20": 0.0,
+            "token_f1::precision@5": 0.0,
+            "token_f1::precision@10": 0.0,
+            "token_f1::precision@20": 0.0,
+            "token_f1::mrr": 0.0004759972894860271,
+            "token_f1::ndcg@3": 0.0
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.009900990099009901,
+              "recall@20": 0.019801980198019802,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.0029702970297029708,
+              "precision@20": 0.005445544554455446,
+              "mrr": 0.014473504116390581,
+              "ndcg@3": 0.009106146427209777
+            },
+            "token_f1": {
+              "recall@5": 0.0,
+              "recall@10": 0.0,
+              "recall@20": 0.0,
+              "precision@5": 0.0,
+              "precision@10": 0.0,
+              "precision@20": 0.0,
+              "mrr": 0.0004759972894860271,
+              "ndcg@3": 0.0
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\dense_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\dense_only.trace.jsonl",
+          "ok": true
+        },
+        "bm25_only": {
+          "metrics": {
+            "recall@5": 0.009900990099009901,
+            "recall@10": 0.034653465346534656,
+            "recall@20": 0.054455445544554455,
+            "precision@5": 0.019801980198019802,
+            "precision@10": 0.025742574257425745,
+            "precision@20": 0.030693069306930693,
+            "mrr": 0.02524752475247525,
+            "ndcg@3": 0.019801980198019802,
+            "substring::recall@5": 0.009900990099009901,
+            "substring::recall@10": 0.034653465346534656,
+            "substring::recall@20": 0.054455445544554455,
+            "substring::precision@5": 0.019801980198019802,
+            "substring::precision@10": 0.025742574257425745,
+            "substring::precision@20": 0.030693069306930693,
+            "substring::mrr": 0.02524752475247525,
+            "substring::ndcg@3": 0.019801980198019802,
+            "token_f1::recall@5": 0.039603960396039604,
+            "token_f1::recall@10": 0.039603960396039604,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.01782178217821782,
+            "token_f1::precision@10": 0.01089108910891089,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.020271463766094917,
+            "token_f1::ndcg@3": 0.021098314391796612
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.009900990099009901,
+              "recall@10": 0.034653465346534656,
+              "recall@20": 0.054455445544554455,
+              "precision@5": 0.019801980198019802,
+              "precision@10": 0.025742574257425745,
+              "precision@20": 0.030693069306930693,
+              "mrr": 0.02524752475247525,
+              "ndcg@3": 0.019801980198019802
+            },
+            "token_f1": {
+              "recall@5": 0.039603960396039604,
+              "recall@10": 0.039603960396039604,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.01782178217821782,
+              "precision@10": 0.01089108910891089,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.020271463766094917,
+              "ndcg@3": 0.021098314391796612
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\bm25_only.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\bm25_only.trace.jsonl",
+          "ok": true
+        },
+        "hybrid_rrf": {
+          "metrics": {
+            "recall@5": 0.024752475247524754,
+            "recall@10": 0.024752475247524754,
+            "recall@20": 0.04455445544554455,
+            "precision@5": 0.013861386138613863,
+            "precision@10": 0.012871287128712872,
+            "precision@20": 0.014356435643564359,
+            "mrr": 0.023274084741500143,
+            "ndcg@3": 0.01485148514851485,
+            "substring::recall@5": 0.024752475247524754,
+            "substring::recall@10": 0.024752475247524754,
+            "substring::recall@20": 0.04455445544554455,
+            "substring::precision@5": 0.013861386138613863,
+            "substring::precision@10": 0.012871287128712872,
+            "substring::precision@20": 0.014356435643564359,
+            "substring::mrr": 0.023274084741500143,
+            "substring::ndcg@3": 0.01485148514851485,
+            "token_f1::recall@5": 0.019801980198019802,
+            "token_f1::recall@10": 0.0297029702970297,
+            "token_f1::recall@20": 0.039603960396039604,
+            "token_f1::precision@5": 0.0059405940594059415,
+            "token_f1::precision@10": 0.007920792079207921,
+            "token_f1::precision@20": 0.005445544554455445,
+            "token_f1::mrr": 0.010045235292760043,
+            "token_f1::ndcg@3": 0.006246829243281757
+          },
+          "metrics_by_mode": {
+            "substring": {
+              "recall@5": 0.024752475247524754,
+              "recall@10": 0.024752475247524754,
+              "recall@20": 0.04455445544554455,
+              "precision@5": 0.013861386138613863,
+              "precision@10": 0.012871287128712872,
+              "precision@20": 0.014356435643564359,
+              "mrr": 0.023274084741500143,
+              "ndcg@3": 0.01485148514851485
+            },
+            "token_f1": {
+              "recall@5": 0.019801980198019802,
+              "recall@10": 0.0297029702970297,
+              "recall@20": 0.039603960396039604,
+              "precision@5": 0.0059405940594059415,
+              "precision@10": 0.007920792079207921,
+              "precision@20": 0.005445544554455445,
+              "mrr": 0.010045235292760043,
+              "ndcg@3": 0.006246829243281757
+            }
+          },
+          "json": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\hybrid_rrf.json",
+          "trace": "eval\\runs\\20260513_015456_f2_hybrid_rrf_sweep\\full_default_clean\\fetch_k_400\\hybrid_rrf.trace.jsonl",
+          "ok": true
+        }
+      }
+    }
+  }
+}

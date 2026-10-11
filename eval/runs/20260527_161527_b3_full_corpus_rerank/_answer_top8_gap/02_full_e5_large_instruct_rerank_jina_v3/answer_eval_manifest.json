@@ -1,0 +1,13 @@
+{
+  "schema": "answer_eval_in_run_dir_v1",
+  "run_dir": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260527_161527_b3_full_corpus_rerank/_answer_top8_gap/02_full_e5_large_instruct_rerank_jina_v3",
+  "answer_eval_file": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+  "answer_eval_out": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\runs\\20260527_161527_b3_full_corpus_rerank\\_answer_top8_gap\\02_full_e5_large_instruct_rerank_jina_v3\\answer_eval_results.jsonl",
+  "fetch_k": "40",
+  "chroma_collection": "corpus_phase_b_e5_large_instruct",
+  "chroma_embed_model": "intfloat/multilingual-e5-large-instruct",
+  "max_rows": 0,
+  "rerank_model": "jinaai/jina-reranker-v3",
+  "rerank_mode": "cross",
+  "retrieval_json": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260527_161527_b3_full_corpus_rerank/full_e5_large_instruct/retrieval_rerank_jina_v3.json"
+}

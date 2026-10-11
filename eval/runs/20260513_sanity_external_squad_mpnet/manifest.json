@@ -1,0 +1,10 @@
+{
+  "component": "sanity_external_squad_mpnet",
+  "dataset": "rajpurkar/squad (train[:80])",
+  "license": "CC BY-SA 4.0",
+  "corpus_jsonl": "DATA/runs/sanity_external_squad_smoke/corpus.jsonl",
+  "gold_jsonl": "DATA/runs/sanity_external_squad_smoke/gold.jsonl",
+  "chroma_collection": "sanity_external_squad_mpnet",
+  "registry": "eval/config/embedding_bases_sanity_external.yaml",
+  "index_run": "DATA/runs/phase_b_index_full/20260513_210612"
+}

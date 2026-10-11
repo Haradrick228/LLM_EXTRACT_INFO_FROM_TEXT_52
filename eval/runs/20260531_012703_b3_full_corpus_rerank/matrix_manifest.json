@@ -1,0 +1,44 @@
+{
+  "component": "phase_b.run_full_corpus_rerank_matrix",
+  "ts": "20260531_012703",
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+  "b3_base_ids": [
+    "full_user_bge_m3"
+  ],
+  "metric_modes": "substring,token_f1,semantic",
+  "semantic_threshold": 0.62,
+  "semantic_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+  "eval_scenario_type": "full_corpus",
+  "run_retrieval_eval_contract": {
+    "relevance_fields": [
+      "question",
+      "references",
+      "reference_quote (если references пуст)"
+    ],
+    "note": "Метрики: для каждого режима из --metric-modes пишутся ключи вида mode::recall@k; primary (первый режим) также дублируется без префикса для обратной совместимости. answer_ref в retrieval не участвует."
+  },
+  "evaluation_reproducibility": {
+    "RETRIEVAL_EVAL_SHUFFLE": "0",
+    "note": "В каждом subprocess задаётся RETRIEVAL_EVAL_SHUFFLE=0: порядок вопросов = порядок строк в JSONL. Иначе load_eval использует random.shuffle и средние метрики «плавают» между сценариями и прогонами."
+  },
+  "metrics_tables": "metrics_matrix.md (после завершения всех ячеек)",
+  "chroma_eval_host": "127.0.0.1",
+  "chroma_eval_port": 18000,
+  "scenarios": [
+    {
+      "base_id": "full_user_bge_m3",
+      "chroma_collection_yaml": "corpus_phase_b_user_bge_m3",
+      "chroma_collection_resolved": "corpus_phase_b_user_bge_m3",
+      "collection_fallback": null,
+      "embed_model": "C:/IT/VS Code/model/USER-bge-m3",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    }
+  ],
+  "profiles_matrix": [
+    "baseline_mpnet_rerank",
+    "rerank_bge_v2_m3",
+    "rerank_jina_v3"
+  ]
+}

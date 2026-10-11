@@ -1,0 +1,4 @@
+{
+  "RERANK_MODEL": "Qwen/Qwen3-Reranker-4B",
+  "RERANK_MODE": "cross"
+}

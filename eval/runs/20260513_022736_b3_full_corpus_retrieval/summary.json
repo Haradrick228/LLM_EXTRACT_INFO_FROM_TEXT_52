@@ -1,0 +1,154 @@
+{
+  "run_dir": "eval\\runs\\20260513_022736_b3_full_corpus_retrieval",
+  "dense_registry": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\config\\embedding_bases_full_corpus.yaml",
+  "scenarios": [
+    "full_mpnet",
+    "full_default_clean"
+  ],
+  "retrieval_only": true,
+  "profiles": [],
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+  "fetch_k": 100,
+  "k": "5,10",
+  "expected_rows_cli": 61543,
+  "retrieval_trace": false,
+  "trace_doc_chars": 2500,
+  "matrix_manifest": "matrix_manifest.json",
+  "metrics_matrix_md": "metrics_matrix.md",
+  "scenario_chroma": {
+    "full_mpnet": {
+      "base_id": "full_mpnet",
+      "chroma_collection_yaml": "corpus_phase_b_mpnet",
+      "chroma_collection_resolved": "corpus_phase_b_mpnet",
+      "collection_fallback": null,
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    "full_default_clean": {
+      "base_id": "full_default_clean",
+      "chroma_collection_yaml": "default_clean",
+      "chroma_collection_resolved": "default",
+      "collection_fallback": "default",
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    }
+  },
+  "results": {
+    "full_mpnet": {
+      "dense_only": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "corpus_phase_b_mpnet",
+        "chroma_collection_yaml": "corpus_phase_b_mpnet",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "",
+        "rerank_mode": "none",
+        "answer_returncode": 0,
+        "metrics": {
+          "recall@5": 0.0,
+          "recall@10": 0.125,
+          "precision@5": 0.0,
+          "precision@10": 0.0125,
+          "mrr": 0.0125,
+          "ndcg@3": 0.0,
+          "substring::recall@5": 0.0,
+          "substring::recall@10": 0.125,
+          "substring::precision@5": 0.0,
+          "substring::precision@10": 0.0125,
+          "substring::mrr": 0.0125,
+          "substring::ndcg@3": 0.0,
+          "token_f1::recall@5": 0.0,
+          "token_f1::recall@10": 0.0,
+          "token_f1::precision@5": 0.0,
+          "token_f1::precision@10": 0.0,
+          "token_f1::mrr": 0.0026595744680851063,
+          "token_f1::ndcg@3": 0.0
+        },
+        "metrics_meta": {
+          "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+          "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+          "fetch_k": 100,
+          "rerank_model": "",
+          "rerank_mode": "none",
+          "chroma_host": "127.0.0.1",
+          "chroma_port": 18000,
+          "chroma_collection": "corpus_phase_b_mpnet",
+          "max_rows": 8,
+          "retrieval_trace_jsonl": "",
+          "trace_profile_label": "",
+          "eval_shuffle": false,
+          "retrieval_eval_shuffle_env": "0",
+          "seed": 0,
+          "metric_modes": [
+            "substring",
+            "token_f1"
+          ],
+          "primary_metric_mode": "substring",
+          "semantic_model": null,
+          "semantic_threshold": null,
+          "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+          "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+        }
+      }
+    },
+    "full_default_clean": {
+      "dense_only": {
+        "retrieval_returncode": 0,
+        "chroma_collection_resolved": "default",
+        "chroma_collection_yaml": "default_clean",
+        "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "rerank_model": "",
+        "rerank_mode": "none",
+        "answer_returncode": 0,
+        "metrics": {
+          "recall@5": 0.0,
+          "recall@10": 0.125,
+          "precision@5": 0.0,
+          "precision@10": 0.0125,
+          "mrr": 0.0125,
+          "ndcg@3": 0.0,
+          "substring::recall@5": 0.0,
+          "substring::recall@10": 0.125,
+          "substring::precision@5": 0.0,
+          "substring::precision@10": 0.0125,
+          "substring::mrr": 0.0125,
+          "substring::ndcg@3": 0.0,
+          "token_f1::recall@5": 0.0,
+          "token_f1::recall@10": 0.0,
+          "token_f1::precision@5": 0.0,
+          "token_f1::precision@10": 0.0,
+          "token_f1::mrr": 0.002717391304347826,
+          "token_f1::ndcg@3": 0.0
+        },
+        "metrics_meta": {
+          "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+          "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+          "fetch_k": 100,
+          "rerank_model": "",
+          "rerank_mode": "none",
+          "chroma_host": "127.0.0.1",
+          "chroma_port": 18000,
+          "chroma_collection": "default",
+          "max_rows": 8,
+          "retrieval_trace_jsonl": "",
+          "trace_profile_label": "",
+          "eval_shuffle": false,
+          "retrieval_eval_shuffle_env": "0",
+          "seed": 0,
+          "metric_modes": [
+            "substring",
+            "token_f1"
+          ],
+          "primary_metric_mode": "substring",
+          "semantic_model": null,
+          "semantic_threshold": null,
+          "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+          "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+        }
+      }
+    }
+  }
+}

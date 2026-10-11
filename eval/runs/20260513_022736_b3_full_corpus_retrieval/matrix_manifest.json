@@ -1,0 +1,43 @@
+{
+  "component": "phase_b.run_full_corpus_rerank_matrix",
+  "ts": "20260513_022736",
+  "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\datasets\\eval_set_gold_v2.jsonl",
+  "run_retrieval_eval_contract": {
+    "relevance_fields": [
+      "question",
+      "references",
+      "reference_quote (если references пуст)"
+    ],
+    "note": "Метрики recall/precision/MRR/nDCG: подстроки из списка references; если он пуст — из reference_quote. answer_ref в retrieval не участвует."
+  },
+  "evaluation_reproducibility": {
+    "RETRIEVAL_EVAL_SHUFFLE": "0",
+    "note": "В каждом subprocess задаётся RETRIEVAL_EVAL_SHUFFLE=0: порядок вопросов = порядок строк в JSONL. Иначе load_eval использует random.shuffle и средние метрики «плавают» между сценариями и прогонами."
+  },
+  "metrics_tables": "metrics_matrix.md (после завершения всех ячеек)",
+  "chroma_eval_host": "127.0.0.1",
+  "chroma_eval_port": 18000,
+  "scenarios": [
+    {
+      "base_id": "full_mpnet",
+      "chroma_collection_yaml": "corpus_phase_b_mpnet",
+      "chroma_collection_resolved": "corpus_phase_b_mpnet",
+      "collection_fallback": null,
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    },
+    {
+      "base_id": "full_default_clean",
+      "chroma_collection_yaml": "default_clean",
+      "chroma_collection_resolved": "default",
+      "collection_fallback": "default",
+      "embed_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "trust_remote_code": false,
+      "expected_collection_rows": 61543,
+      "chroma_count_verified": 61543
+    }
+  ],
+  "profiles_matrix": []
+}

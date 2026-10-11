@@ -1,0 +1,21 @@
+{
+  "recall@5": 0.0594059405940594,
+  "recall@10": 0.06435643564356436,
+  "precision@5": 0.023762376237623766,
+  "precision@10": 0.024752475247524757,
+  "mrr": 0.040083294043690085,
+  "ndcg@3": 0.02587274448282632,
+  "_meta": {
+    "eval_file": "C:\\IT\\VS Code\\LLM_EXTRACT_INFO_FROM_TEXT_52_DEV\\eval\\eval_set_gold_v2.jsonl",
+    "embed_model": "ai-forever/FRIDA",
+    "fetch_k": 40,
+    "rerank_model": "jinaai/jina-reranker-v3",
+    "rerank_mode": "cross",
+    "chroma_host": "127.0.0.1",
+    "chroma_port": 18000,
+    "chroma_collection": "corpus_phase_b_frida",
+    "max_rows": 0,
+    "retrieval_trace_jsonl": "",
+    "trace_profile_label": ""
+  }
+}

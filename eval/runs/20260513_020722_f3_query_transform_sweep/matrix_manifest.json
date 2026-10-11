@@ -1,0 +1,27 @@
+{
+  "component": "eval.retrieval.run_query_transform_sweep",
+  "ts": "20260513_020722",
+  "scenarios": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3",
+    "full_default_clean"
+  ],
+  "fetch_k": 100,
+  "rrf_k": 60,
+  "metric_modes": [
+    "substring",
+    "token_f1"
+  ],
+  "primary_metric_mode": "substring",
+  "llm_provider": "ollama",
+  "llm_model": "qwen2.5:7b-instruct",
+  "mqr_n_queries": 4,
+  "hyde_temperature": 0.0,
+  "hyde_max_tokens": 256,
+  "seed": 0,
+  "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96",
+  "git_sha": "44e6a3e957bdb592eb0349623b03060464b03395"
+}

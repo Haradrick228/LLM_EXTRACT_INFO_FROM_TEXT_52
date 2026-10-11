@@ -1,0 +1,23 @@
+{
+  "schema": "semantic_threshold_probe_v1",
+  "trace": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260513_205851_gold_on_full_corpus_bge_m3/trace.jsonl",
+  "gold_jsonl": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+  "semantic_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+  "scorer_backend": "sentence-transformers",
+  "default_threshold_in_eval": 0.62,
+  "n_sampled_rows": 30,
+  "percentiles_all": {
+    "p10": 0.39377516508102417,
+    "p50": 0.640477180480957,
+    "p90": 0.7753902673721313
+  },
+  "percentiles_substring_hit": {
+    "p50": 0.4879961609840393,
+    "p90": 0.4879961609840393
+  },
+  "percentiles_substring_miss": {
+    "p50": 0.643988311290741,
+    "p90": 0.7753902673721313
+  },
+  "note": "Tune RETRIEVAL_SEMANTIC_THRESHOLD so substring-miss pairs with plausible relevance score above threshold sparingly; compare percentiles_substring_hit vs _miss."
+}

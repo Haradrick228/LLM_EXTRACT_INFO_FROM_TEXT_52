@@ -1,0 +1,6 @@
+{
+  "component": "sanity_fixture_bge_m3_smoke",
+  "created_for": "RETRIEVAL_DIAGNOSIS_2026_05",
+  "command": "python -m eval.retrieval.run_retrieval_eval --eval-file eval/datasets/eval_set_gold_v2.jsonl --chroma-collection phase_b_gold_v2_bge_m3 --embed-model BAAI/bge-m3 --fetch-k 40 --k 5,10 --max-rows 25 --out-json eval/runs/20260513_sanity_fixture_bge_m3_smoke/retrieval.json",
+  "purpose": "Prove high recall on ~101-chunk fixture vs low full-corpus recall (same metric code)."
+}

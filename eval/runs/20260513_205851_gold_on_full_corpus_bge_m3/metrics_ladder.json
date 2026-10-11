@@ -1,0 +1,40 @@
+{
+  "schema": "metrics_ladder_funnel_v1",
+  "trace": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/runs/20260513_205851_gold_on_full_corpus_bge_m3/trace.jsonl",
+  "gold_jsonl": "C:/IT/VS Code/LLM_EXTRACT_INFO_FROM_TEXT_52_DEV/eval/datasets/eval_set_gold_v2.jsonl",
+  "corpus_jsonl": null,
+  "hit_fn": "substring",
+  "k_primary": 10,
+  "n_queries": 101,
+  "class_counts": {
+    "A": 0,
+    "B": 93,
+    "C": 2,
+    "D": 6,
+    "A_skip": 0
+  },
+  "class_fractions": {
+    "A": 0.0,
+    "B": 0.9207920792079208,
+    "C": 0.019801980198019802,
+    "D": 0.0594059405940594,
+    "A_skip": 0.0
+  },
+  "wilson_hit_at_k_post": {
+    "k": 10,
+    "successes": 6,
+    "lo": 0.02750775260018063,
+    "hi": 0.12359257398773865
+  },
+  "conditional_given_oracle_pool": {
+    "n": 8,
+    "mean_recall_at_k_post": 0.5625,
+    "mean_mrr_post": 0.5574675324675324
+  },
+  "rerank": {
+    "n_traces_with_stage2": 0,
+    "mean_delta_mrr": null,
+    "mean_delta_recall_at_k": null,
+    "mean_ambiguous_rate": null
+  }
+}
