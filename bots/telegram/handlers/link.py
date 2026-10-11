@@ -6,16 +6,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 from bots.telegram.handlers.states import MenuState
-from bots.telegram.texts import ADD_RESOURCE_BUTTON, BACK_BUTTON
+from bots.telegram.texts import ADD_RESOURCE_BUTTON, BACK_BUTTON, LINK_CONFIRMATION_TEMPLATE, LINK_RESOURCE_PROMPT
 from bots.telegram.utils import is_admin
 from common.config import Settings
 from common.interfaces.user_interaction import UserInteraction
 
-RESOURCE_PROMPT = "Send a link to add it to the knowledge base."
-CONFIRMATION_TEMPLATE = "Processing link: {url}"
-
 
 class LinkHandler:
+    """Добавление ссылок в базу знаний (только для администраторов)."""
     def __init__(self, adapter: UserInteraction, link_service, settings: Settings) -> None:
         self.adapter = adapter
         self.link_service = link_service
@@ -36,7 +34,7 @@ class LinkHandler:
             )
             await self.adapter.send_message(
                 user_id=message.from_user.id,
-                text=RESOURCE_PROMPT,
+                text=LINK_RESOURCE_PROMPT,
                 reply_markup=keyboard,
             )
 
@@ -49,7 +47,7 @@ class LinkHandler:
             url = message.text.strip()
             await self.adapter.send_message(
                 user_id=message.from_user.id,
-                text=CONFIRMATION_TEMPLATE.format(url=url),
+                text=LINK_CONFIRMATION_TEMPLATE.format(url=url),
             )
             success, info = await self.link_service.add_link(url)
             await self.adapter.send_message(user_id=message.from_user.id, text=info)

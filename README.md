@@ -1,4 +1,4 @@
-﻿# Применение LLM для извлечения информации из текстов (с использованием RAG и LLM-агентов)
+# Применение LLM для извлечения информации из текстов (с использованием RAG и LLM-агентов)
 
 > Вопросно-ответная система на базе знаний образовательного домена.  
 > Цель — построить надёжный RAG-пайплайн на open-source LLM, обеспечить измеримую точность ответов и представить результат в виде удобного сервиса (Telegram-бот или web-демо).
@@ -99,9 +99,11 @@
 - Отдельно был проведён анализ влияния дополнительного чанкования. Проверялись несколько вариантов дополнительных настроек, включая 1000/200, 400/100 и 800/150. Во всех случаях метрики становились хуже по сравнению с исходным вариантом. Это означает, исходное чанкование было подобрано лучшим образом.
 - Главный вывод состоит в том, что текущее базовое чанкование 650/250 уже является оптимальным, и проблема baseline была не в нём, а в выборе эмбеддера. Поэтому оставляем текущее разбиение текста без изменений и заменяем только эмбеддер.
 
-### Сравнение реранкеров (retrieval, 2026-05-11)
+### Сравнение реранкеров (retrieval, 2026-05-11) — на **fixture**
 
-Одинаковые условия: `eval/eval_set_with_answer_ref.jsonl` (101 вопрос), коллекция Chroma `gold_v2_fixture`, эмбеддер `paraphrase-multilingual-mpnet-base-v2`, `fetch_k=40`, режим реранка **cross**. Скрипт: `eval/run_retrieval_eval.py`. Исходные JSON: `eval/runs/20260511_180019_rerank_matrix/` (MiniLM, Jina, BGE), `eval/runs/20260511_181112_rerank_matrix/` (Qwen 0.6B), `eval/runs/20260511_qwen4b_recovery/` (Qwen 4B). В таблице — **3 знака** после запятой (округление от JSON).
+> **Важно.** Эта таблица собрана на **fixture-коллекции** `gold_v2_fixture` (101 чанк, по одному на каждый вопрос из `eval/datasets/eval_set_gold_v2.jsonl`). На такой коллекции релевантный чанк гарантированно присутствует, и recall ограничен сверху ~100 %. На полном корпусе (`corpus_phase_b_*`, 61 543 чанка) recall заметно ниже — см. секцию [Retrieval Recovery 2026-05](#retrieval-recovery-2026-05) ниже.
+>
+> Одинаковые условия: `eval/datasets/eval_set_gold_v2.jsonl` (101 вопрос), коллекция Chroma `gold_v2_fixture`, эмбеддер `paraphrase-multilingual-mpnet-base-v2`, `fetch_k=40`, режим реранка **cross**. Скрипт: `eval/retrieval/run_retrieval_eval.py`. Исходные JSON: `eval/runs/20260511_180019_rerank_matrix/` (MiniLM, Jina, BGE), `eval/runs/20260511_181112_rerank_matrix/` (Qwen 0.6B), `eval/runs/20260511_qwen4b_recovery/` (Qwen 4B). В таблице — **3 знака** после запятой (округление от JSON).
 
 | Ранг | Реранкер | recall@5 | recall@10 | precision@5 | precision@10 | MRR | nDCG@3 |
 |------|----------|----------|-----------|---------------|----------------|-----|--------|
@@ -111,16 +113,41 @@
 | 2 | Qwen/Qwen3-Reranker-4B | 0.678 | 0.812 | 0.331 | 0.248 | 0.576 | 0.905 |
 | 5 | sentence-transformers/all-MiniLM-L6-v2 | 0.144 | 0.302 | 0.057 | 0.093 | 0.128 | 0.096 |
 
-\* Для BGE в JSON nDCG@3 чуть выше 1.0 из‑за расчёта в скрипте; для сравнения моделей удобнее смотреть recall@*k* и MRR. **Jina / Qwen 0.6B / Qwen 4B:** три разных прогона и три JSON (`_meta.rerank_model` разный); на 3 знаках совпадают, в полной мантиссе есть микро-отличия. Та же таблица: вкладка **«Сравнение реранкеров»** в [`analysis/reports/eda_dashboard.html`](analysis/reports/eda_dashboard.html).
+\* Исторически в JSON nDCG@3 иногда превышал 1.0 из‑за нескольких top-документов, совпадающих с одной и той же цитатой; в `eval/run_retrieval_eval.py` значение **ограничено 1.0**. Для сравнения моделей по-прежнему удобнее опираться на recall@*k* и MRR. **Jina / Qwen 0.6B / Qwen 4B:** три разных прогона и три JSON (`_meta.rerank_model` разный); на 3 знаках совпадают, в полной мантиссе есть микро-отличия. Та же таблица: вкладка **«Сравнение реранкеров»** в [`analysis/reports/eda_dashboard.html`](analysis/reports/eda_dashboard.html).
 
 #### Как сменить реранкер
 
-1. **Именованный профиль** — файл [`eval/rag_profiles.yaml`](eval/rag_profiles.yaml): для каждого профиля заданы `RERANK_MODEL`, `RERANK_MODE` (`cross` / `bi` / `auto`), при необходимости `RERANK_DEVICE` и др. Список имён: из кода `common.rag_profile_env.list_profile_names()` или по YAML.
+1. **Именованный профиль** — файл [`eval/config/rag_profiles.yaml`](eval/config/rag_profiles.yaml): для каждого профиля заданы `RERANK_MODEL`, `RERANK_MODE` (`cross` / `bi` / `auto`), при необходимости `RERANK_DEVICE` и др. Список имён: из кода `common.rag_profile_env.list_profile_names()` или по YAML.
 2. **Запуск сервиса с профилем:** переменная окружения `RAG_PROFILE=<имя>` перед `uvicorn` (в `ml_service` при старте вызывается `apply_profile_by_rag_profile_env()`), либо обёртка  
-   `python -m eval.run_with_profile --profile <имя> -- uvicorn ml_service.main:app ...`  
+   `python -m eval.retrieval.run_eval_with_profile --profile <имя> -- uvicorn ml_service.main:app ...`  
    (см. [`eval/README.md`](eval/README.md)).
-3. **Eval вручную:** флаги `python -m eval.run_retrieval_eval --rerank-model <HF id> --rerank-mode cross ...` (как в матрице прогонов); либо выставить те же переменные окружения, что в профиле, и не передавать флаги — смотри что читает `rerank_registry` / `run_retrieval_eval`.
-4. **Матрица профилей:** `python -m eval.run_profile_metrics` проходит профили с `matrix: true` в YAML и пишет артефакты в `eval/runs/...`.
+3. **Eval вручную:** флаги `python -m eval.retrieval.run_retrieval_eval --rerank-model <HF id> --rerank-mode cross ...` (как в матрице прогонов); либо выставить те же переменные окружения, что в профиле, и не передавать флаги — смотри что читает `cross_encoder_reranker` / `run_retrieval_eval`.
+4. **Матрица профилей:** `python -m eval.retrieval.run_profile_metrics` проходит профили с `matrix: true` в YAML и пишет артефакты в `eval/runs/...`.
+
+## Retrieval Recovery 2026-05
+
+После того как стало видно расхождение между метриками на **fixture** и на **полном корпусе** (61 543 чанка), вся работа по восстановлению пайплайна структурирована планом [`retrieval_recovery_plan_774a67d0`](.cursor/plans/retrieval_recovery_plan_774a67d0.plan.md) — фазы **F0–F8**:
+
+| Фаза | Что делает | Driver-скрипт |
+|---|---|---|
+| **F0** | Целевой layout `core/rag/{retrievers,rerankers,chunkers,metrics,llm,service}`, `eval/{retrieval,indexing,datasets,config,reporting,experiments}`, единый `common.structured_logging` + `core.monitoring`. Тесты разнесены по `tests/{unit,integration,regression}`. | — |
+| **F1** | Token-F1 / semantic-similarity hit-функции в дополнение к substring. Зафиксированы seed + SHA gold + git sha в `_meta` JSON-выдачи. | `python -m eval.retrieval.run_retrieval_eval --metric-modes substring,token_f1 ...` |
+| **F2** | BM25 sidecar (`rank_bm25`) + RRF(k=60) поверх dense, sweep `fetch_k {40,100,200,400}` на 5 dense-коллекциях `corpus_phase_b_*`. | `python -m eval.indexing.build_bm25_sidecar ...` → `python -m eval.retrieval.run_hybrid_rrf_sweep ...` |
+| **F3** | HyDE и Multi-Query Rewriting через Ollama (`qwen2.5:7b-instruct`); финальный RRF-фьюз HyDE-dense / MQR-dense / dense / BM25. | `python -m eval.retrieval.run_query_transform_sweep ...` |
+| **F4** | BGE-M3 native dense + sparse + ColBERT (late interaction) через `FlagEmbedding`; sweep весов fusion (`balanced` 0.4/0.2/0.4 и др.). | `python -m eval.retrieval.run_bge_m3_multi_vector_sweep ...` |
+| **F5** | Re-chunking корпуса: `fixed_size`, `parent_child (1024/128 → 256/64)`, `semantic_boundary` (sentence embeddings + percentile threshold). | `python -m eval.indexing.rechunk_corpus_jsonl --chunker {fixed,parent_child,semantic} ...` |
+| **F6** | Доиндексация Giga-Embeddings-instruct (ruMTEB лидер) и Qwen3-Embedding-4B/8B; гейты `PHASE_B_ALLOW_FULL_GIGA=1` / `PHASE_B_ALLOW_FULL_QWEN3=1` против случайного `--all-st`. | `python -m eval.indexing.index_corpus_from_jsonl --base-id full_giga_embeddings_instruct ...` |
+| **F7** | Финальная матрица реранкеров (`BGE-v2-m3`, `Jina-v3`, `Qwen3-Reranker`, MiniLM, при желании ColBERT) поверх победителя F2-F6. | `python -m eval.retrieval.run_final_reranker_matrix --base hybrid_rrf:full_mpnet:DATA/indexes/bm25/... --rerankers ...` |
+| **F8** | HTML-отчёт `analysis/reports/retrieval_recovery_2026_05.html`, регистрация replay-id в [`eval/config/experiments_registry.yaml`](eval/config/experiments_registry.yaml). | `python -m eval.reporting.build_retrieval_recovery_report --runs-root eval/runs ...` |
+
+Все driver-ы пишут `summary.json`, `matrix_manifest.json`, `metrics_matrix.md`, `<job>/<job>.trace.jsonl` с JSON-Lines трассой по каждому вопросу (включая `rrf_source_ranks`, ColBERT-скоры, метаданные кандидатов).
+
+### Fixture vs full-corpus — почему важно
+
+- **Fixture (`gold_v2_fixture`, 101 чанк):** для каждого вопроса релевантный чанк гарантированно в коллекции. recall@10 у хорошего реранкера ~0.95+. Полезен для **отладки** реранкеров.
+- **Full corpus (`corpus_phase_b_*`, 61 543 чанка):** реалистичная задача поиска. Dense без реранка и без гибрида даёт recall@10 в районе 5–15 %. Здесь как раз и нужны F2-F7 — поднимать recall@k и MRR на «настоящем» корпусе.
+
+Стартовые точки прогонов и зарегистрированные пресеты см. в [`eval/config/experiments_registry.yaml`](eval/config/experiments_registry.yaml) (`f1_*` … `f8_*`).
 
 ## Архив
 Исторический код, старый индексатор LangChain→Chroma, демо GigaChat и снимки eval-экспериментов вынесены из корня и из `eval/` в каталог [`archive/`](archive/README.md) (см. `archive/README.md`).

@@ -3,14 +3,17 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
 from bots.telegram.handlers.menu import get_main_menu
+from bots.telegram.texts import WELCOME_MESSAGE
 from common.config import Settings
 from common.interfaces.user_interaction import UserInteraction
 
 
-WELCOME_MESSAGE = "Hello! Choose what you would like to do next."
-
-
 class StartHandler:
+    """Отправляет приветственное сообщение и главное меню по команде /start.
+
+    Очищает состояние FSM и выводит клавиатуру, соответствующую роли
+    пользователя (администратор или обычный пользователь).
+    """
     def __init__(self, adapter: UserInteraction, settings: Settings) -> None:
         self.adapter = adapter
         self.settings = settings

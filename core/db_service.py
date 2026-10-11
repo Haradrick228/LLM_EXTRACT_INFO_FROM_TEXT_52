@@ -11,3 +11,6 @@ class DBService:
     def get_file_metadata_by_download_url(self, *args, **kwargs):
         return None
 
+    def increment_question_count(self, user_id):
+        pass
+

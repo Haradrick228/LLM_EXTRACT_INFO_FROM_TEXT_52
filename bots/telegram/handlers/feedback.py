@@ -3,8 +3,24 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardMarkup, KeyboardB
 from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import StateFilter
 from bots.telegram.handlers.states import MenuState
+from bots.telegram.texts import (
+    CANNOT_RATE_BUTTON,
+    FEEDBACK_COMMENT_PROMPT,
+    FEEDBACK_NEXT_QUESTION_PROMPT,
+    FEEDBACK_NPS_PROMPT,
+    FEEDBACK_RATING_PROMPT,
+    FEEDBACK_THANKS_NO_COMMENT,
+    FEEDBACK_THANKS_WITH_COMMENT,
+    SKIP_BUTTON,
+    BACK_BUTTON,
+)
 
 class FeedbackHandler:
+    """Собирает обратную связь: оценка ответа (1–10), комментарий, NPS.
+
+    После 8 вопросов предлагает пользователю пройти опрос NPS
+    (Net Promoter Score) с оценкой от 0 до 10.
+    """
     NPS_THRESHOLD = 8  # после этого числа вопросов предлагается NPS
 
     def __init__(self, adapter, db_service):
@@ -24,11 +40,11 @@ class FeedbackHandler:
                 inline_keyboard=[
                     [InlineKeyboardButton(text=str(i), callback_data=f"rating:{i}") for i in range(1, 6)],
                     [InlineKeyboardButton(text=str(i), callback_data=f"rating:{i}") for i in range(6, 11)],
-                    [InlineKeyboardButton(text="❓ Не могу оценить", callback_data="rating:na")],
+                    [InlineKeyboardButton(text=CANNOT_RATE_BUTTON, callback_data="rating:na")],
                 ]
             )
             await call.message.answer(
-                "Пожалуйста, оцените достоверность ответа от 1 до 10:",
+                FEEDBACK_RATING_PROMPT,
                 reply_markup=kb,
             )
             await state.set_state(MenuState.waiting_for_rating)
@@ -46,11 +62,11 @@ class FeedbackHandler:
             # Просим комментарий или “Пропустить”
             kb2 = InlineKeyboardMarkup(
                 inline_keyboard=[
-                    [InlineKeyboardButton(text="🔙 Пропустить", callback_data="skip_comment")]
+                    [InlineKeyboardButton(text=SKIP_BUTTON, callback_data="skip_comment")]
                 ]
             )
             prompt = await call.message.answer(
-                "💬 Теперь напишите комментарий (или нажмите «Пропустить»):",
+                FEEDBACK_COMMENT_PROMPT,
                 reply_markup=kb2,
             )
             await state.update_data(comment_prompt_id=prompt.message_id)
@@ -78,7 +94,7 @@ class FeedbackHandler:
                 rating=data.get("rating", 0),
                 comment=comment,
             )
-            await message.answer("🙏 Спасибо за ваш комментарий и отзыв!")
+            await message.answer(FEEDBACK_THANKS_WITH_COMMENT)
 
             # Проверяем порог для NPS
             count = self.db.get_question_count(uid)
@@ -91,8 +107,7 @@ class FeedbackHandler:
                     ]
                 )
                 await message.answer(
-                    "📊 Спасибо, что пользуетесь ботом! "
-                    "Оцените его по шкале от 0 до 10, насколько вы порекомендуете бота друзьям или коллегам:",
+                    FEEDBACK_NPS_PROMPT,
                     reply_markup=nps_kb,
                 )
                 await state.set_state(MenuState.waiting_for_nps_rating)
@@ -100,9 +115,9 @@ class FeedbackHandler:
 
             # Иначе: возвращаем приглашение к новому вопросу
             await message.answer(
-                "Если у вас есть ещё вопрос — просто напишите его.",
+                text=FEEDBACK_NEXT_QUESTION_PROMPT,
                 reply_markup=ReplyKeyboardMarkup(
-                    keyboard=[[KeyboardButton(text="🔙 Назад")]],
+                    keyboard=[[KeyboardButton(text=BACK_BUTTON)]],
                     resize_keyboard=True,
                 ),
             )
@@ -125,7 +140,7 @@ class FeedbackHandler:
                 rating=data.get("rating", 0),
                 comment=None,
             )
-            await call.message.answer("🙏 Спасибо за ваш отзыв!")
+            await call.message.answer(FEEDBACK_THANKS_NO_COMMENT)
 
             # Проверяем NPS
             count = self.db.get_question_count(uid)
@@ -137,17 +152,16 @@ class FeedbackHandler:
                     ]
                 )
                 await call.message.answer(
-                    "📊 Спасибо, что пользуетесь ботом! "
-                    "Оцените его по шкале от 0 до 10, насколько вы порекомендуете бота друзьям или коллегам:",
+                    FEEDBACK_NPS_PROMPT,
                     reply_markup=nps_kb,
                 )
                 await state.set_state(MenuState.waiting_for_nps_rating)
                 return
 
             await call.message.answer(
-                "Если у вас есть ещё вопрос — просто напишите его.",
+                text=FEEDBACK_NEXT_QUESTION_PROMPT,
                 reply_markup=ReplyKeyboardMarkup(
-                    keyboard=[[KeyboardButton(text="🔙 Назад")]],
+                    keyboard=[[KeyboardButton(text=BACK_BUTTON)]],
                     resize_keyboard=True,
                 ),
             )

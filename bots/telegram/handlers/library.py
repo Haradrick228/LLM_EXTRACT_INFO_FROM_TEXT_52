@@ -6,10 +6,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from bots.telegram.handlers.states import MenuState
-from bots.telegram.texts import FILE_LIBRARY_BUTTON, FILE_LIBRARY_NEXT, FILE_LIBRARY_PREV
+from bots.telegram.texts import FILE_LIBRARY_BUTTON, FILE_LIBRARY_EMPTY, FILE_LIBRARY_NEXT, FILE_LIBRARY_PREV, FILE_LIBRARY_PROMPT, FILE_LIBRARY_UNKNOWN_NUMBER
 
 
 class LibraryHandler:
+    """Показывает постраничный список доступных файлов и отправляет выбранный."""
     def __init__(self, adapter, file_library, rag_service) -> None:
         self.adapter = adapter
         self.file_library = file_library
@@ -26,7 +27,7 @@ class LibraryHandler:
             if not names:
                 await self.adapter.send_message(
                     message.from_user.id,
-                    "No documents are available yet.",
+                    FILE_LIBRARY_EMPTY,
                 )
                 await state.clear()
                 return
@@ -39,7 +40,7 @@ class LibraryHandler:
             )
             await self.adapter.send_message(
                 message.from_user.id,
-                "Reply with the document number to receive the file.",
+                FILE_LIBRARY_PROMPT,
             )
             await state.update_data(library=self.rag_service.list_files())
 
@@ -70,7 +71,7 @@ class LibraryHandler:
 
             await self.adapter.send_message(
                 message.from_user.id,
-                "Unknown document number.",
+                FILE_LIBRARY_UNKNOWN_NUMBER,
             )
 
     async def _send_page(self, chat_id: int, names, prev_page, next_page) -> None:

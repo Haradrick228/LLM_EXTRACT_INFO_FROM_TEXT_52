@@ -36,7 +36,14 @@ DATA/chromadb_persist/
 DATA/eval_gpu.lock
 
 # Воспроизводимые прогоны retrieval/answer-eval (артефакты регенерируются)
-eval/runs/
+eval/runs/**
+# ...but keep small run summaries (paper evidence): json/md/csv, no raw traces (*.jsonl/*.txt)
+!eval/runs/**/
+!eval/runs/**/*.json
+!eval/runs/**/*.md
+!eval/runs/**/*.csv
+# full environment dumps must never be committed
+eval/runs/**/env_snapshot.json
 
 # Файловые архивы и упаковки (не путать с каталогом archive/ в корне репо)
 *.zip
@@ -50,3 +57,14 @@ archive/
 
 # Локальный справочник для агента (расширяется без обязательного коммита)
 docs/AGENT_RAG_STACK.md
+
+# Large corpus snapshots / indexes (size + foundation content; kept on backup disk with sha256)
+DATA/indexes/
+DATA/runs/corpus_full_export_*/
+
+# Scratch output and local helper state
+_temp_pg_out.txt
+scripts/_chat_id.txt
+
+# Personal IDE plans
+.cursor/plans/

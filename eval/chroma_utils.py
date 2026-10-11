@@ -9,6 +9,7 @@ from typing import Any, Dict, Iterator, List, Optional
 from chromadb import HttpClient
 from chromadb.config import Settings
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+from common.hf_model_resolution import embedder_needs_trust_remote_code, resolve_hf_model_path
 
 # Не удалять из окружения — нужны вызывающему коду / RagService после создания клиента.
 _PRESERVE_CHROMA_ENV_KEYS = frozenset(
@@ -45,7 +46,25 @@ def get_collection(
     name: str,
     embed_model: str,
 ):
-    embed_fn = SentenceTransformerEmbeddingFunction(model_name=embed_model)
+    resolved = resolve_hf_model_path(embed_model)
+    trust = os.getenv("CHROMA_EMBED_TRUST_REMOTE_CODE", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    ) or embedder_needs_trust_remote_code(embed_model)
+    if trust:
+        from eval.indexing.chroma_embedding_function_factory import build_chroma_embedding_function
+
+        embed_fn = build_chroma_embedding_function(
+            {
+                "backend": "sentence_transformers",
+                "model_name": resolved,
+                "st_model_kwargs": {"trust_remote_code": True},
+            }
+        )
+    else:
+        embed_fn = SentenceTransformerEmbeddingFunction(model_name=resolved)
     return client.get_collection(name, embedding_function=embed_fn)
 
 

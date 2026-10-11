@@ -6,11 +6,12 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from bots.telegram.adapters.adapter import TelegramAdapter
-from bots.telegram.texts import LINK_LIBRARY_BUTTON, LINK_LIBRARY_NEXT, LINK_LIBRARY_PREV
+from bots.telegram.texts import LINK_LIBRARY_BUTTON, LINK_LIBRARY_EMPTY, LINK_LIBRARY_NEXT, LINK_LIBRARY_PREV
 from core.services.link_library_service import LinkLibraryService
 
 
 class LinkLibraryHandler:
+    """Показывает постраничный каталог ссылок."""
     def __init__(self, adapter: TelegramAdapter, link_library: LinkLibraryService):
         self.adapter = adapter
         self.link_library = link_library
@@ -36,12 +37,15 @@ class LinkLibraryHandler:
         page_links, prev_page, next_page = self.link_library.get_page(page)
 
         if not page_links:
-            text = "No links have been added yet."
+            text = LINK_LIBRARY_EMPTY
             if callback:
                 await callback.message.edit_text(text)
                 await callback.answer()
             else:
-                await self.adapter.bot.send_message(chat_id, text)
+                await self.adapter.send_message(
+                user_id=chat_id,
+                text=text,
+            )
             return
 
         message_body = "\n".join(
@@ -71,9 +75,9 @@ class LinkLibraryHandler:
             await callback.answer()
             return
 
-        await self.adapter.bot.send_message(
-            chat_id,
-            message_body,
+        await self.adapter.send_message(
+            user_id=chat_id,
+            text=message_body,
             reply_markup=keyboard.as_markup(),
             parse_mode="HTML",
         )

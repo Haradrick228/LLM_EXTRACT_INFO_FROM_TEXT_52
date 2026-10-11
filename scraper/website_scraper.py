@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 from common.config import Settings
 from common.util import extract_text_from_file
-from core.rag.rag_service_wrapper import RagServiceWrapper
+from core.rag.service.rag_service_legacy_facade import RagServiceWrapper
 
 load_dotenv()
 

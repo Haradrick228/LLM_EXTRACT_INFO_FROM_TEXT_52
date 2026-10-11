@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from core.db import models
 from core.db.session import engine
-from core.rag.rag_service import RagService
+from core.rag.service.rag_service import RagService
 from ml_service.api.routers import forward, history
 
 __all__ = ["create_app"]

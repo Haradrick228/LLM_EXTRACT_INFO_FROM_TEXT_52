@@ -6,10 +6,18 @@ import requests
 from typing import Any, List, Dict, Optional, Union
 
 
+# Model names from the bot UI that should map to the configured Ollama model
+_OLLAMA_ALIASES = frozenset({"deepseek", "deepseek-chat", "gigachat", "gigachat_pro"})
+
+
 def _ollama_resolved_model(requested: Optional[str]) -> str:
-    if requested and requested.strip() and requested.strip() != "deepseek-chat":
-        return requested.strip()
-    return (os.getenv("OLLAMA_MODEL") or "qwen2.5:7b-instruct").strip()
+    ollama_default = (os.getenv("OLLAMA_MODEL") or "qwen2.5:7b-instruct").strip()
+    if not requested:
+        return ollama_default
+    req = requested.strip()
+    if req in _OLLAMA_ALIASES:
+        return ollama_default
+    return req
 
 
 class DeepSeekLLMClient:

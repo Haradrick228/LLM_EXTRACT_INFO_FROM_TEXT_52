@@ -192,3 +192,5 @@ PyJWT==2.9.0
 alembic==1.14.0
 python-multipart==0.0.9
 pytest==8.3.4
+# Optional: F4 BGE-M3 multi-vector sweep (`eval.retrieval.run_bge_m3_multi_vector_sweep`).
+# FlagEmbedding==1.2.10

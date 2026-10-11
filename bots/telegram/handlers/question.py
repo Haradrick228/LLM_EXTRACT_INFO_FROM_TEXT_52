@@ -14,8 +14,16 @@ from bots.telegram.texts import (
     ASK_QUESTION_BUTTON,
     BACK_BUTTON,
     DEEPSEEK_BUTTON,
+    EMPTY_QUESTION_PROMPT,
+    FEEDBACK_BUTTON_LABEL,
+    FEEDBACK_PROMPT,
+    FILES_AVAILABLE_PROMPT,
     GIGACHAT_BUTTON,
     GIGACHAT_PRO_BUTTON,
+    MODEL_PROMPT,
+    MODEL_UNKNOWN_PROMPT,
+    NO_ANSWER_FALLBACK,
+    QUESTION_PROMPT,
 )
 from bots.telegram.utils import is_admin
 from common.config import Settings
@@ -28,17 +36,15 @@ MODEL_OPTIONS = {
 }
 DEFAULT_MODEL = MODEL_OPTIONS[DEEPSEEK_BUTTON]
 CHUNK_LIMIT = 4000
-FEEDBACK_BUTTON_LABEL = "Leave feedback"
-MODEL_PROMPT = "Choose a model for the answer:"
-QUESTION_PROMPT = "Send your question as plain text."
-FILES_AVAILABLE_PROMPT = "Documents retrieved from the knowledge base:"
-FEEDBACK_PROMPT = "Did you get a helpful answer?"
-MODEL_UNKNOWN_PROMPT = "The option was not recognised. Please pick one of the buttons."
-EMPTY_QUESTION_PROMPT = "Please send a text question."
-NO_ANSWER_FALLBACK = "No answer was generated."
 
 
 class QuestionHandler:
+    """Обрабатывает полный цикл вопроса: выбор модели → запрос → ответ RAG.
+
+    Администраторам показывается выбор модели (GigaChat/DeepSeek),
+    обычные пользователи пропускают этот шаг. После ответа предлагается
+    оценить его качество.
+    """
     def __init__(self, adapter: UserInteraction, rag_service, db_service, settings: Settings) -> None:
         self.adapter = adapter
         self.rag_service = rag_service

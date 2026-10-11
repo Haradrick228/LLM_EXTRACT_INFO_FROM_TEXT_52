@@ -3,10 +3,8 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 from common.config import Settings
 from bots.telegram.texts import (
-    ADD_RESOURCE_BUTTON,
     ASK_QUESTION_BUTTON,
     FILE_LIBRARY_BUTTON,
-    LINK_LIBRARY_BUTTON,
     UPLOAD_FILES_BUTTON,
 )
 
@@ -21,7 +19,6 @@ def get_main_menu(settings: Settings, user_id: int, username: str | None = None)
     keyboard = [
         [
             KeyboardButton(text=ASK_QUESTION_BUTTON),
-            KeyboardButton(text=LINK_LIBRARY_BUTTON),
         ]
     ]
 
@@ -29,7 +26,6 @@ def get_main_menu(settings: Settings, user_id: int, username: str | None = None)
         keyboard.append(
             [
                 KeyboardButton(text=FILE_LIBRARY_BUTTON),
-                KeyboardButton(text=ADD_RESOURCE_BUTTON),
             ]
         )
         keyboard.append([

@@ -1,0 +1,476 @@
+# Реестр воспроизводимых исследовательских прогонов.
+# Запуск: python -m eval.replay_experiment list
+#         python -m eval.replay_experiment run <id> [--dry-run]
+#
+# Подстановки в env и в аргументах command: ${VAR:-default}
+# inherit: имена блоков из defaults — сливаются по порядку, затем env эксперимента.
+
+version: 1
+
+defaults:
+  chroma_local_eval:
+    CHROMA_HOST_OVERRIDE: "1"
+    RAG_EVAL_CHROMA_HOST: "127.0.0.1"
+    RAG_EVAL_CHROMA_PORT: "18000"
+  gpu_rerank:
+    RERANK_DEVICE: "cuda"
+
+experiments:
+  verify_local_stack:
+    status: done
+    summary: "Проверка Chroma v2 heartbeat, списка коллекций, Ollama /api/tags, PyTorch CUDA."
+    inherit: []
+    command: [python, scripts/verify_local_stack_running.py]
+
+  gold_v2_validate:
+    status: done
+    summary: "Проверка согласованности eval/datasets/eval_set_gold_v2.jsonl <-> eval/datasets/chunks_sample.jsonl."
+    inherit: []
+    command: [python, -m, eval.datasets.validate_gold_v2_schema]
+
+  sync_gold_v2_fixture:
+    status: done
+    summary: "Пересоздать коллекцию Chroma gold_v2_fixture из eval/datasets/chunks_sample.jsonl."
+    inherit: [chroma_local_eval]
+    env:
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, scripts/sync_gold_v2_fixture_collection.py]
+
+  retrieval_matrix_gold_v2_fixture:
+    status: done
+    summary: "Матрица профилей rag_profiles.yaml (matrix:true) -> eval.retrieval.run_retrieval_eval по каждому; gold_v2 + mpnet + коллекция из CHROMA_COLLECTION."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  retrieval_baseline_sample20:
+    status: done
+    summary: "Одиночный retrieval на sample20; RERANK_MODEL/RERANK_MODE из env или дефолт MiniLM cross."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_retrieval_eval
+      - --eval-file
+      - eval/datasets/eval_set_with_answer_ref_sample20.jsonl
+      - --embed-model
+      - "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --fetch-k
+      - "40"
+      - --k
+      - "5,10"
+      - --rerank-model
+      - "${RERANK_MODEL:-sentence-transformers/all-MiniLM-L6-v2}"
+      - --rerank-mode
+      - "${RERANK_MODE:-cross}"
+      - --chroma-host
+      - "127.0.0.1"
+      - --chroma-port
+      - "18000"
+      - --out-json
+      - "${RETRIEVAL_OUT_JSON:-eval/runs/manual_retrieval_sample20.json}"
+
+  answer_eval_smoke5:
+    status: done
+    summary: "Полный RAG через run_answer_eval (5 вопросов). LLM: см. .env (при CHROMA_HOST_OVERRIDE=1 перезаписывается из .env - см. docs/AGENT_RAG_STACK.md)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      ANSWER_EVAL_FILE: "eval/datasets/eval_set_with_answer_ref_sample20.jsonl"
+      ANSWER_EVAL_MAX_ROWS: "5"
+      ANSWER_EVAL_OUT: "${ANSWER_EVAL_OUT:-eval/runs/manual_answer_smoke5.jsonl}"
+      RERANK_MODEL: "${RERANK_MODEL:-sentence-transformers/all-MiniLM-L6-v2}"
+      RERANK_MODE: "${RERANK_MODE:-cross}"
+    command: [python, -m, eval.retrieval.run_answer_quality_eval]
+
+  phase_b_matrix_same_as_fixture_but_swap_collection:
+    status: planned
+    summary: "Фаза B2 (устар. слоты): см. phase_b_dense_slot_* и eval/config/embedding_bases_fixture.yaml."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-REPLACE_WITH_PHASE_B_COLLECTION}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-REPLACE_WITH_PHASE_B_EMBEDDER}"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  phase_b_index_fixture_bases_st:
+    status: planned
+    summary: "B1: все 6 HF/ST коллекций из eval/config/embedding_bases_fixture.yaml (python -m eval.indexing.index_gold_fixture_collections --all-st)."
+    inherit: [chroma_local_eval]
+    env:
+      CHUNKING_LABEL: "650_250"
+    command: [python, -m, eval.indexing.index_gold_fixture_collections, --all-st]
+
+  # Шесть слотов B2: дефолты = embedding_bases.yaml (после B1).
+  phase_b_dense_slot_1_rerank_matrix:
+    status: planned
+    summary: "B2 слот 1/6: mpnet + gold_v2_fixture."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B1:-gold_v2_fixture}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B1:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  phase_b_dense_slot_2_rerank_matrix:
+    status: planned
+    summary: "B2 слот 2/6: BAAI/bge-m3."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B2:-phase_b_gold_v2_bge_m3}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B2:-BAAI/bge-m3}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  phase_b_dense_slot_3_rerank_matrix:
+    status: planned
+    summary: "B2 слот 3/6: ai-forever/FRIDA (ru MTEB)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B3:-phase_b_gold_v2_frida}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B3:-ai-forever/FRIDA}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  phase_b_dense_slot_4_rerank_matrix:
+    status: planned
+    summary: "B2 слот 4/6: intfloat/multilingual-e5-large-instruct."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B4:-phase_b_gold_v2_e5_large_instruct}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B4:-intfloat/multilingual-e5-large-instruct}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics]
+
+  phase_b_dense_slot_5_rerank_matrix:
+    status: planned
+    summary: "B2 слот 5/6: jinaai/jina-embeddings-v3 (нужен --embed-trust-remote-code при ручном CLI)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B5:-phase_b_gold_v2_jina_embeddings_v3}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B5:-jinaai/jina-embeddings-v3}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics, --embed-trust-remote-code]
+
+  phase_b_dense_slot_6_rerank_matrix:
+    status: planned
+    summary: "B2 слот 6/6: ai-sage/Giga-Embeddings-instruct (вне основного плана сравнения 6×3 full corpus; опционально)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION_B6:-phase_b_gold_v2_giga_embeddings_instruct}"
+      CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL_B6:-ai-sage/Giga-Embeddings-instruct}"
+      EVAL_SCENARIO_TYPE: fixture_smoke
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command: [python, -m, eval.retrieval.run_profile_metrics, --embed-trust-remote-code]
+
+  phase_b3_full_corpus_rerank_matrix:
+    status: done
+    summary: "B3: 6×3 full corpus (61k), metric bundle substring+token_f1+semantic, fetch_k=40, answer-eval отдельно (run_final_research_answer_top)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHUNKING_LABEL: "650_250"
+      EVAL_SCENARIO_TYPE: full_corpus
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      EVAL_SEED: "${EVAL_SEED:-0}"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+      RETRIEVAL_SEMANTIC_THRESHOLD: "${RETRIEVAL_SEMANTIC_THRESHOLD:-0.62}"
+      RETRIEVAL_SEMANTIC_MODEL: "${RETRIEVAL_SEMANTIC_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      B3_BASE_IDS: "${B3_BASE_IDS:-full_mpnet,full_bge_m3,full_frida,full_e5_large_instruct,full_jina_embeddings_v3,full_default_clean}"
+      CORPUS_EXPECTED_ROWS: "${CORPUS_EXPECTED_ROWS:-61543}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_retrieval_matrix
+      - --base-ids
+      - "${B3_BASE_IDS:-full_mpnet,full_bge_m3,full_frida,full_e5_large_instruct,full_jina_embeddings_v3,full_default_clean}"
+      - --expected-rows
+      - "${CORPUS_EXPECTED_ROWS:-61543}"
+      - --fetch-k
+      - "${B3_FETCH_K:-40}"
+      - --k
+      - "5,10,20"
+      - --metric-modes
+      - "${RETRIEVAL_METRIC_MODES:-substring,token_f1,semantic}"
+      - --semantic-threshold
+      - "${RETRIEVAL_SEMANTIC_THRESHOLD:-0.62}"
+      - --semantic-model
+      - "${RETRIEVAL_SEMANTIC_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --skip-answer
+
+  phase_b3_user_bge_m3_supplement:
+    status: done
+    summary: "B3 supplement: 1×3 full corpus USER-bge-m3 (61k), same profiles as canonical B3, answer-eval отдельно."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      CHUNKING_LABEL: "650_250"
+      EVAL_SCENARIO_TYPE: full_corpus
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      EVAL_SEED: "${EVAL_SEED:-0}"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+      RETRIEVAL_SEMANTIC_THRESHOLD: "${RETRIEVAL_SEMANTIC_THRESHOLD:-0.62}"
+      RETRIEVAL_SEMANTIC_MODEL: "${RETRIEVAL_SEMANTIC_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      ST_EMBED_DEVICE: cuda
+      ST_EMBED_BATCH_SIZE: "${ST_EMBED_BATCH_SIZE:-32}"
+      B3_BASE_IDS: full_user_bge_m3
+      CORPUS_EXPECTED_ROWS: "61543"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_retrieval_matrix
+      - --base-ids
+      - full_user_bge_m3
+      - --expected-rows
+      - "61543"
+      - --fetch-k
+      - "${B3_FETCH_K:-40}"
+      - --k
+      - "5,10,20"
+      - --metric-modes
+      - "${RETRIEVAL_METRIC_MODES:-substring,token_f1,semantic}"
+      - --semantic-threshold
+      - "${RETRIEVAL_SEMANTIC_THRESHOLD:-0.62}"
+      - --semantic-model
+      - "${RETRIEVAL_SEMANTIC_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --skip-answer
+
+  # --- F1 / F2 / F3 / F4 / F5 / F6 / F7: retrieval recovery 2026_05 ---
+
+  f1_retrieval_eval_with_new_metrics:
+    status: planned
+    summary: "F1: запустить run_retrieval_eval с metric-modes=substring,token_f1,semantic. Контроль seed/RETRIEVAL_EVAL_SHUFFLE=0; SHA gold и git sha идут в _meta."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      RETRIEVAL_EVAL_SHUFFLE: "0"
+      EVAL_SEED: "${EVAL_SEED:-0}"
+      EVAL_SCENARIO_TYPE: "${EVAL_SCENARIO_TYPE:-full_corpus_slice}"
+      RETRIEVAL_METRIC_MODES: "substring,token_f1,semantic"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_retrieval_eval
+      - --eval-file
+      - eval/datasets/eval_set_gold_v2.jsonl
+      - --embed-model
+      - "${CHROMA_EMBED_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --fetch-k
+      - "${FETCH_K:-200}"
+      - --k
+      - "5,10,20"
+      - --rerank-model
+      - "${RERANK_MODEL:-}"
+      - --rerank-mode
+      - "${RERANK_MODE:-auto}"
+      - --chroma-collection
+      - "${CHROMA_COLLECTION:-corpus_phase_b_mpnet}"
+      - --metric-modes
+      - "substring,token_f1,semantic"
+      - --semantic-threshold
+      - "${RETRIEVAL_SEMANTIC_THRESHOLD:-0.62}"
+      - --semantic-model
+      - "${RETRIEVAL_SEMANTIC_MODEL:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --retrieval-trace-jsonl
+      - "${RETRIEVAL_TRACE_JSONL:-eval/runs/f1_trace.jsonl}"
+      - --out-json
+      - "${RETRIEVAL_OUT_JSON:-eval/runs/f1_retrieval_eval.json}"
+
+  f2_hybrid_rrf_sweep:
+    status: planned
+    summary: "F2: BM25 sidecar + Dense → RRF(k=60), sweep fetch_k {40,100,200,400} на шести рабочих base_id (вкл. full_default_clean); без Giga."
+    inherit: [chroma_local_eval]
+    env:
+      EVAL_SEED: "${EVAL_SEED:-0}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_hybrid_rrf_sweep
+      - --scenarios
+      - "full_mpnet,full_bge_m3,full_frida,full_e5_large_instruct,full_jina_embeddings_v3,full_default_clean"
+      - --bm25-dir
+      - "${BM25_DIR:-DATA/indexes/bm25/corpus_full_20260512}"
+      - --fetch-ks
+      - "${FETCH_KS:-40,100,200,400}"
+      - --eval-file
+      - eval/datasets/eval_set_gold_v2.jsonl
+
+  f3_query_transform_sweep:
+    status: planned
+    summary: "F3: HyDE + Multi-Query Rewriting через Ollama (qwen2.5:7b), финальный RRF поверх hyde-dense / mqr-dense / dense / bm25."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      LLM_PROVIDER: "ollama"
+      RAG_QT_LLM_MODEL: "${RAG_QT_LLM_MODEL:-qwen2.5:7b-instruct}"
+      EVAL_SEED: "${EVAL_SEED:-0}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_query_transform_sweep
+      - --scenarios
+      - "${F3_SCENARIOS:-full_mpnet,full_bge_m3,full_frida,full_e5_large_instruct,full_jina_embeddings_v3,full_default_clean}"
+      - --bm25-dir
+      - "${BM25_DIR:-DATA/indexes/bm25/corpus_full_20260512}"
+      - --eval-file
+      - eval/datasets/eval_set_gold_v2.jsonl
+      - --fetch-k
+      - "${FETCH_K:-100}"
+      - --llm-provider
+      - "ollama"
+      - --llm-model
+      - "${RAG_QT_LLM_MODEL:-qwen2.5:7b-instruct}"
+
+  f4_bge_m3_multi_vector_sweep:
+    status: planned
+    summary: "F4: BGE-M3 native dense+sparse+ColBERT (FlagEmbedding) — sweep весов fusion поверх dense-пула из corpus_phase_b_bge_m3."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      EVAL_SEED: "${EVAL_SEED:-0}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_bge_m3_multi_vector_sweep
+      - --candidate-top-k
+      - "${CANDIDATE_TOP_K:-100}"
+      - --top-k
+      - "${TOP_K:-20}"
+      - --eval-file
+      - eval/datasets/eval_set_gold_v2.jsonl
+
+  f5_rechunk_parent_child:
+    status: planned
+    summary: "F5: пере-чанковать корпус JSONL в parent_child (1024/128 → 256/64). На выходе — JSONL для index_corpus_from_jsonl."
+    inherit: []
+    command:
+      - python
+      - -m
+      - eval.indexing.rechunk_corpus_jsonl
+      - --in-jsonl
+      - "${SOURCE_JSONL:-DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl}"
+      - --out-jsonl
+      - "${OUT_JSONL:-DATA/runs/corpus_pc_1024_256/chunks.jsonl}"
+      - --chunker
+      - "parent_child"
+      - --parent-size
+      - "1024"
+      - --parent-overlap
+      - "128"
+      - --child-size
+      - "256"
+      - --child-overlap
+      - "64"
+
+  f5_rechunk_semantic:
+    status: planned
+    summary: "F5: пере-чанковать корпус JSONL semantic_boundary (sentence-transformers embeddings + threshold=0.55, percentile=0.2)."
+    inherit: [gpu_rerank]
+    command:
+      - python
+      - -m
+      - eval.indexing.rechunk_corpus_jsonl
+      - --in-jsonl
+      - "${SOURCE_JSONL:-DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl}"
+      - --out-jsonl
+      - "${OUT_JSONL:-DATA/runs/corpus_semantic/chunks.jsonl}"
+      - --chunker
+      - "semantic"
+      - --embedder-model
+      - "${SEMANTIC_EMBEDDER:-sentence-transformers/paraphrase-multilingual-mpnet-base-v2}"
+      - --max-chunk-tokens
+      - "${SEMANTIC_MAX_TOKENS:-768}"
+
+  f6_index_full_giga:
+    status: planned
+    summary: "F6: проиндексировать Giga-Embeddings-instruct на полном корпусе (требует PHASE_B_ALLOW_FULL_GIGA=1)."
+    inherit: [chroma_local_eval]
+    env:
+      PHASE_B_ALLOW_FULL_GIGA: "1"
+    command:
+      - python
+      - -m
+      - eval.indexing.index_corpus_from_jsonl
+      - --jsonl
+      - "${SOURCE_JSONL:-DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl}"
+      - --base-id
+      - "full_giga_embeddings_instruct"
+      - --rebuild
+
+  f6_index_full_qwen3_4b:
+    status: planned
+    summary: "F6: проиндексировать Qwen/Qwen3-Embedding-4B на полном корпусе (~10 GB VRAM fp16)."
+    inherit: [chroma_local_eval]
+    env:
+      PHASE_B_ALLOW_FULL_QWEN3: "1"
+    command:
+      - python
+      - -m
+      - eval.indexing.index_corpus_from_jsonl
+      - --jsonl
+      - "${SOURCE_JSONL:-DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl}"
+      - --base-id
+      - "full_qwen3_embedding_4b"
+      - --rebuild
+
+  f6_index_full_qwen3_8b:
+    status: planned
+    summary: "F6: проиндексировать Qwen/Qwen3-Embedding-8B на полном корпусе (~16-18 GB VRAM fp16)."
+    inherit: [chroma_local_eval]
+    env:
+      PHASE_B_ALLOW_FULL_QWEN3: "1"
+    command:
+      - python
+      - -m
+      - eval.indexing.index_corpus_from_jsonl
+      - --jsonl
+      - "${SOURCE_JSONL:-DATA/runs/corpus_full_export_20260512/chunks_from_chroma.jsonl}"
+      - --base-id
+      - "full_qwen3_embedding_8b"
+      - --rebuild
+
+  f7_final_reranker_matrix_on_hybrid_rrf:
+    status: planned
+    summary: "F7: финальная матрица реранкеров (BGE-v2-m3, Jina-v3-base, MiniLM, Qwen3-Reranker-4B) поверх лучшего F2-кандидата (hybrid_rrf:<base_id>:<bm25_dir>)."
+    inherit: [chroma_local_eval, gpu_rerank]
+    env:
+      EVAL_SEED: "${EVAL_SEED:-0}"
+    command:
+      - python
+      - -m
+      - eval.retrieval.run_final_reranker_matrix
+      - --base
+      - "${F7_BASE:-hybrid_rrf:full_mpnet:DATA/indexes/bm25/corpus_full_20260512}"
+      - --rerankers
+      - "${F7_RERANKERS:-cross-encoder/ms-marco-MiniLM-L-6-v2,BAAI/bge-reranker-v2-m3,jinaai/jina-reranker-v2-base-multilingual,Qwen/Qwen3-Reranker-4B}"
+      - --candidate-top-k
+      - "${CANDIDATE_TOP_K:-50}"
+      - --top-k
+      - "${TOP_K:-20}"
+      - --eval-file
+      - eval/datasets/eval_set_gold_v2.jsonl
+      - --include-none-baseline
+
+  f8_retrieval_recovery_report:
+    status: planned
+    summary: "F8: собрать HTML-отчёт по всем артефактам F1-F7 в eval/runs/*. Зарегистрировать best-профиль."
+    inherit: []
+    command:
+      - python
+      - -m
+      - eval.reporting.build_retrieval_recovery_report
+      - --runs-root
+      - eval/runs
+      - --out-html
+      - "${OUT_HTML:-analysis/reports/retrieval_recovery_2026_05.html}"

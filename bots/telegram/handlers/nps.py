@@ -5,8 +5,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.filters.state import StateFilter
 
 from bots.telegram.handlers.states import MenuState
+from bots.telegram.texts import BACK_BUTTON, FEEDBACK_NEXT_QUESTION_PROMPT, NPS_COMMENT_PROMPT, NPS_THANKS, SKIP_BUTTON
 
 class NPSHandler:
+    """Принимает оценку NPS (0–10) и опциональный комментарий."""
     def __init__(self, adapter, db_service):
         self.adapter = adapter
         self.db = db_service
@@ -27,11 +29,11 @@ class NPSHandler:
 
             kb = InlineKeyboardMarkup(
                 inline_keyboard=[[
-                    InlineKeyboardButton(text="🔙 Пропустить", callback_data="nps_skip_comment")
+                    InlineKeyboardButton(text=SKIP_BUTTON, callback_data="nps_skip_comment")
                 ]]
             )
             await call.message.answer(
-                "💬 Вы можете оставить комментарий к оценке (или нажмите «🔙 Пропустить»):",
+                NPS_COMMENT_PROMPT,
                 reply_markup=kb,
             )
 
@@ -40,7 +42,7 @@ class NPSHandler:
         async def receive_nps_comment(message: Message, state: FSMContext):
             data = await state.get_data()
             score = data["nps_score"]
-            comment = message.text if message.text != "🔙 Пропустить" else None
+            comment = message.text if message.text != SKIP_BUTTON else None
 
             self.db.save_nps(
                 user_id=message.from_user.id,
@@ -48,15 +50,15 @@ class NPSHandler:
                 comment=comment
             )
 
-            await message.reply("🙏 Спасибо за оценку работы бота!")
+            await message.reply(NPS_THANKS)
 
             # Приглашаем задать новый вопрос
             kb = ReplyKeyboardMarkup(
-                keyboard=[[KeyboardButton(text="🔙 Назад")]],
+                keyboard=[[KeyboardButton(text=BACK_BUTTON)]],
                 resize_keyboard=True,
             )
             await message.answer(
-                "Если у вас есть ещё вопрос — просто напишите его.",
+                FEEDBACK_NEXT_QUESTION_PROMPT,
                 reply_markup=kb,
             )
             await state.set_state(MenuState.question)
@@ -77,15 +79,15 @@ class NPSHandler:
                 comment=None
             )
 
-            await call.message.answer("🙏 Спасибо за оценку работы бота!")
+            await call.message.answer(NPS_THANKS)
 
             # Приглашаем задать новый вопрос
             kb = ReplyKeyboardMarkup(
-                keyboard=[[KeyboardButton(text="🔙 Назад")]],
+                keyboard=[[KeyboardButton(text=BACK_BUTTON)]],
                 resize_keyboard=True,
             )
             await call.message.answer(
-                "Если у вас есть ещё вопрос — просто напишите его.",
+                FEEDBACK_NEXT_QUESTION_PROMPT,
                 reply_markup=kb,
             )
             await state.set_state(MenuState.question)

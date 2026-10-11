@@ -15,6 +15,9 @@ def repo_root() -> Path:
 
 
 def profiles_path() -> Path:
+    new_path = repo_root() / "eval" / "config" / "rag_profiles.yaml"
+    if new_path.exists():
+        return new_path
     return repo_root() / "eval" / "rag_profiles.yaml"
 
 

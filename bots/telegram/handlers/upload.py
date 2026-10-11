@@ -13,6 +13,8 @@ from bots.telegram.handlers.menu import get_main_menu
 from bots.telegram.handlers.states import MenuState
 from bots.telegram.texts import (
     CANCEL_BUTTON,
+    UPLOAD_CANCELLED_MESSAGE,
+    UPLOAD_DISABLED_TEXT,
     UPLOAD_FILES_BUTTON,
     UPLOAD_PROMPT_MESSAGE,
 )
@@ -24,13 +26,8 @@ if TYPE_CHECKING:
     from core.services.upload_service import UploadService
 
 
-UPLOAD_DISABLED_TEXT = (
-    "Uploading is disabled. Set FOLDER_PATH in the environment to enable it."
-)
-CANCELLED_MESSAGE = "Upload cancelled. Returning to the main menu."
-
-
 class UploadHandler:
+    """Загрузка PDF/DOCX/PPTX файлов в базу знаний (только для администраторов)."""
     def __init__(
         self,
         adapter: UserInteraction,
@@ -101,7 +98,7 @@ class UploadHandler:
             await state.clear()
             await self.adapter.send_message(
                 user_id=user_id,
-                text=CANCELLED_MESSAGE,
+                text=UPLOAD_CANCELLED_MESSAGE,
                 reply_markup=get_main_menu(self.settings, user_id, username),
             )
 

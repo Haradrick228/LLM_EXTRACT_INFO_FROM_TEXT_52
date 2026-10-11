@@ -7,7 +7,7 @@ from typing import Any, Dict, Optional
 from fastapi import APIRouter, Depends, File, Header, HTTPException, Request, UploadFile, status
 from PIL import Image
 
-from core.rag.rag_service import RagService
+from core.rag.service.rag_service import RagService
 from ml_service.api.dependencies import get_rag_service
 from ml_service.api.request_logging import log_request
 

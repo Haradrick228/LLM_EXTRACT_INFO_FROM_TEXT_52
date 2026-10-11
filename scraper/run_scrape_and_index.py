@@ -3,7 +3,7 @@ import hashlib
 from urllib.parse import urlparse
 
 from common.config import Settings
-from core.rag.rag_service import RagService
+from core.rag.service.rag_service import RagService
 from scraper.website_scraper import save_site_as_pdf
 
 settings = Settings()

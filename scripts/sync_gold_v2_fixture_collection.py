@@ -1,6 +1,6 @@
 """
 Создаёт/обновляет коллекцию Chroma `gold_v2_fixture` из eval/fixtures/chunks_sample.jsonl
-(те же тексты, что в eval_set_gold_v2), чтобы retrieval-метрики на golden были > 0.
+(тексты как в eval_set_gold_v2; перед записью в Chroma — ``clean_text`` из ``eval.text_pipeline``), чтобы retrieval-метрики на golden были > 0.
 
   python scripts/sync_gold_v2_fixture_collection.py
 
@@ -8,7 +8,6 @@
 """
 from __future__ import annotations
 
-import json
 import os
 import sys
 from pathlib import Path
@@ -20,6 +19,7 @@ if str(_ROOT) not in sys.path:
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction  # noqa: E402
 
 from eval.chroma_utils import chroma_http_client  # noqa: E402
+from eval.datasets.load_gold_fixture_chunks import load_fixture_batches  # noqa: E402
 
 COLLECTION = "gold_v2_fixture"
 FIXTURE = _ROOT / "eval" / "fixtures" / "chunks_sample.jsonl"
@@ -64,16 +64,7 @@ def main() -> int:
         )
         return 2
 
-    ids: list[str] = []
-    docs: list[str] = []
-    metas: list[dict] = []
-    for line in FIXTURE.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        row = json.loads(line)
-        ids.append(row["id"])
-        docs.append(row["document"])
-        metas.append(row.get("metadata") or {})
+    ids, docs, metas = load_fixture_batches(FIXTURE)
 
     col.add(ids=ids, documents=docs, metadatas=metas)
     print(f"[sync_gold_v2] коллекция={COLLECTION} документов={col.count()} embed={embed}", flush=True)

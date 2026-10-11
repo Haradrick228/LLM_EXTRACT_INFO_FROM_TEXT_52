@@ -939,7 +939,7 @@
                 </tbody>
             </table>
 
-            <p class="rerank-note">* nDCG@3 для BGE в JSON чуть выше 1.0 — особенность расчёта в скрипте. <strong>Jina / Qwen 0.6B / Qwen 4B:</strong> три отдельных файла и разные <code class="mono">_meta.rerank_model</code>; в таблице 3 знака после запятой, в сырых JSON мантисса различается глубже. Исходные файлы: <code class="mono">…/retrieval_rerank_jina_v3.json</code>, <code class="mono">…/retrieval_rerank_qwen3_0_6b.json</code>, <code class="mono">…/retrieval_rerank_qwen3_4b.json</code>.</p>
+            <p class="rerank-note">* В старых JSON nDCG@3 иногда чуть превышал 1.0; в актуальном <code class="mono">eval/run_retrieval_eval.py</code> метрика ограничена 1.0. <strong>Jina / Qwen 0.6B / Qwen 4B:</strong> три отдельных файла и разные <code class="mono">_meta.rerank_model</code>; в таблице 3 знака после запятой, в сырых JSON мантисса различается глубже. Исходные файлы: <code class="mono">…/retrieval_rerank_jina_v3.json</code>, <code class="mono">…/retrieval_rerank_qwen3_0_6b.json</code>, <code class="mono">…/retrieval_rerank_qwen3_4b.json</code>.</p>
         </section>
         </div>
 </main>

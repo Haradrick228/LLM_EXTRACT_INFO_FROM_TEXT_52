@@ -4,7 +4,7 @@ from typing import Optional
 import jwt
 from fastapi import Header, HTTPException, Request, status
 
-from core.rag.rag_service import RagService
+from core.rag.service.rag_service import RagService
 
 JWT_SECRET = os.getenv("JWT_SECRET", "devsecret")
 JWT_ALGO = os.getenv("JWT_ALGO", "HS256")

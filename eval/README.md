@@ -1,82 +1,138 @@
-# Eval артефакты
+# `eval/` — оценка retrieval и качества ответов
 
-## Датасеты
-- **`eval_set_gold_v2.jsonl`** + **`eval_set_gold_v2.meta.json`** — golden v2. Схема строки:
-  - `question` — вопрос по тексту чанка;
-  - **`reference_quote`** — прямая дословная цитата из чанка (обязательно для корпуса из Chroma);
-  - `references` — список цитат для метрик retrieval (обычно `[reference_quote]`);
-  - `answer_ref` — ожидаемый ответ (для **chroma_curated** — своя формулировка; для **synthetic** — весь текст чанка);
-  - `chunk_id`, `source`.
-- **Реальный gold без локальной нейросети (основной путь):** перенос из уже размеченного корпусного набора  
-  `python -m eval.materialize_gold_v2_from_answer_ref --n 100 --yes`  
-  Берётся **`eval/eval_set_with_answer_ref.jsonl`** (вопросы и цитаты из ваших материалов). Для каждой строки строится чанк: `answer_ref` + недостающие `references`, чтобы все цитаты были **подстроками** `document` (нужно для `run_retrieval_eval`). Поле **`reference_quote`** = первая цитата. В `meta`: **`corpus_type: corpus_migrated`**, LLM не используется. Проверка: `python -m eval.validate_gold_v2`.
-- **Альтернатива с Chroma + Ollama** (если понадобится автодобор новых чанков): `python -m eval.build_gold_v2_from_chroma --collection default --n 50 --yes` → `corpus_type: chroma_curated`.
-- **Синтетика (только автотесты / CI):** `python eval/generate_gold_v2_corpus.py --n 100` — `corpus_type: synthetic`.
-- `fixtures/chunks_sample.jsonl` — чанки, **ровно те**, что соответствуют строкам gold v2 (после сборки из Chroma или синтетики).
-- Первый профиль матрицы реранкеров: **`baseline_mpnet_rerank`**. Синк в отдельную коллекцию Chroma (если volume доступен на запись): `python scripts/sync_gold_v2_fixture_collection.py` → **`gold_v2_fixture`**.
-- `eval_set.jsonl` — 101 вопрос без `answer_ref`.
-- `eval_set_with_answer_ref.jsonl` — 101 вопрос с `answer_ref` (основной eval). Поле `references` — список релевантных чанков/файлов, на них считаются метрики поиска.
-- `eval_set_with_answer_ref_sample20.jsonl` — 20 вопросов для быстрых прогонов/локальных моделей.
-- `corpus_sample.jsonl` — 500 документов из Chroma (выборка для ручной проверки).
+После рефакторинга F0 модуль разбит по функциональным подкаталогам.
+Старые пути работают через shim‑модули с `DeprecationWarning`.
+
+## Дерево
+
+```
+eval/
+├── retrieval/               # CLI и оркестраторы метрик (recall@k, MRR, nDCG@k, answer score)
+│   ├── run_retrieval_eval.py        # одиночный прогон (одна коллекция × один реранкер)
+│   ├── run_retrieval_matrix.py      # матрица сценариев на полном корпусе (бывший run_full_corpus_rerank_matrix)
+│   ├── run_profile_metrics.py       # матрица профилей из eval/config/rag_profiles.yaml
+│   ├── run_eval_with_profile.py     # разовый запуск под профилем
+│   └── run_answer_quality_eval.py   # answer-eval (бывший run_answer_eval)
+│
+├── indexing/                # индексация корпуса в Chroma и sidecar
+│   ├── index_corpus_from_jsonl.py
+│   ├── index_gold_fixture_collections.py
+│   ├── export_chroma_collection_to_jsonl.py
+│   ├── verify_corpus_indexing_pipeline.py
+│   ├── verify_collections.py
+│   ├── reindex_with_text_cleaning.py
+│   ├── chroma_embedding_function_factory.py
+│   └── jsonl_corpus_stream.py
+│
+├── datasets/                # gold-датасеты и инструменты их сборки
+│   ├── eval_set_gold_v2.jsonl
+│   ├── eval_set_gold_v2.meta.json
+│   ├── eval_set_with_answer_ref.jsonl
+│   ├── eval_set_with_answer_ref_sample20.jsonl
+│   ├── eval_set.jsonl
+│   ├── chunks_sample.jsonl
+│   ├── materialize_gold_v2_from_answer_ref.py
+│   ├── build_gold_v2_from_chroma_chunks.py
+│   ├── generate_synthetic_gold_v2.py
+│   ├── validate_gold_v2_schema.py
+│   └── load_gold_fixture_chunks.py
+│
+├── reporting/               # форматирование артефактов eval-прогонов
+│   └── log_eval_run_config_banner.py
+│
+├── diagnostics/             # worst-trace, funnel A–D, semantic probe, answer-in-run-dir, LLM relevance, neg-control
+│   ├── metrics_ladder_funnel.py
+│   ├── semantic_threshold_probe.py
+│   ├── run_answer_eval_in_run_dir.py
+│   ├── summarize_worst_retrieval_traces.py
+│   ├── shuffle_eval_questions_neg_control.py
+│   └── llm_chunk_relevance_deepseek.py
+│
+├── experiments/             # реестр replay-экспериментов
+│   ├── replay_experiment.py
+│   └── phase_b_collections_registry.py
+│
+├── config/                  # YAML-конфиги retrieval-стека
+│   ├── embedding_bases_fixture.yaml
+│   ├── embedding_bases_full_corpus.yaml
+│   ├── rag_profiles.yaml
+│   └── experiments_registry.yaml
+│
+├── phase_b/                 # deprecated shim для legacy импортов (eval.phase_b.*)
+├── chroma_utils.py          # клиент Chroma (общий)
+├── text_pipeline.py         # NFKC/whitespace-нормализация
+├── profile_env.py           # сборка env для профиля
+└── runs/                    # immutable артефакты прогонов (создаются автоматически)
+```
+
+## Датасеты (gold v2)
+
+- **`datasets/eval_set_gold_v2.jsonl`** + **`datasets/eval_set_gold_v2.meta.json`** — golden v2.
+- **`datasets/eval_set_with_answer_ref.jsonl`** — 101 вопрос с `answer_ref` (основной источник для materialize).
+- **`datasets/eval_set_with_answer_ref_sample20.jsonl`** — 20 вопросов для быстрых прогонов.
+- **`datasets/chunks_sample.jsonl`** — чанки, **ровно те**, что соответствуют строкам gold v2 (после материализации).
+
+Сборка:
+
+```bash
+# Основной путь без LLM:
+python -m eval.datasets.materialize_gold_v2_from_answer_ref --n 100 --yes
+# Альтернатива с Chroma + Ollama:
+python -m eval.datasets.build_gold_v2_from_chroma_chunks --collection default --n 50 --yes
+# Только синтетика для CI:
+python -m eval.datasets.generate_synthetic_gold_v2 --n 100
+# Проверка целостности:
+python -m eval.datasets.validate_gold_v2_schema
+```
+
+## Лестница метрик (A–D, Wilson, conditional)
+
+См. **[docs/METRICS_LADDER.md](docs/METRICS_LADDER.md)** и CLI `python -m eval.diagnostics.metrics_ladder_funnel`. Сводный отчёт исследования Phase B (валидность метрик + B2/B3 + replay): **[docs/PHASE_B_RESEARCH_METRICS_REPORT.md](docs/PHASE_B_RESEARCH_METRICS_REPORT.md)**. Индекс заметок: **[docs/README.md](docs/README.md)**.
 
 ## Запуск с хоста Windows (Docker уже поднят)
 
-В [`.env`](../.env) для docker-compose часто задано `CHROMA_HOST=chroma` и порт `8000` — это **имя сервиса внутри сети compose**. Если `uvicorn`/`RagService` запускаете **на машине**, а не в контейнере `app`, выставьте для Chroma:
+В [`.env`](../.env) для docker-compose часто задано `CHROMA_HOST=chroma` и порт `8000` — это имя сервиса внутри сети compose. Если `uvicorn`/`RagService` запускаете на машине, а не в контейнере `app`, выставьте для Chroma:
 
 - `CHROMA_HOST=127.0.0.1`
 - `CHROMA_PORT=18000` (проброс из `infra/docker-compose.yml`: `18000:8000`)
 
-Если в `.env` для compose остаётся `CHROMA_HOST=chroma`, для **eval с хоста** задайте: `RAG_EVAL_CHROMA_HOST=127.0.0.1`, `RAG_EVAL_CHROMA_PORT=18000` (так подключаются `run_retrieval_eval`, `run_answer_eval`, `run_profile_metrics`).
+Если в `.env` для compose остаётся `CHROMA_HOST=chroma`, для **eval с хоста** задайте `RAG_EVAL_CHROMA_HOST=127.0.0.1`, `RAG_EVAL_CHROMA_PORT=18000` (их читают `run_retrieval_eval`, `run_answer_quality_eval`, `run_profile_metrics`, `run_retrieval_matrix`).
 
-Ollama в Docker у вас на `127.0.0.1:11434`; для LLM: `LLM_PROVIDER=ollama`, `OLLAMA_BASE_URL=http://127.0.0.1:11434`.
+Ollama в Docker — на `127.0.0.1:11434`; для LLM: `LLM_PROVIDER=ollama`, `OLLAMA_BASE_URL=http://127.0.0.1:11434`.
 
-Быстрая проверка без PyTorch/HF: `python scripts/verify_local_stack.py`
+Быстрая проверка без PyTorch/HF: `python scripts/verify_local_stack_running.py`.
 
-Смоук фазы A (профиль `baseline_mpnet_rerank`, `eval_set_gold_v2`, без answer-eval): `python scripts/smoke_phase_a.py`
+Интеграционные pytest (нужен поднятый Chroma): `CHROMA_INTEGRATION=1 python -m pytest tests/integration`.
 
-**Полный смоук (без фазы B):** `python scripts/full_smoke.py` — проверка стека, затем retrieval на `eval_set_with_answer_ref_sample20.jsonl` (10 вопросов), артефакты в `eval/runs/<ts>_full_smoke/`. С цепочкой LLM (2 вопроса, Ollama): `python scripts/full_smoke.py --with-llm`. Параметры: `--retrieval-rows`, `--answer-rows`.
+## Запуск метрик
 
-Интеграционные pytest (нужен поднятый Chroma): `CHROMA_INTEGRATION=1 python -m pytest tests/test_integration_chroma.py -v`
+```bash
+# Одиночный прогон (одна коллекция × один реранкер):
+python -m eval.retrieval.run_retrieval_eval \
+    --eval-file eval/datasets/eval_set_gold_v2.jsonl \
+    --embed-model sentence-transformers/paraphrase-multilingual-mpnet-base-v2 \
+    --fetch-k 40 --k 5,10 \
+    --rerank-model BAAI/bge-reranker-v2-m3 --rerank-mode cross
 
-Golden v2 + первый реранкер матрицы (`baseline_mpnet_rerank`): `python scripts/run_gold_v2_baseline_retrieval.py` (результат по умолчанию `eval/runs/gold_v2_baseline_mpnet_rerank.json`). Если Chroma пишет в volume без readonly, для строгого совпадения с фикстурой: `python scripts/sync_gold_v2_fixture_collection.py` затем `CHROMA_COLLECTION=gold_v2_fixture python scripts/run_gold_v2_baseline_retrieval.py`.
+# Матрица B3 (5 dense × N реранкеров) на полном корпусе:
+python -m eval.retrieval.run_retrieval_matrix --expected-rows 61543
 
-Эмбеддеры и реранкеры грузятся на **GPU** при `RERANK_DEVICE=cuda` и CUDA-доступном PyTorch; при ошибках загрузки весов с `huggingface.co` проверьте сеть или локальный кэш `HF_HOME` / `TRANSFORMERS_OFFLINE=1`.
+# Replay эксперимента по реестру:
+python -m eval.experiments.replay_experiment list
+python -m eval.experiments.replay_experiment run retrieval_matrix_gold_v2_fixture
+```
 
-## Воспроизводимые эксперименты (реестр)
+## Сводка прогонов full corpus (2026-05)
 
-Именованные прогоны и их окружение лежат в **[`experiments_registry.yaml`](experiments_registry.yaml)**. Меняете YAML (или подставляете `-e KEY=VAL`) — повторяете тот же смысловой эксперимент без переписывания команд.
+- Таблицы **F2 / F3 / F4 / F7** (и контекст **B3**): [docs/RETRIEVAL_FULL_CORPUS_RESULTS_2026_05.md](docs/RETRIEVAL_FULL_CORPUS_RESULTS_2026_05.md) (цифры из [analysis/reports/retrieval_recovery_2026_05.html](../analysis/reports/retrieval_recovery_2026_05.html)).
+- Разбор низких метрик, логов/трейсов и гипотез: [docs/RETRIEVAL_DIAGNOSIS_2026_05.md](docs/RETRIEVAL_DIAGNOSIS_2026_05.md).
+- Канонический HTML-отчёт: [analysis/reports/final_canonical_experiment_2026_05.html](../analysis/reports/final_canonical_experiment_2026_05.html).
 
-- Список: `python -m eval.replay_experiment list`
-- Запуск: `python -m eval.replay_experiment run <experiment_id>` (подкоманды `list` и `run`)
-- Проверка команды и env без исполнения: `... run <id> --dry-run`
-- Разовые переопределения: `... run retrieval_matrix_gold_v2_fixture -e CHROMA_COLLECTION=my_collection`
-- Другой файл реестра: `EXPERIMENTS_REGISTRY=path/to.yaml` или `--registry path/to.yaml`
+## Размеры корпуса (важно при чтении метрик)
 
-Реализация: [`replay_experiment.py`](replay_experiment.py) (слияние `defaults` по `inherit`, подстановки `${VAR:-default}`). Профили реранкеров/LLM по-прежнему в [`rag_profiles.yaml`](rag_profiles.yaml); матрица фазы A — эксперимент `retrieval_matrix_gold_v2_fixture` (`eval.run_profile_metrics`). Фаза B (три dense-коллекции) — слоты `phase_b_dense_slot_*` и **[`PHASE_B_SCOPE.md`](PHASE_B_SCOPE.md)** (там же **карта файлов** и **что дальше** по шагам; не запускать B без апрува B0).
+| Контекст                                | n_chunks       | dense `recall@10` (mpnet) |
+|---|---|---|
+| **fixture** (`gold_v2_fixture`)         | 101            | ~0.6                       |
+| **full corpus** (`corpus_phase_b_*`)    | 61 543         | 0.03–0.09 (bm25/hybrid поднимают до 0.2–0.4) |
 
-## Профили RAG / реранкер (фаза A)
-- Файл [`rag_profiles.yaml`](rag_profiles.yaml) — именованные наборы переменных окружения (`RERANK_MODEL`, `RERANK_MODE`, опционально `LLM_PROVIDER=ollama` и т.д.).
-- Модуль [`../common/rag_profile_env.py`](../common/rag_profile_env.py) — `apply_profile(name)`, `list_profile_names(matrix_only=True)`, `apply_profile_by_rag_profile_env()` (читает `RAG_PROFILE`).
-- Запуск ML-сервиса с профилем: из корня репозитория  
-  `python -m eval.run_with_profile --profile rerank_jina_v3 -- uvicorn ml_service.main:app --host 0.0.0.0 --port 8000`  
-  либо выставить `RAG_PROFILE=rerank_jina_v3` в окружении перед `uvicorn` (профиль применяется при `create_app()`).
-- Локальные ответы RAG / answer-eval: `LLM_PROVIDER=ollama`, `OLLAMA_BASE_URL=http://127.0.0.1:11434`, модель по умолчанию `qwen2.5:7b-instruct` (`LLM_PROVIDER_MODEL` / `OLLAMA_MODEL`). Профиль `ollama_answer_eval` в YAML задаёт это одним именем.
-
-## Скрипты
-- `run_retrieval_eval.py` — метрики поиска: recall@k, precision@k (k=5/10 по умолчанию), MRR, nDCG@3.
-  - nDCG: бинарная релевантность по `references`, DCG с делителем `log2(rank+1)`, ранжирование — по скору эмбеддера/реранкера.
-  - precision/recall считают совпадение строки чанка с любым `references` (регистр игнорируется, подстрока допустима).
-- `run_answer_eval.py` — оценка ответов по `answer_ref` и `references`.
-- `run_profile_metrics.py` — поочерёдно применяет профили с `matrix: true` из `rag_profiles.yaml`, запускает `run_retrieval_eval` и (опционально) `run_answer_eval`, пишет в `eval/runs/<timestamp>_rerank_matrix/` (старые прогоны не трогает).
-- `export_chroma_run.py` — экспорт коллекции Chroma в `DATA/runs/<run_id>/chunks_from_chroma.jsonl` + `manifest.json` (при необходимости можно собрать выборку вроде `corpus_sample.jsonl` из этого экспорта).
-- `reindex_clean.py` — реиндексация `default_clean` с альтернативным эмбеддером.
-
-## Результаты
-- `rerank_results.md` — таблица сравнений реранкеров/конфигураций.
-- `answer_eval_results.jsonl` — прогон 101 вопрос (DeepSeek API). Снимок предсказаний: `archive/eval_research/snapshots/answer_eval_predictions.jsonl`.
-- `answer_eval_results_ollama_sample20.jsonl` — прогон 20 вопросов на `qwen2.5:7b-instruct` через Ollama.
-- `ANSWER_EVAL_SUMMARY.md` — краткая сводка ответных метрик и ссылки на исходные файлы.
-- Исследовательские ноутбуки и сырые снимки метрик: каталог `archive/eval_research/` (см. `archive/README.md`). Обзорный `eval_report.ipynb` ищет `eval/` от корня репозитория.
-
-## Удалено/не используется
-- `answer_eval_predictions_sample.jsonl` — битый дубликат, больше не используем.
+Метрики на fixture исторически были «лучше» именно потому, что в коллекции лежали ровно те чанки, по которым составлен gold. Реальная задача — full corpus; туда направлена матрица B3 и план улучшений в `retrieval_recovery_plan_*.plan.md`.

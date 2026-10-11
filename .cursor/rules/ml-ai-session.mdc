@@ -26,7 +26,8 @@ You are a senior Python engineer focused on ML, LLM, and RAG. You own correctnes
 
 ## Eval / Phase B handoff (read before changing RAG eval)
 
-- **Plan and file map:** `eval/PHASE_B_SCOPE.md` (B0 embedder choice -> B1 three Chroma collections -> B2 same rerank matrix as phase A per collection). Do not start B1/B2 without explicit B0 approval.
+- **Plan and file map:** `eval/PHASE_B_SCOPE.md` + `eval/phase_b/embedding_bases.yaml` (6 HF/ST collections; index `eval.phase_b.index_gold_fixture_bases --all-st`; Giga-Embeddings-instruct last in YAML order).
+- **Full corpus (61k+) multi-embedder:** `eval/phase_b/embedding_bases_full_corpus.yaml` + `eval.phase_b.index_jsonl_bases` (export via `eval.export_chroma_run`). Giga full-corpus slot **off by default** in code: `PHASE_B_ALLOW_FULL_GIGA=1` only if intentionally reindexing `full_giga_embeddings_instruct`. После заполнения коллекций из YAML (сейчас **5** dense без Giga): **`eval/docs/PHASE_B3_FULL_CORPUS_RERANK_PLAN.md`** + `eval.phase_b.run_full_corpus_rerank_matrix` + replay `phase_b3_full_corpus_rerank_matrix`.
 - **Replayable runs:** `eval/experiments_registry.yaml` + `python -m eval.replay_experiment list|run <id>`.
 - **Rerank/LLM named env:** `eval/rag_profiles.yaml`; matrix driver: `eval/run_profile_metrics.py`.
 - **Local human notes (gitignored):** `docs/AGENT_RAG_STACK.md`.

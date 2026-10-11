@@ -7,7 +7,7 @@ from common.config import Settings
 from core.db_service import DBService
 from bots.rest_api.adapter import RestAdapter
 from bots.rest_api.api import create_app
-from core.rag.rag_service_wrapper import RagServiceWrapper
+from core.rag.service.rag_service_legacy_facade import RagServiceWrapper
 
 settings = Settings()
 db = DBService()
