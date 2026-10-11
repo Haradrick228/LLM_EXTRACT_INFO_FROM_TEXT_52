@@ -1,0 +1,22 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_mpnet_fixture",
+    "order": 1,
+    "collection": "gold_v2_fixture",
+    "backend": "sentence_transformers",
+    "model_name": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "description": "Baseline mpnet; матрица реранкеров 2026-05-11.",
+    "existing_collection": true
+  },
+  "result": {
+    "status": "indexed",
+    "collection": "gold_v2_fixture",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+      "CHROMA_COLLECTION": "gold_v2_fixture"
+    }
+  }
+}

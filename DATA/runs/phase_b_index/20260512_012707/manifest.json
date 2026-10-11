@@ -1,0 +1,59 @@
+{
+  "bases": {
+    "gold_mpnet_fixture": {
+      "status": "indexed",
+      "collection": "gold_v2_fixture",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "CHROMA_COLLECTION": "gold_v2_fixture"
+      }
+    },
+    "gold_bge_m3": {
+      "status": "indexed",
+      "collection": "phase_b_gold_v2_bge_m3",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "BAAI/bge-m3",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_bge_m3"
+      }
+    },
+    "gold_frida": {
+      "status": "indexed",
+      "collection": "phase_b_gold_v2_frida",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "ai-forever/FRIDA",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_frida"
+      }
+    },
+    "gold_e5_large_instruct": {
+      "status": "indexed",
+      "collection": "phase_b_gold_v2_e5_large_instruct",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "intfloat/multilingual-e5-large-instruct",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_e5_large_instruct"
+      }
+    },
+    "gold_jina_embeddings_v3": {
+      "status": "error",
+      "error": "No module named 'custom_st'",
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "jinaai/jina-embeddings-v3",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_jina_embeddings_v3"
+      }
+    },
+    "gold_giga_embeddings_instruct": {
+      "status": "error",
+      "error": "The repository ai-sage/Giga-Embeddings-instruct contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/ai-sage/Giga-Embeddings-instruct .\n You can inspect the repository content at https://hf.co/ai-sage/Giga-Embeddings-instruct.\nPlease pass the argument `trust_remote_code=True` to allow custom code to be run.",
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "ai-sage/Giga-Embeddings-instruct",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_giga_embeddings_instruct"
+      }
+    }
+  },
+  "fixture_sha256": "724bd3430bbaf809cab856db24025559beaff1086e17c70ad7e7520ed9851aee",
+  "fixture_rows": 101,
+  "fixture_clean_text": true
+}

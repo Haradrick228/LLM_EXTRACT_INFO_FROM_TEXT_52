@@ -1,0 +1,18 @@
+{
+  "bases": {
+    "sanity_squad_mpnet": {
+      "status": "indexed",
+      "collection": "sanity_external_squad_mpnet",
+      "count": 80,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "CHROMA_COLLECTION": "sanity_external_squad_mpnet"
+      }
+    }
+  },
+  "source_jsonl_sha256": "79d40b1da2140aee1e5e422d48d6f566609cb325efaaeab86c5aeefd5789edbb",
+  "source_jsonl_lines": 80,
+  "index_target_rows": 80,
+  "apply_clean_text": true,
+  "add_batch": 256
+}

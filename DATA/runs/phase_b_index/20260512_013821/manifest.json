@@ -1,0 +1,16 @@
+{
+  "bases": {
+    "gold_jina_embeddings_v3": {
+      "status": "indexed",
+      "collection": "phase_b_gold_v2_jina_embeddings_v3",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "jinaai/jina-embeddings-v3",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_jina_embeddings_v3"
+      }
+    }
+  },
+  "fixture_sha256": "724bd3430bbaf809cab856db24025559beaff1086e17c70ad7e7520ed9851aee",
+  "fixture_rows": 101,
+  "fixture_clean_text": true
+}

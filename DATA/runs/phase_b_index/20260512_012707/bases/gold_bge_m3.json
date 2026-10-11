@@ -1,0 +1,21 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_bge_m3",
+    "order": 2,
+    "collection": "phase_b_gold_v2_bge_m3",
+    "backend": "sentence_transformers",
+    "model_name": "BAAI/bge-m3",
+    "description": "BGE-M3 (запрошено + README: сильный на вашем корпусе)."
+  },
+  "result": {
+    "status": "indexed",
+    "collection": "phase_b_gold_v2_bge_m3",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "BAAI/bge-m3",
+      "CHROMA_COLLECTION": "phase_b_gold_v2_bge_m3"
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "source_of_truth": "eval/FINAL_CANONICAL_EXPERIMENT_REPORT_2026_05.md v2 (2026-06-02)",
+  "protocol": "eval/config/final_research_protocol.yaml v2026-05-27",
+  "matrix_notation": "7×3 (7 embedders × 3 rerankers = 21 combinations)",
+  "embedders_7": [
+    "full_mpnet",
+    "full_bge_m3",
+    "full_frida",
+    "full_e5_large_instruct",
+    "full_jina_embeddings_v3",
+    "full_default_clean",
+    "full_user_bge_m3"
+  ],
+  "rerankers_3": [
+    "baseline_mpnet_rerank (MiniLM)",
+    "rerank_bge_v2_m3",
+    "rerank_jina_v3"
+  ],
+  "corpus": {
+    "chunks": 61543,
+    "chunk_size": 650,
+    "chunk_overlap": 250,
+    "gold_questions": 101,
+    "gold_sha256": "d2d35200b634b92933989c8457f8bc6fe670b9edf7a4ab688ab8e3ae7ae50c96"
+  },
+  "eda": {
+    "documents": 973,
+    "unique_texts": 907,
+    "duplicate_rate_pct": 1.34,
+    "extraction_error_pct": 5.45,
+    "dominant_language_ru_pct": 90.3
+  },
+  "full_corpus_substring_recall_at_10": {
+    "max_pct": 6.4,
+    "best_combos": [
+      "full_user_bge_m3 + rerank_jina_v3",
+      "full_frida + rerank_jina_v3",
+      "full_frida + rerank_bge_v2_m3"
+    ],
+    "baseline_mpnet_max_pct": 2.0,
+    "canonical_run": "eval/runs/20260527_161527_b3_full_corpus_rerank",
+    "fetch_k_eval": 40
+  },
+  "answer_eval": {
+    "best_avg_ref_sim": 0.66,
+    "best_config": "full_bge_m3 + rerank_bge_v2_m3",
+    "retrieval_r_at_10_pct": 5.4
+  },
+  "production_recommendation": {
+    "embedder": "full_user_bge_m3",
+    "reranker": "rerank_bge_v2_m3",
+    "retrieval_r_at_10_pct": 5.4,
+    "via": "RAG_PROFILE env (eval/config/rag_profiles.yaml)"
+  },
+  "service_code_defaults": {
+    "note": "RagService without RAG_PROFILE",
+    "retriever_fetch_k": 20,
+    "retriever_k": 5,
+    "file": "core/rag/service/rag_service.py"
+  },
+  "validity": {
+    "squad_sanity_r_at_10_pct": 82.5,
+    "neg_control_honest_pct": 6.4,
+    "neg_control_shuffled_pct": 3.0,
+    "metrics_ladder_class_a_pct_approx": 59,
+    "metrics_ladder_class_d_pct_approx": 6,
+    "semantic_r_at_10_max_pct": 71.3
+  },
+  "fixture_only_do_not_use_as_full_corpus": {
+    "bge_m3_recall_at_10_dashboard_error": 0.6436,
+    "gold_v2_fixture_rerank_bge_at_10": 0.955,
+    "reason": "Early eval mislabeled; chat 2026-05-31; RETRIEVAL_DIAGNOSIS"
+  },
+  "f2_eval_only": {
+    "note": "Hybrid RRF, no B3 cross-encoder rerank, fetch_k=200",
+    "e5_hybrid_rrf_r_at_10": 0.0743
+  },
+  "latency": {
+    "source_e2e": "analysis/reports/rag_gold_101_results.json (2026-06-12)",
+    "source_embedder_benchmark": "analysis/reports/embedding_benchmark_nagruzka_2026_05.html (2026-05-29)",
+    "e2e_prod_stack": {
+      "embedder": "USER-bge-m3",
+      "reranker": "BGE-v2-m3",
+      "llm": "qwen2.5:7b-instruct (Ollama)",
+      "collection": "corpus_phase_b_user_bge_m3",
+      "questions": 101,
+      "total_time_s": 187,
+      "avg_time_s": 1.9,
+      "median_time_s": 1.7,
+      "p95_time_s": 3.0,
+      "max_time_s": 8.0,
+      "min_time_s": 0.8
+    },
+    "embedder_benchmark_mps_medium_s": {
+      "USER-bge-m3": 0.046,
+      "bge-m3": 0.127,
+      "FRIDA": 0.204,
+      "multilingual-e5-large": 0.105
+    },
+    "embedder_memory_mb": {
+      "USER-bge-m3": 1370,
+      "FRIDA": 3141,
+      "bge-m3": 2166
+    },
+    "note_prod_choice": "USER-bge-m3: быстрый encode на MPS + меньше памяти; FRIDA медленнее ~4x при сопоставимом max recall"
+  }
+}

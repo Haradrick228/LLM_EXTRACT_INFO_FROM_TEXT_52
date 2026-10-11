@@ -1,0 +1,23 @@
+{
+  "base": {
+    "chunking_label": "650_250",
+    "base_id": "full_user_bge_m3",
+    "order": 10,
+    "expected_collection_rows": 61543,
+    "collection": "corpus_phase_b_user_bge_m3",
+    "backend": "sentence_transformers",
+    "model_name": "C:/IT/VS Code/model/USER-bge-m3",
+    "description": "Полный корпус, USER-bge-m3 (ru, 1024d, deepvk). Supplement к canonical B3.",
+    "st_normalize_embeddings": true,
+    "st_device": "cuda"
+  },
+  "result": {
+    "status": "indexed",
+    "collection": "corpus_phase_b_user_bge_m3",
+    "count": 61543,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "C:/IT/VS Code/model/USER-bge-m3",
+      "CHROMA_COLLECTION": "corpus_phase_b_user_bge_m3"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "bases": {
+    "full_mpnet": {
+      "status": "indexed",
+      "collection": "corpus_phase_b_mpnet",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "CHROMA_COLLECTION": "corpus_phase_b_mpnet"
+      }
+    }
+  },
+  "source_jsonl_sha256": "724bd3430bbaf809cab856db24025559beaff1086e17c70ad7e7520ed9851aee",
+  "source_jsonl_lines": 101,
+  "index_target_rows": 101,
+  "apply_clean_text": true,
+  "add_batch": 256
+}

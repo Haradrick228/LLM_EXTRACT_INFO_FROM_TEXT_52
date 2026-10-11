@@ -1,0 +1,24 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_jina_embeddings_v3",
+    "order": 5,
+    "collection": "phase_b_gold_v2_jina_embeddings_v3",
+    "backend": "sentence_transformers",
+    "model_name": "jinaai/jina-embeddings-v3",
+    "description": "Jina v3: актуальный multilingual конкурент на общих MTEB-ориентированных сравнениях.",
+    "st_model_kwargs": {
+      "trust_remote_code": true
+    }
+  },
+  "result": {
+    "status": "skipped_existing_ok",
+    "collection": "phase_b_gold_v2_jina_embeddings_v3",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "jinaai/jina-embeddings-v3",
+      "CHROMA_COLLECTION": "phase_b_gold_v2_jina_embeddings_v3"
+    }
+  }
+}

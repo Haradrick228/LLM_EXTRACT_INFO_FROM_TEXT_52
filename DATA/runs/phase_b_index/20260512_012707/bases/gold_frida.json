@@ -1,0 +1,21 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_frida",
+    "order": 3,
+    "collection": "phase_b_gold_v2_frida",
+    "backend": "sentence_transformers",
+    "model_name": "ai-forever/FRIDA",
+    "description": "FRIDA (запрошено): ru MTEB / MIRACL ru, RiaNews, RuBQ и др. — см. HF model card."
+  },
+  "result": {
+    "status": "indexed",
+    "collection": "phase_b_gold_v2_frida",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "ai-forever/FRIDA",
+      "CHROMA_COLLECTION": "phase_b_gold_v2_frida"
+    }
+  }
+}

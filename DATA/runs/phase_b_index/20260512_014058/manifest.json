@@ -1,0 +1,16 @@
+{
+  "bases": {
+    "gold_giga_embeddings_instruct": {
+      "status": "indexed",
+      "collection": "phase_b_gold_v2_giga_embeddings_instruct",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "ai-sage/Giga-Embeddings-instruct",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_giga_embeddings_instruct"
+      }
+    }
+  },
+  "fixture_sha256": "724bd3430bbaf809cab856db24025559beaff1086e17c70ad7e7520ed9851aee",
+  "fixture_rows": 101,
+  "fixture_clean_text": true
+}

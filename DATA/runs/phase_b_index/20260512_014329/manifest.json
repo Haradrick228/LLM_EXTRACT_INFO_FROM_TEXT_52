@@ -1,0 +1,61 @@
+{
+  "bases": {
+    "gold_mpnet_fixture": {
+      "status": "skipped_existing_ok",
+      "collection": "gold_v2_fixture",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "CHROMA_COLLECTION": "gold_v2_fixture"
+      }
+    },
+    "gold_bge_m3": {
+      "status": "skipped_existing_ok",
+      "collection": "phase_b_gold_v2_bge_m3",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "BAAI/bge-m3",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_bge_m3"
+      }
+    },
+    "gold_frida": {
+      "status": "skipped_existing_ok",
+      "collection": "phase_b_gold_v2_frida",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "ai-forever/FRIDA",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_frida"
+      }
+    },
+    "gold_e5_large_instruct": {
+      "status": "skipped_existing_ok",
+      "collection": "phase_b_gold_v2_e5_large_instruct",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "intfloat/multilingual-e5-large-instruct",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_e5_large_instruct"
+      }
+    },
+    "gold_jina_embeddings_v3": {
+      "status": "skipped_existing_ok",
+      "collection": "phase_b_gold_v2_jina_embeddings_v3",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "jinaai/jina-embeddings-v3",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_jina_embeddings_v3"
+      }
+    },
+    "gold_giga_embeddings_instruct": {
+      "status": "skipped_existing_ok",
+      "collection": "phase_b_gold_v2_giga_embeddings_instruct",
+      "count": 101,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "ai-sage/Giga-Embeddings-instruct",
+        "CHROMA_COLLECTION": "phase_b_gold_v2_giga_embeddings_instruct"
+      }
+    }
+  },
+  "fixture_sha256": "724bd3430bbaf809cab856db24025559beaff1086e17c70ad7e7520ed9851aee",
+  "fixture_rows": 101,
+  "fixture_clean_text": true
+}

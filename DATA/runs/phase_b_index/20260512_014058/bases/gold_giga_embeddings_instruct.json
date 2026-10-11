@@ -1,0 +1,25 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_giga_embeddings_instruct",
+    "order": 6,
+    "collection": "phase_b_gold_v2_giga_embeddings_instruct",
+    "backend": "sentence_transformers",
+    "model_name": "ai-sage/Giga-Embeddings-instruct",
+    "description": "Giga-Embeddings-instruct (HF ST, не API). Кастомный код модели — trust_remote_code; индексировать последним.",
+    "heavy_index_last": true,
+    "st_model_kwargs": {
+      "trust_remote_code": true
+    }
+  },
+  "result": {
+    "status": "indexed",
+    "collection": "phase_b_gold_v2_giga_embeddings_instruct",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "ai-sage/Giga-Embeddings-instruct",
+      "CHROMA_COLLECTION": "phase_b_gold_v2_giga_embeddings_instruct"
+    }
+  }
+}

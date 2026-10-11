@@ -1,0 +1,18 @@
+{
+  "bases": {
+    "full_user_bge_m3": {
+      "status": "indexed",
+      "collection": "corpus_phase_b_user_bge_m3",
+      "count": 61543,
+      "retrieval_env_hint": {
+        "CHROMA_EMBED_MODEL": "C:/IT/VS Code/model/USER-bge-m3",
+        "CHROMA_COLLECTION": "corpus_phase_b_user_bge_m3"
+      }
+    }
+  },
+  "source_jsonl_sha256": "ae9a6ab62469c05de8bd6492437bd64353f7a7a5ec9126069bf0737193ea2e68",
+  "source_jsonl_lines": 61543,
+  "index_target_rows": 61543,
+  "apply_clean_text": true,
+  "add_batch": 256
+}

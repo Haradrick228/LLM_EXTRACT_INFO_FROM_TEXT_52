@@ -1,0 +1,21 @@
+{
+  "base": {
+    "fixture_rel": "eval/fixtures/chunks_sample.jsonl",
+    "chunking_label": "650_250",
+    "base_id": "gold_e5_large_instruct",
+    "order": 4,
+    "collection": "phase_b_gold_v2_e5_large_instruct",
+    "backend": "sentence_transformers",
+    "model_name": "intfloat/multilingual-e5-large-instruct",
+    "description": "E5 large instruct: сильный multilingual (MMTEB 2025 и др. публичные таблицы)."
+  },
+  "result": {
+    "status": "skipped_existing_ok",
+    "collection": "phase_b_gold_v2_e5_large_instruct",
+    "count": 101,
+    "retrieval_env_hint": {
+      "CHROMA_EMBED_MODEL": "intfloat/multilingual-e5-large-instruct",
+      "CHROMA_COLLECTION": "phase_b_gold_v2_e5_large_instruct"
+    }
+  }
+}
